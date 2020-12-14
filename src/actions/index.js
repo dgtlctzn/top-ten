@@ -15,7 +15,7 @@ export const delMovie = (movie) => {
 export const addSong = (song) => {
     return {
         type: "ADD_SONG",
-        payload: movie
+        payload: song
     }
 }
 

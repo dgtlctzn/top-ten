@@ -4,7 +4,7 @@ const movieReducer = (state = [], action) => {
             state.push(action.payload);
             return state;
         case "DEL_MOVIE":
-            state.filter(movie => movie !== action.payload);
+            state = state.filter(movie => movie !== action.payload);
             return state;
         default:
             return state;

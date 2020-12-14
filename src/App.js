@@ -5,24 +5,25 @@ import Home from "./containers/Home/Home";
 import { createStore, compose, applyMiddleware } from "redux";
 import allReducers from "./reducers";
 import { Provider } from "react-redux";
-import { createBrowserHistory } from "history";
-import {
-  ConnectedRouter,
-  connectRouter,
-  routerMiddleware,
-} from "connected-react-router";
+// import { createBrowserHistory } from "history";
+// import {
+//   ConnectedRouter,
+//   connectRouter,
+//   routerMiddleware,
+// } from "connected-react-router";
 
-const history = createBrowserHistory();
+// const history = createBrowserHistory();
 
 const store = createStore(
-  allReducers(history),
-  compose(applyMiddleware(routerMiddleware(history)))
+  allReducers,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  // compose(applyMiddleware(routerMiddleware(history)))
 );
 
 function App() {
   return (
     <Provider store={store}>
-      <ConnectedRouter history={history}>
+      {/* <ConnectedRouter history={history}> */}
         <Router>
           <Switch>
             <Route exact path="/movies" component={Movies} />
@@ -30,7 +31,7 @@ function App() {
             <Route exact path="/" component={Home} />
           </Switch>
         </Router>
-      </ConnectedRouter>
+      {/* </ConnectedRouter> */}
     </Provider>
   );
 }

@@ -4,7 +4,7 @@ const songReducer = (state = [], action) => {
             state.push(action.payload);
             return state;
         case "DEL_SONG":
-            state.filter(song => song !== action.payload);
+            state = state.filter(song => song !== action.payload);
             return state;
         default:
             return state;
