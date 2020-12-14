@@ -1,18 +1,34 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import "bootstrap/dist/css/bootstrap.min.css";
 import reportWebVitals from "./reportWebVitals";
-import { createStore } from "redux";
-import allReducers from "./reducers";
-import { Provider } from "react-redux";
+// import { createStore, compose, applyMiddleware } from "redux";
+// import allReducers from "./reducers";
+// import { Provider } from "react-redux";
+// import { createBrowserHistory } from "history";
+// import {
+//   ConnectedRouter,
+//   connectRouter,
+//   routerMiddleware,
+// } from "connected-react-router";
 
-const store = createStore(allReducers);
+// const history = createBrowserHistory();
+
+// const store = createStore(
+//   allReducers(history),
+//   compose(
+//     applyMiddleware(routerMiddleware(history))
+//   )
+// );
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    {/* <Provider store={store}>
+      <ConnectedRouter history={history}> */}
+        <App />
+      {/* </ConnectedRouter>
+    </Provider> */}
   </React.StrictMode>,
   document.getElementById("root")
 );
