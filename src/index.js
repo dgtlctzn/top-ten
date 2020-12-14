@@ -3,32 +3,32 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import reportWebVitals from "./reportWebVitals";
-// import { createStore, compose, applyMiddleware } from "redux";
-// import allReducers from "./reducers";
-// import { Provider } from "react-redux";
-// import { createBrowserHistory } from "history";
-// import {
-//   ConnectedRouter,
-//   connectRouter,
-//   routerMiddleware,
-// } from "connected-react-router";
+import { createStore, compose, applyMiddleware } from "redux";
+import allReducers from "./reducers";
+import { Provider } from "react-redux";
+import { createBrowserHistory } from "history";
+import {
+  ConnectedRouter,
+  connectRouter,
+  routerMiddleware,
+} from "connected-react-router";
 
-// const history = createBrowserHistory();
+const history = createBrowserHistory();
 
-// const store = createStore(
-//   allReducers(history),
-//   compose(
-//     applyMiddleware(routerMiddleware(history))
-//   )
-// );
+const store = createStore(
+  allReducers(history),
+  compose(
+    applyMiddleware(routerMiddleware(history))
+  )
+);
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <Provider store={store}>
-      <ConnectedRouter history={history}> */}
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
         <App />
-      {/* </ConnectedRouter>
-    </Provider> */}
+      </ConnectedRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

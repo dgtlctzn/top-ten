@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addMovie, delMovie } from "../../actions";
+import { NavLink } from "react-router-dom";
 
 const Movies = () => {
   const [input, setInput] = useState("");
@@ -20,16 +21,20 @@ const Movies = () => {
 
   const handleDelete = (e) => {
     e.preventDefault();
-    console.log(e.target.name)
+    console.log(e.target.name);
     dispatch(delMovie(e.target.name));
     setInput("");
   };
   return (
     <>
+        <h1>Movies</h1>
+        <NavLink to="/songs">
+            Songs
+        </NavLink>
       <form className="input-group" onSubmit={handleSubmit} value={input}>
         <span className="input-group-text">With textarea</span>
         <input
-        type="text"
+          type="text"
           onChange={handleInputChange}
           className="form-control"
         ></input>
@@ -40,7 +45,9 @@ const Movies = () => {
           {movieList.map((movie, index) => (
             <li key={index}>
               {movie}
-              <button name={movie} onClick={handleDelete}>delete</button>
+              <button name={movie} onClick={handleDelete}>
+                delete
+              </button>
             </li>
           ))}
         </ul>

@@ -14,16 +14,14 @@ import { Provider } from "react-redux";
 
 // const history = createBrowserHistory();
 
-const store = createStore(
-  allReducers,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  // compose(applyMiddleware(routerMiddleware(history)))
-);
+// const store = createStore(
+//   allReducers,
+//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+//   // compose(applyMiddleware(routerMiddleware(history)))
+// );
 
 function App() {
   return (
-    <Provider store={store}>
-      {/* <ConnectedRouter history={history}> */}
         <Router>
           <Switch>
             <Route exact path="/movies" component={Movies} />
@@ -31,8 +29,6 @@ function App() {
             <Route exact path="/" component={Home} />
           </Switch>
         </Router>
-      {/* </ConnectedRouter> */}
-    </Provider>
   );
 }
 

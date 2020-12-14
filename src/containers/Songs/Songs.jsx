@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addSong, delSong } from "../../actions";
+import { NavLink } from "react-router-dom";
 
 const Songs = () => {
   const [input, setInput] = useState("");
@@ -26,6 +27,10 @@ const Songs = () => {
   };
   return (
     <>
+    <h1>Songs</h1>
+        <NavLink to="/movies">
+            Movies
+        </NavLink>
       <form className="input-group" onSubmit={handleSubmit} value={input}>
         <span className="input-group-text">With textarea</span>
         <input
