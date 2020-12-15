@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addSong, delSong, addToken } from "../../actions";
+import { addSong, delSong, addToken, searchArtists } from "../../actions";
 import { NavLink } from "react-router-dom";
 import API from "../../utils/API";
 
-const Songs = () => {
+const Songs = (props) => {
+  console.log(props)
   const [input, setInput] = useState("");
   const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();
   const songList = useSelector((state) => state.songReducer);
   const token = useSelector((state) => state.tokenReducer);
+  const searchedArtists = useSelector((state) => state.artistReducer);
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
@@ -36,7 +38,7 @@ const Songs = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
 
-    console.log(search)
+    console.log(search);
     if (!token) {
       API.getToken()
         .then((tokenRes) => {
@@ -45,6 +47,15 @@ const Songs = () => {
           API.searchSpotify(search, tokenRes.data.access_token)
             .then((searchRes) => {
               console.log(searchRes);
+              const artists = searchRes.data.artists.items;
+              for (let i = 0; i < 10; i++) {
+                dispatch(
+                  searchArtists({
+                    name: artists[i].name ? artists[i].name : "",
+                    image: artists[i].images[2] ? artists[i].images[2].url : "",
+                  })
+                );
+              }
             })
             .catch((err) => {
               console.log(err);
@@ -57,6 +68,15 @@ const Songs = () => {
       API.searchSpotify(search, token)
         .then((searchRes) => {
           console.log(searchRes);
+          const artists = searchRes.data.artists.items;
+          for (let i = 0; i < 10; i++) {
+            dispatch(
+              searchArtists({
+                name: artists[i].name,
+                image: artists[i].images[2].url,
+              })
+            );
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -106,6 +126,16 @@ const Songs = () => {
               <button name={song} onClick={handleDelete}>
                 delete
               </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <ul>
+          {searchedArtists.map((artist, index) => (
+            <li key={index}>
+              {artist.name}
+              <img src={artist.image} alt={artist.name} />
             </li>
           ))}
         </ul>
