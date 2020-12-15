@@ -3,10 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { addSong, delSong, addToken, searchArtists } from "../../actions";
 import { NavLink } from "react-router-dom";
 import API from "../../utils/API";
-import { connect } from "react-redux";
 
-const Songs = ({ artistReducer }) => {
-  // console.log(props)
+const Songs = () => {
   const [input, setInput] = useState("");
   const [search, setSearch] = useState("");
 
@@ -27,7 +25,7 @@ const Songs = ({ artistReducer }) => {
 
   const handleDelete = (e) => {
     e.preventDefault();
-    console.log(e.target.name);
+
     dispatch(delSong(e.target.name));
     setInput("");
   };
@@ -36,60 +34,42 @@ const Songs = ({ artistReducer }) => {
     setSearch(e.target.value);
   };
 
+  const searchSpotifyArtists = (search, token) => {
+    API.searchSpotify(search, token)
+      .then((searchRes) => {
+        const artists = searchRes.data.artists.items;
+        const found = [];
+        for (let i = 0; i < 10; i++) {
+          const item = {
+            name: artists[i].name ? artists[i].name : "",
+            image: artists[i].images[2] ? artists[i].images[2].url : "",
+          };
+          found.push(item);
+        }
+        dispatch(searchArtists(found));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
 
-    console.log(search);
     if (!token) {
       API.getToken()
         .then((tokenRes) => {
-          console.log(tokenRes);
           dispatch(addToken(tokenRes.data.access_token));
-          API.searchSpotify(search, tokenRes.data.access_token)
-            .then((searchRes) => {
-              const artists = searchRes.data.artists.items;
-              console.log(artists);
-              const newArr = [];
-              for (let i = 0; i < 10; i++) {
-                const item = {
-                  name: artists[i].name ? artists[i].name : "",
-                  image: artists[i].images[2] ? artists[i].images[2].url : "",
-                };
-                newArr.push(item);
-              }
-              console.log(newArr);
-              dispatch(searchArtists(newArr));
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+          searchSpotifyArtists(search, tokenRes.data.access_token);
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-      API.searchSpotify(search, token)
-        .then((searchRes) => {
-          // console.log(searchRes);
-          const artists = searchRes.data.artists.items;
-          console.log(artists);
-          const newArr = [];
-          for (let i = 0; i < 10; i++) {
-            const item = {
-              name: artists[i].name ? artists[i].name : "",
-              image: artists[i].images[2] ? artists[i].images[2].url : "",
-            };
-            newArr.push(item);
-          }
-          console.log(newArr);
-          dispatch(searchArtists(newArr));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      searchSpotifyArtists(search, token);
     }
   };
-  console.log(searchedArtists);
+
   return (
     <>
       <h1>Songs</h1>
@@ -150,11 +130,4 @@ const Songs = ({ artistReducer }) => {
   );
 };
 
-// const mapStateToProps = (state, ownProps) => {
-//   console.log(ownProps)
-//   return {
-//     artistReducer: state.artistReducer
-//   };
-// }
 export default Songs;
-// export default connect(mapStateToProps)(Songs);
