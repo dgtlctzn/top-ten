@@ -25,3 +25,10 @@ export const delSong = (song) => {
         payload: song
     }
 }
+
+export const addToken = (token) => {
+    return {
+        type: "ADD_TOKEN",
+        payload: token
+    }
+}
