@@ -4,7 +4,7 @@ import Songs from "./containers/Songs/Songs";
 import Home from "./containers/Home/Home";
 import { createStore, compose, applyMiddleware } from "redux";
 import allReducers from "./reducers";
-import { Provider } from "react-redux";
+import { connect } from "react-redux";
 // import { createBrowserHistory } from "history";
 // import {
 //   ConnectedRouter,

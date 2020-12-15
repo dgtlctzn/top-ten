@@ -3,9 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { addSong, delSong, addToken, searchArtists } from "../../actions";
 import { NavLink } from "react-router-dom";
 import API from "../../utils/API";
+import { connect } from "react-redux";
 
-const Songs = (props) => {
-  console.log(props)
+const Songs = ({ artistReducer }) => {
+  // console.log(props)
   const [input, setInput] = useState("");
   const [search, setSearch] = useState("");
 
@@ -46,16 +47,18 @@ const Songs = (props) => {
           dispatch(addToken(tokenRes.data.access_token));
           API.searchSpotify(search, tokenRes.data.access_token)
             .then((searchRes) => {
-              console.log(searchRes);
               const artists = searchRes.data.artists.items;
+              console.log(artists);
+              const newArr = [];
               for (let i = 0; i < 10; i++) {
-                dispatch(
-                  searchArtists({
-                    name: artists[i].name ? artists[i].name : "",
-                    image: artists[i].images[2] ? artists[i].images[2].url : "",
-                  })
-                );
+                const item = {
+                  name: artists[i].name ? artists[i].name : "",
+                  image: artists[i].images[2] ? artists[i].images[2].url : "",
+                };
+                newArr.push(item);
               }
+              console.log(newArr);
+              dispatch(searchArtists(newArr));
             })
             .catch((err) => {
               console.log(err);
@@ -67,23 +70,26 @@ const Songs = (props) => {
     } else {
       API.searchSpotify(search, token)
         .then((searchRes) => {
-          console.log(searchRes);
+          // console.log(searchRes);
           const artists = searchRes.data.artists.items;
+          console.log(artists);
+          const newArr = [];
           for (let i = 0; i < 10; i++) {
-            dispatch(
-              searchArtists({
-                name: artists[i].name,
-                image: artists[i].images[2].url,
-              })
-            );
+            const item = {
+              name: artists[i].name ? artists[i].name : "",
+              image: artists[i].images[2] ? artists[i].images[2].url : "",
+            };
+            newArr.push(item);
           }
+          console.log(newArr);
+          dispatch(searchArtists(newArr));
         })
         .catch((err) => {
           console.log(err);
         });
     }
   };
-
+  console.log(searchedArtists);
   return (
     <>
       <h1>Songs</h1>
@@ -144,4 +150,11 @@ const Songs = (props) => {
   );
 };
 
+// const mapStateToProps = (state, ownProps) => {
+//   console.log(ownProps)
+//   return {
+//     artistReducer: state.artistReducer
+//   };
+// }
 export default Songs;
+// export default connect(mapStateToProps)(Songs);

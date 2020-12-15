@@ -18,7 +18,8 @@ const history = createBrowserHistory();
 const store = createStore(
   allReducers(history),
   compose(
-    applyMiddleware(routerMiddleware(history))
+    applyMiddleware(routerMiddleware(history)),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
 
