@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addSong, delSong, addToken } from "../../actions";
 import { NavLink } from "react-router-dom";
-import API from "../../utils/API"
+import API from "../../utils/API";
 
 const Songs = () => {
   const [input, setInput] = useState("");
@@ -10,7 +10,7 @@ const Songs = () => {
 
   const dispatch = useDispatch();
   const songList = useSelector((state) => state.songReducer);
-  const token = useSelector((state) => state.tokenReducer)
+  const token = useSelector((state) => state.tokenReducer);
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
@@ -31,20 +31,38 @@ const Songs = () => {
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
-  }
+  };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+
+    console.log(search)
     if (!token) {
-      API.getToken().then(tokenRes => {
-        console.log(tokenRes);
-        dispatch(addToken(tokenRes.data.access_token));
-      })
+      API.getToken()
+        .then((tokenRes) => {
+          console.log(tokenRes);
+          dispatch(addToken(tokenRes.data.access_token));
+          API.searchSpotify(search, tokenRes.data.access_token)
+            .then((searchRes) => {
+              console.log(searchRes);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
-      console.log("already set!");
-      console.log(token);
+      API.searchSpotify(search, token)
+        .then((searchRes) => {
+          console.log(searchRes);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  }
+  };
 
   return (
     <>
