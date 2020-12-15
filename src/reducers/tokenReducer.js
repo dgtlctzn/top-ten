@@ -7,3 +7,5 @@ const tokenReducer = (state = "", action) => {
             return state;
     }
 }
+
+export default tokenReducer;

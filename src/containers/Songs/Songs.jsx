@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addSong, delSong } from "../../actions";
+import { addSong, delSong, addToken } from "../../actions";
 import { NavLink } from "react-router-dom";
 import API from "../../utils/API"
 
@@ -10,6 +10,7 @@ const Songs = () => {
 
   const dispatch = useDispatch();
   const songList = useSelector((state) => state.songReducer);
+  const token = useSelector((state) => state.tokenReducer)
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
@@ -34,9 +35,15 @@ const Songs = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    API.getToken().then(token => {
+    if (!token) {
+      API.getToken().then(tokenRes => {
+        console.log(tokenRes);
+        dispatch(addToken(tokenRes.data.access_token));
+      })
+    } else {
+      console.log("already set!");
       console.log(token);
-    })
+    }
   }
 
   return (
