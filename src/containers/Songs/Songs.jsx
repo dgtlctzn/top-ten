@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addSong, delSong } from "../../actions";
 import { NavLink } from "react-router-dom";
+import API from "../../utils/API"
 
 const Songs = () => {
   const [input, setInput] = useState("");
+  const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();
   const songList = useSelector((state) => state.songReducer);
@@ -21,20 +23,51 @@ const Songs = () => {
 
   const handleDelete = (e) => {
     e.preventDefault();
-    console.log(e.target.name)
+    console.log(e.target.name);
     dispatch(delSong(e.target.name));
     setInput("");
   };
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+  }
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    API.getToken().then(token => {
+      console.log(token);
+    })
+  }
+
   return (
     <>
-    <h1>Songs</h1>
-        <NavLink to="/movies">
-            Movies
-        </NavLink>
+      <h1>Songs</h1>
+      <NavLink to="/movies">Movies</NavLink>
+
+      <form onSubmit={handleSearchSubmit}>
+        <div className="mb-3">
+          <label htmlFor="exampleInputEmail1" className="form-label">
+            Search Music
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            value={search}
+            onChange={handleSearchChange}
+          />
+        </div>
+
+        <button type="submit" className="btn btn-primary">
+          Submit
+        </button>
+      </form>
+
       <form className="input-group" onSubmit={handleSubmit} value={input}>
         <span className="input-group-text">With textarea</span>
         <input
-        type="text"
+          type="text"
           onChange={handleInputChange}
           className="form-control"
         ></input>
@@ -45,7 +78,9 @@ const Songs = () => {
           {songList.map((song, index) => (
             <li key={index}>
               {song}
-              <button name={song} onClick={handleDelete}>delete</button>
+              <button name={song} onClick={handleDelete}>
+                delete
+              </button>
             </li>
           ))}
         </ul>
