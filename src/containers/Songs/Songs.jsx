@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addSong, delSong, addToken, searchArtists } from "../../actions";
 import { NavLink } from "react-router-dom";
 import API from "../../utils/API";
+import Card from "../../components/Card/Card";
 
 const Songs = () => {
   const [input, setInput] = useState("");
@@ -41,8 +42,10 @@ const Songs = () => {
         const found = [];
         for (let i = 0; i < 10; i++) {
           const item = {
-            name: artists[i].name ? artists[i].name : "",
-            image: artists[i].images[2] ? artists[i].images[2].url : "",
+            name: artists[i].name ? artists[i].name : "No Artist Name",
+            image: artists[i].images[2]
+              ? artists[i].images[2].url
+              : "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Disque_Vinyl.svg/1024px-Disque_Vinyl.svg.png",
           };
           found.push(item);
         }
@@ -71,31 +74,36 @@ const Songs = () => {
   };
 
   return (
-    <>
-      <h1>Songs</h1>
+    <div className="container">
       <NavLink to="/movies">Movies</NavLink>
 
-      <form onSubmit={handleSearchSubmit}>
-        <div className="mb-3">
-          <label htmlFor="exampleInputEmail1" className="form-label">
-            Search Music
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-            value={search}
-            onChange={handleSearchChange}
-          />
+      <h1 className="text-center">Songs</h1>
+      <div className="row">
+        <div className="col-sm-4"></div>
+        <div className="col-sm-4">
+          <form onSubmit={handleSearchSubmit} className="text-center">
+            <div className="mb-3">
+              <label htmlFor="exampleInputEmail1" className="form-label">
+                Search Music
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                value={search}
+                onChange={handleSearchChange}
+              />
+            </div>
+
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </form>
         </div>
+      </div>
 
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-      </form>
-
-      <form className="input-group" onSubmit={handleSubmit} value={input}>
+      {/* <form className="input-group" onSubmit={handleSubmit} value={input}>
         <span className="input-group-text">With textarea</span>
         <input
           type="text"
@@ -115,18 +123,26 @@ const Songs = () => {
             </li>
           ))}
         </ul>
+      </div> */}
+      <div className="row">
+        <div className="col-sm-6">
+          <h2>Top Ten</h2>
+        </div>
+        <div className="col-sm-6">
+          <h2>Search Results</h2>
+
+          <ul>
+            {searchedArtists.map((artist, index) => (
+              // <li key={index}>
+              //   {artist.name}
+              //   <img src={artist.image} alt={artist.name} />
+              // </li>
+              <Card key={`search result ${index + 1}`} {...artist} />
+            ))}
+          </ul>
+        </div>
       </div>
-      <div>
-        <ul>
-          {searchedArtists.map((artist, index) => (
-            <li key={index}>
-              {artist.name}
-              <img src={artist.image} alt={artist.name} />
-            </li>
-          ))}
-        </ul>
-      </div>
-    </>
+    </div>
   );
 };
 
