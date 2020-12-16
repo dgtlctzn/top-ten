@@ -12,10 +12,10 @@ export const delMovie = (movie) => {
     }
 }
 
-export const addSong = (song) => {
+export const saveAlbums = (album) => {
     return {
-        type: "ADD_SONG",
-        payload: song
+        type: "SAVE_ALBUMS",
+        payload: album
     }
 }
 

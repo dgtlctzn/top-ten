@@ -1,6 +1,6 @@
 import {combineReducers} from "redux";
 import movieReducer from "./movieReducer";
-import songReducer from "./songReducer";
+import savedAlbumsReducer from "./savedAlbumsReducer";
 import tokenReducer from "./tokenReducer";
 import albumReducer from "./albumReducer";
 import { connectRouter } from 'connected-react-router';
@@ -9,7 +9,7 @@ import { connectRouter } from 'connected-react-router';
 
 const allReducers = (history) => combineReducers({
     movieReducer,
-    songReducer,
+    savedAlbumsReducer,
     tokenReducer,
     albumReducer,
     router: connectRouter(history),

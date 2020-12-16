@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addSong, delSong, addToken, searchAlbums } from "../../actions";
+import { saveAlbums, delSong, addToken, searchAlbums } from "../../actions";
 import { NavLink } from "react-router-dom";
 import API from "../../utils/API";
 import Card from "../../components/Card/Card";
@@ -10,9 +10,13 @@ const Albums = () => {
   const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();
-  // const songList = useSelector((state) => state.songReducer);
+  const savedAlbums = useSelector((state) => state.savedAlbumsReducer);
   const token = useSelector((state) => state.tokenReducer);
   const searchedAlbums = useSelector((state) => state.albumReducer);
+
+  useEffect(() => {
+    console.log(localStorage)
+  }, [])
 
   // const handleInputChange = (e) => {
   //   setInput(e.target.value);
@@ -75,9 +79,18 @@ const Albums = () => {
   };
 
   const addAlbum = (e) => {
-    console.log(e.target.name)
-    console.log(e.target.value)
-    // if (localStorage.getItem())
+    const {name, value} = e.target;
+    if (!localStorage.getItem(name)) {
+      localStorage.setItem(name, value)
+    }
+    dispatch(saveAlbums({
+      name: name,
+      image: value
+    }))
+  }
+
+  const deleteAlbum = (e) => {
+
   }
 
   return (
@@ -134,16 +147,17 @@ const Albums = () => {
       <div className="row">
         <div className="col-sm-6">
           <h2>Top Ten</h2>
+          <ul>
+            {savedAlbums.map((album, index) => (
+              <Card key={`search result ${index + 1}`} {...album} deleteAlbum={deleteAlbum}/>
+            ))}
+          </ul>
         </div>
         <div className="col-sm-6">
           <h2>Search Results</h2>
 
           <ul>
             {searchedAlbums.map((album, index) => (
-              // <li key={index}>
-              //   {artist.name}
-              //   <img src={artist.image} alt={artist.name} />
-              // </li>
               <Card key={`search result ${index + 1}`} {...album} addAlbum={addAlbum}/>
             ))}
           </ul>
