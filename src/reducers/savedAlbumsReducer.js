@@ -3,7 +3,12 @@ const savedAlbumsReducer = (state = [], action) => {
     case "SAVE_ALBUMS":
       return [...state, action.payload];
     case "DEL_ALBUM":
-      state = state.filter((album) => album.name !== action.payload.name);
+      state = state
+        .filter((album) => album.name !== action.payload.name)
+        .map((album, index) => {
+            album.index = index
+            return album;
+        });
       return state;
     case "SEND_ALBUM_UP":
       state[action.payload.index].index--;

@@ -91,7 +91,7 @@ const Albums = () => {
   };
 
   const deleteAlbum = (e) => {
-    const { name, value } = e.target;
+    const { name } = e.target;
     localStorage.removeItem(name)
     dispatch(delAlbum({
       name: name,
