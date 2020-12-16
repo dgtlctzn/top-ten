@@ -6,7 +6,6 @@ import API from "../../utils/API";
 import Card from "../../components/Card/Card";
 
 const Albums = () => {
-  const [input, setInput] = useState("");
   const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();
@@ -15,8 +14,15 @@ const Albums = () => {
   const searchedAlbums = useSelector((state) => state.albumReducer);
 
   useEffect(() => {
-    console.log(localStorage)
-  }, [])
+    const savedAsString = JSON.stringify(savedAlbums)
+    for (const [key, value] of Object.entries(localStorage)) {
+      if (savedAsString.includes(key)) {
+        console.log(key)
+      } else {
+        dispatch(saveAlbums({ name: key, image: value }));
+      }
+    }
+  }, []);
 
   // const handleInputChange = (e) => {
   //   setInput(e.target.value);
@@ -42,7 +48,7 @@ const Albums = () => {
   const searchSpotifyAlbums = (search, token) => {
     API.searchSpotify(search, token)
       .then((searchRes) => {
-        console.log(searchRes)
+        console.log(searchRes);
         const albums = searchRes.data.albums.items;
         const found = [];
         for (let i = 0; i < 10; i++) {
@@ -79,19 +85,20 @@ const Albums = () => {
   };
 
   const addAlbum = (e) => {
-    const {name, value} = e.target;
+    console.log('click')
+    const { name, value } = e.target;
     if (!localStorage.getItem(name)) {
-      localStorage.setItem(name, value)
+      localStorage.setItem(name, value);
     }
-    dispatch(saveAlbums({
-      name: name,
-      image: value
-    }))
-  }
+    dispatch(
+      saveAlbums({
+        name: name,
+        image: value,
+      })
+    );
+  };
 
-  const deleteAlbum = (e) => {
-
-  }
+  const deleteAlbum = (e) => {};
 
   return (
     <div className="container">
@@ -149,7 +156,11 @@ const Albums = () => {
           <h2>Top Ten</h2>
           <ul>
             {savedAlbums.map((album, index) => (
-              <Card key={`search result ${index + 1}`} {...album} deleteAlbum={deleteAlbum}/>
+              <Card
+                key={`search result ${index + 1}`}
+                {...album}
+                deleteAlbum={deleteAlbum}
+              />
             ))}
           </ul>
         </div>
@@ -158,7 +169,11 @@ const Albums = () => {
 
           <ul>
             {searchedAlbums.map((album, index) => (
-              <Card key={`search result ${index + 1}`} {...album} addAlbum={addAlbum}/>
+              <Card
+                key={`search result ${index + 1}`}
+                {...album}
+                addAlbum={addAlbum}
+              />
             ))}
           </ul>
         </div>

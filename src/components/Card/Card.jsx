@@ -17,7 +17,7 @@ const Card = ({ name, image, addAlbum }) => {
             </p> */}
           </div>
           <div className="col-sm-1">
-            <button name={name} value={image} onClick={addAlbum}>Add</button>
+            <button name={name} value={image} onClick={(e) => addAlbum(e)}>Add</button>
           </div>
         </div>
       </div>
