@@ -122,29 +122,35 @@ const Albums = () => {
     }
   };
 
+  const sortStorage = (index, saved, increase = true) => {
+    let change;
+    increase ? change = -1 : change = 1;
+    localStorage.clear();
+    for (const item of saved) {
+      let newIndex;
+      if (item.index === index) {
+        newIndex = index;
+      } else if (item.index === index + change) {
+        newIndex = index + change;
+      } else {
+        newIndex = item.index;
+      }
+      localStorage.setItem(
+        item.name,
+        JSON.stringify({
+          index: newIndex,
+          image: item.image,
+        })
+      );
+    }
+  };
+
   const handleAlbumUp = (e) => {
     const name = e.target.name;
     const index = parseInt(e.target.value);
     if (index) {
       dispatch(sendAlbumUp(name, index));
-      localStorage.clear();
-      for (const item of savedAlbums) {
-        let newIndex;
-        if (item.index === index) {
-          newIndex = index;
-        } else if (item.index === index - 1) {
-          newIndex = index - 1;
-        } else {
-          newIndex = item.index;
-        }
-        localStorage.setItem(
-          item.name,
-          JSON.stringify({
-            index: newIndex,
-            image: item.image,
-          })
-        );
-      }
+      sortStorage(index, savedAlbums);
     }
   };
 
@@ -153,26 +159,7 @@ const Albums = () => {
     const index = parseInt(e.target.value);
     if (index !== savedAlbums.length - 1) {
       dispatch(sendAlbumDown(name, index));
-      localStorage.clear();
-      for (const item of savedAlbums) {
-        let newIndex;
-        if (item.index === index) {
-          newIndex = index;
-        } else if (item.index === index + 1) {
-          newIndex = index + 1;
-        } else {
-          newIndex = item.index;
-        }
-        localStorage.setItem(
-          item.name,
-          JSON.stringify({
-            index: newIndex,
-            image: item.image,
-          })
-        );
-      }
-    } else {
-      console.log("nope!");
+      sortStorage(index, savedAlbums, false);
     }
   };
 
