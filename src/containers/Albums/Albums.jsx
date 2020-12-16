@@ -81,7 +81,6 @@ const Albums = () => {
   };
 
   const deleteAlbum = (e) => {
-    console.log("click")
     const { name, value } = e.target;
     localStorage.removeItem(name)
     dispatch(delAlbum({
@@ -128,6 +127,7 @@ const Albums = () => {
                 key={`album ${index + 1}`}
                 {...album}
                 deleteAlbum={deleteAlbum}
+                index={index + 1}
               />
             ))}
           </ul>

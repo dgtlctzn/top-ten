@@ -5,6 +5,10 @@ const savedAlbumsReducer = (state = [], action) => {
         case "DEL_ALBUM":
             state = state.filter(album => album.name !== action.payload.name);
             return state;
+        case "SEND_ALBUM_UP":
+            return state;
+        case "SEND_ALBUM_DOWN":
+            return state;
         default:
             return state;
     }
