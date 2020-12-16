@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { saveAlbums, delAlbum, addToken, searchAlbums, sendAlbumUp } from "../../actions";
+import {
+  saveAlbums,
+  delAlbum,
+  addToken,
+  searchAlbums,
+  sendAlbumUp,
+} from "../../actions";
 import { NavLink } from "react-router-dom";
 import API from "../../utils/API";
 import Card from "../../components/Card/Card";
@@ -16,14 +22,14 @@ const Albums = () => {
   const searchedAlbums = useSelector((state) => state.albumReducer);
 
   useEffect(() => {
-    const savedAsString = JSON.stringify(savedAlbums)
+    const savedAsString = JSON.stringify(savedAlbums);
     let i = 0;
     for (const [key, value] of Object.entries(localStorage)) {
       if (savedAsString.includes(key)) {
-        console.log(key)
+        console.log(key);
       } else {
-        const image = JSON.parse(value).image
-        dispatch(saveAlbums({ name: key, image: image, index: i}));
+        const image = JSON.parse(value).image;
+        dispatch(saveAlbums({ name: key, image: image, index: i }));
         i++;
       }
     }
@@ -77,31 +83,43 @@ const Albums = () => {
     if (!localStorage.getItem(name)) {
       const data = JSON.stringify({
         index: localStorage.length,
-        image: value
-      })
+        image: value,
+      });
       localStorage.setItem(name, data);
     }
     dispatch(
       saveAlbums({
         name: name,
         image: value,
-        index: localStorage.length - 1
+        index: localStorage.length - 1,
       })
     );
   };
 
   const deleteAlbum = (e) => {
     const { name } = e.target;
-    localStorage.removeItem(name)
-    dispatch(delAlbum({
-      name: name,
-    }));
+    dispatch(
+      delAlbum({
+        name: name,
+      })
+    );
+    localStorage.clear();
+    let i = 0;
+    for (const item of savedAlbums) {
+      if (item.name !== name) {
+        localStorage.setItem(item.name, JSON.stringify({
+          index: i,
+          image: item.image
+        }))
+        i++;
+      }
+    }
   };
 
   const handleAlbumUp = (e) => {
-    const {name, value} = e.target;
-    dispatch(sendAlbumUp(name, value))
-  }
+    const { name, value } = e.target;
+    dispatch(sendAlbumUp(name, value));
+  };
 
   return (
     <div className="container">
