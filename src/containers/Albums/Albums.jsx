@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { saveAlbums, delAlbum, addToken, searchAlbums } from "../../actions";
+import { saveAlbums, delAlbum, addToken, searchAlbums, sendAlbumUp } from "../../actions";
 import { NavLink } from "react-router-dom";
 import API from "../../utils/API";
 import Card from "../../components/Card/Card";
@@ -10,16 +10,21 @@ const Albums = () => {
 
   const dispatch = useDispatch();
   const savedAlbums = useSelector((state) => state.savedAlbumsReducer);
+  // const sortedAlbums = savedAlbums.sort((a, b) => a.index - b.index);
+
   const token = useSelector((state) => state.tokenReducer);
   const searchedAlbums = useSelector((state) => state.albumReducer);
 
   useEffect(() => {
     const savedAsString = JSON.stringify(savedAlbums)
+    let i = 0;
     for (const [key, value] of Object.entries(localStorage)) {
       if (savedAsString.includes(key)) {
         console.log(key)
       } else {
-        dispatch(saveAlbums({ name: key, image: value }));
+        const image = JSON.parse(value).image
+        dispatch(saveAlbums({ name: key, image: image, index: i}));
+        i++;
       }
     }
   }, []);
@@ -70,12 +75,17 @@ const Albums = () => {
   const addAlbum = (e) => {
     const { name, value } = e.target;
     if (!localStorage.getItem(name)) {
-      localStorage.setItem(name, value);
+      const data = JSON.stringify({
+        index: localStorage.length,
+        image: value
+      })
+      localStorage.setItem(name, data);
     }
     dispatch(
       saveAlbums({
         name: name,
         image: value,
+        index: localStorage.length - 1
       })
     );
   };
@@ -85,9 +95,13 @@ const Albums = () => {
     localStorage.removeItem(name)
     dispatch(delAlbum({
       name: name,
-      image: value
     }));
   };
+
+  const handleAlbumUp = (e) => {
+    const {name, value} = e.target;
+    dispatch(sendAlbumUp(name, value))
+  }
 
   return (
     <div className="container">
@@ -127,7 +141,8 @@ const Albums = () => {
                 key={`album ${index + 1}`}
                 {...album}
                 deleteAlbum={deleteAlbum}
-                index={index + 1}
+                handleAlbumUp={handleAlbumUp}
+                index={index}
               />
             ))}
           </ul>

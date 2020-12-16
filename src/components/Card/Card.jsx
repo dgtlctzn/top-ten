@@ -1,7 +1,7 @@
 import React from "react";
 import "./Card.css";
 
-const Card = ({ name, image, index, addAlbum, deleteAlbum }) => {
+const Card = ({ name, image, index, addAlbum, deleteAlbum, handleAlbumUp }) => {
   console.log(index)
   return (
     <div className="row">
@@ -35,8 +35,8 @@ const Card = ({ name, image, index, addAlbum, deleteAlbum }) => {
                   >
                     x
                   </button>
-                  <button>^</button>
-                  <button>v</button>
+                  <button name={name} value={index} onClick={(e) => handleAlbumUp(e)}>^</button>
+                  <button name={name} value={index}>v</button>
                 </div>
               )}
             </div>

@@ -26,17 +26,17 @@ export const delAlbum = (album) => {
   };
 };
 
-export const sendAlbumUp = (album, place) => {
+export const sendAlbumUp = (album, index) => {
   return {
     type: "SEND_ALBUM_UP",
-    payload: { album, place },
+    payload: { album, index },
   };
 };
 
-export const sendAlbumDown = (album, place) => {
+export const sendAlbumDown = (album, index) => {
   return {
     type: "SEND_ALBUM_DOWN",
-    payload: { album, place },
+    payload: { album, index },
   };
 };
 
