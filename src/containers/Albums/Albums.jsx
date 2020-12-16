@@ -24,9 +24,7 @@ const Albums = () => {
   useEffect(() => {
     const savedAsString = JSON.stringify(savedAlbums);
     for (const [key, value] of Object.entries(localStorage)) {
-      if (savedAsString.includes(key)) {
-        console.log("");
-      } else {
+      if (!savedAsString.includes(key)) {
         const parsedVal = JSON.parse(value);
         dispatch(saveAlbums({ name: key, image: parsedVal.image, index: parsedVal.index }));
       }
