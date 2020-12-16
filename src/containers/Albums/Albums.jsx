@@ -106,9 +106,10 @@ const Albums = () => {
         name: name,
       })
     );
-    localStorage.clear();
+    // localStorage.clear();
     let i = 0;
     for (const item of savedAlbums) {
+      localStorage.removeItem(item.name);
       if (item.name !== name) {
         localStorage.setItem(
           item.name,
@@ -125,7 +126,7 @@ const Albums = () => {
   const sortStorage = (index, saved, increase = true) => {
     let change;
     increase ? change = -1 : change = 1;
-    localStorage.clear();
+    // localStorage.clear();
     for (const item of saved) {
       let newIndex;
       if (item.index === index) {
@@ -135,6 +136,7 @@ const Albums = () => {
       } else {
         newIndex = item.index;
       }
+      localStorage.removeItem(item.name)
       localStorage.setItem(
         item.name,
         JSON.stringify({
