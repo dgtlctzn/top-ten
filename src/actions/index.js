@@ -33,9 +33,9 @@ export const addToken = (token) => {
     }
 }
 
-export const searchArtists = (artists) => {
+export const searchAlbums = (albums) => {
     return {
-        type: "SEARCH_ARTISTS",
-        payload: artists
+        type: "SEARCH_ALBUMS",
+        payload: albums
     }
 }

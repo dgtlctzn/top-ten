@@ -28,8 +28,8 @@ const Movies = () => {
   return (
     <>
         <h1>Movies</h1>
-        <NavLink to="/songs">
-            Songs
+        <NavLink to="/albums">
+            Albums
         </NavLink>
       <form className="input-group" onSubmit={handleSubmit} value={input}>
         <span className="input-group-text">With textarea</span>

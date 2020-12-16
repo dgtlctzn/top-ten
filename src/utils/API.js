@@ -19,7 +19,7 @@ const API = {
   searchSpotify: function (search, token) {
     return axios({
       method: "GET",
-      url: `https://api.spotify.com/v1/search?q=${search}&type=artist`,
+      url: `https://api.spotify.com/v1/search?q=${search}&type=album`,
       headers: { Authorization: `Bearer ${token}` },
     });
   },

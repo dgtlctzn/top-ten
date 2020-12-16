@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Movies from "./containers/Movies/Movies";
-import Songs from "./containers/Songs/Songs";
+import Albums from "./containers/Albums/Albums";
 import Home from "./containers/Home/Home";
 import { createStore, compose, applyMiddleware } from "redux";
 import allReducers from "./reducers";
@@ -25,7 +25,7 @@ function App() {
         <Router>
           <Switch>
             <Route exact path="/movies" component={Movies} />
-            <Route exact path="/songs" component={Songs} />
+            <Route exact path="/albums" component={Albums} />
             <Route exact path="/" component={Home} />
           </Switch>
         </Router>
