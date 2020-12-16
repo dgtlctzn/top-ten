@@ -11,10 +11,6 @@ const Card = ({ name, image, addAlbum, deleteAlbum }) => {
           </div>
           <div className="col-sm-7">
             <h5 className="card-title">{name}</h5>
-            {/* <p className="card-text">
-              With supporting text below as a natural lead-in to additional
-              content.
-            </p> */}
           </div>
           {addAlbum ? (
             <div className="col-sm-2">

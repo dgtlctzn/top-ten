@@ -24,23 +24,6 @@ const Albums = () => {
     }
   }, []);
 
-  // const handleInputChange = (e) => {
-  //   setInput(e.target.value);
-  // };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   dispatch(addSong(input));
-  //   setInput("");
-  // };
-
-  // const handleDelete = (e) => {
-  //   e.preventDefault();
-
-  //   dispatch(delSong(e.target.name));
-  //   setInput("");
-  // };
-
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };
@@ -111,7 +94,7 @@ const Albums = () => {
     <div className="container">
       <NavLink to="/movies">Movies</NavLink>
 
-      <h1 className="text-center">Songs</h1>
+      <h1 className="text-center">Albums</h1>
       <div className="row">
         <div className="col-sm-4"></div>
         <div className="col-sm-4">
@@ -136,35 +119,13 @@ const Albums = () => {
           </form>
         </div>
       </div>
-
-      {/* <form className="input-group" onSubmit={handleSubmit} value={input}>
-        <span className="input-group-text">With textarea</span>
-        <input
-          type="text"
-          onChange={handleInputChange}
-          className="form-control"
-        ></input>
-        <button type="submit">Submit</button>
-      </form>
-      <div>
-        <ul>
-          {songList.map((song, index) => (
-            <li key={index}>
-              {song}
-              <button name={song} onClick={handleDelete}>
-                delete
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div> */}
       <div className="row">
         <div className="col-sm-6">
           <h2 className="text-center">Top Ten</h2>
           <ul>
             {savedAlbums.map((album, index) => (
               <Card
-                key={`search result ${index + 1}`}
+                key={`album ${index + 1}`}
                 {...album}
                 deleteAlbum={deleteAlbum}
               />
