@@ -19,10 +19,10 @@ export const saveAlbums = (album) => {
     }
 }
 
-export const delSong = (song) => {
+export const delAlbum = (album) => {
     return {
-        type: "DEL_SONG",
-        payload: song
+        type: "DEL_ALBUM",
+        payload: album
     }
 }
 
