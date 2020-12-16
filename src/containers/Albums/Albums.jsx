@@ -6,6 +6,7 @@ import {
   addToken,
   searchAlbums,
   sendAlbumUp,
+  sendAlbumDown,
 } from "../../actions";
 import { NavLink } from "react-router-dom";
 import API from "../../utils/API";
@@ -26,7 +27,13 @@ const Albums = () => {
     for (const [key, value] of Object.entries(localStorage)) {
       if (!savedAsString.includes(key)) {
         const parsedVal = JSON.parse(value);
-        dispatch(saveAlbums({ name: key, image: parsedVal.image, index: parsedVal.index }));
+        dispatch(
+          saveAlbums({
+            name: key,
+            image: parsedVal.image,
+            index: parsedVal.index,
+          })
+        );
       }
     }
   }, []);
@@ -118,24 +125,54 @@ const Albums = () => {
   const handleAlbumUp = (e) => {
     const name = e.target.name;
     const index = parseInt(e.target.value);
-    dispatch(sendAlbumUp(name, index));
-    localStorage.clear();
-    for (const item of savedAlbums) {
-      let newIndex;
-      if (item.index === index) {
-        newIndex = index;
-      } else if (item.index === index - 1) {
-        newIndex = index - 1;
-      } else {
-        newIndex = item.index
+    if (index) {
+      dispatch(sendAlbumUp(name, index));
+      localStorage.clear();
+      for (const item of savedAlbums) {
+        let newIndex;
+        if (item.index === index) {
+          newIndex = index;
+        } else if (item.index === index - 1) {
+          newIndex = index - 1;
+        } else {
+          newIndex = item.index;
+        }
+        localStorage.setItem(
+          item.name,
+          JSON.stringify({
+            index: newIndex,
+            image: item.image,
+          })
+        );
       }
-      localStorage.setItem(
-        item.name,
-        JSON.stringify({
-          index: newIndex,
-          image: item.image,
-        })
-      );
+    }
+  };
+
+  const handleAlbumDown = (e) => {
+    const name = e.target.name;
+    const index = parseInt(e.target.value);
+    if (index !== savedAlbums.length - 1) {
+      dispatch(sendAlbumDown(name, index));
+      localStorage.clear();
+      for (const item of savedAlbums) {
+        let newIndex;
+        if (item.index === index) {
+          newIndex = index;
+        } else if (item.index === index + 1) {
+          newIndex = index + 1;
+        } else {
+          newIndex = item.index;
+        }
+        localStorage.setItem(
+          item.name,
+          JSON.stringify({
+            index: newIndex,
+            image: item.image,
+          })
+        );
+      }
+    } else {
+      console.log("nope!");
     }
   };
 
@@ -178,6 +215,7 @@ const Albums = () => {
                 {...album}
                 deleteAlbum={deleteAlbum}
                 handleAlbumUp={handleAlbumUp}
+                handleAlbumDown={handleAlbumDown}
                 index={index}
               />
             ))}
