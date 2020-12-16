@@ -120,36 +120,24 @@ const Albums = () => {
   const handleAlbumUp = (e) => {
     const name = e.target.name;
     const index = parseInt(e.target.value);
-    console.log(index)
     dispatch(sendAlbumUp(name, index));
     localStorage.clear();
     for (const item of savedAlbums) {
-      // console.log(item.index)
+      let newIndex;
       if (item.index === index) {
-        localStorage.setItem(
-          item.name,
-          JSON.stringify({
-            index: index,
-            image: item.image,
-          })
-        );
+        newIndex = index;
       } else if (item.index === index - 1) {
-        localStorage.setItem(
-          item.name,
-          JSON.stringify({
-            index: index - 1,
-            image: item.image,
-          })
-        );
+        newIndex = index - 1;
       } else {
-        localStorage.setItem(
-          item.name,
-          JSON.stringify({
-            index: item.index,
-            image: item.image,
-          })
-        );
+        newIndex = item.index
       }
+      localStorage.setItem(
+        item.name,
+        JSON.stringify({
+          index: newIndex,
+          image: item.image,
+        })
+      );
     }
   };
 
