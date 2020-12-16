@@ -16,21 +16,19 @@ const Albums = () => {
 
   const dispatch = useDispatch();
   const savedAlbums = useSelector((state) => state.savedAlbumsReducer);
-  // const sortedAlbums = savedAlbums.sort((a, b) => a.index - b.index);
+  const sortedAlbums = savedAlbums.sort((a, b) => a.index - b.index);
 
   const token = useSelector((state) => state.tokenReducer);
   const searchedAlbums = useSelector((state) => state.albumReducer);
 
   useEffect(() => {
     const savedAsString = JSON.stringify(savedAlbums);
-    let i = 0;
     for (const [key, value] of Object.entries(localStorage)) {
       if (savedAsString.includes(key)) {
-        console.log(key);
+        console.log("");
       } else {
-        const image = JSON.parse(value).image;
-        dispatch(saveAlbums({ name: key, image: image, index: i }));
-        i++;
+        const parsedVal = JSON.parse(value);
+        dispatch(saveAlbums({ name: key, image: parsedVal.image, index: parsedVal.index }));
       }
     }
   }, []);
@@ -107,18 +105,52 @@ const Albums = () => {
     let i = 0;
     for (const item of savedAlbums) {
       if (item.name !== name) {
-        localStorage.setItem(item.name, JSON.stringify({
-          index: i,
-          image: item.image
-        }))
+        localStorage.setItem(
+          item.name,
+          JSON.stringify({
+            index: i,
+            image: item.image,
+          })
+        );
         i++;
       }
     }
   };
 
   const handleAlbumUp = (e) => {
-    const { name, value } = e.target;
-    dispatch(sendAlbumUp(name, value));
+    const name = e.target.name;
+    const index = parseInt(e.target.value);
+    console.log(index)
+    dispatch(sendAlbumUp(name, index));
+    localStorage.clear();
+    for (const item of savedAlbums) {
+      // console.log(item.index)
+      if (item.index === index) {
+        localStorage.setItem(
+          item.name,
+          JSON.stringify({
+            index: index,
+            image: item.image,
+          })
+        );
+      } else if (item.index === index - 1) {
+        localStorage.setItem(
+          item.name,
+          JSON.stringify({
+            index: index - 1,
+            image: item.image,
+          })
+        );
+      } else {
+        localStorage.setItem(
+          item.name,
+          JSON.stringify({
+            index: item.index,
+            image: item.image,
+          })
+        );
+      }
+    }
   };
 
   return (
@@ -154,7 +186,7 @@ const Albums = () => {
         <div className="col-sm-6">
           <h2 className="text-center">Top Ten</h2>
           <ul>
-            {savedAlbums.map((album, index) => (
+            {sortedAlbums.map((album, index) => (
               <Card
                 key={`album ${index + 1}`}
                 {...album}

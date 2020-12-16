@@ -5,7 +5,7 @@ const Card = ({ name, image, index, addAlbum, deleteAlbum, handleAlbumUp }) => {
   console.log(index)
   return (
     <div className="row">
-      <div className="col-sm-2 place">{addAlbum ? <></> : <h2 >#{index}</h2>}</div>
+      <div className="col-sm-2 place">{addAlbum ? <></> : <h2 >#{index + 1}</h2>}</div>
       <div className="col-sm-10">
         <div className="card">
           <div className="card-body">
