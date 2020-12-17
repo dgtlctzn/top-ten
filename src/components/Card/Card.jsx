@@ -2,7 +2,6 @@ import React from "react";
 import "./Card.css";
 
 const Card = ({ name, image, index, addItem, deleteItem, handleItemUp, handleItemDown }) => {
-  console.log(index)
   return (
     <div className="row">
       <div className="col-sm-2 place">{addItem ? <></> : <h2 >#{index + 1}</h2>}</div>

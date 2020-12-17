@@ -96,6 +96,7 @@ const Albums = () => {
         name: name,
         image: value,
         index: localStorage.length - 1,
+        // type: "album"
       })
     );
   };
@@ -117,6 +118,7 @@ const Albums = () => {
           JSON.stringify({
             index: i,
             image: item.image,
+            // type: "album"
           })
         );
         i++;
@@ -143,6 +145,7 @@ const Albums = () => {
         JSON.stringify({
           index: newIndex,
           image: item.image,
+          // type: "album"
         })
       );
     }

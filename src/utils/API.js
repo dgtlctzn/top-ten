@@ -23,6 +23,16 @@ const API = {
       headers: { Authorization: `Bearer ${token}` },
     });
   },
+  searchImdb: function (search) {
+    return axios({
+      method: "GET",
+      url: `https://imdb8.p.rapidapi.com/title/find?q=${search}`,
+      headers: {
+        'x-rapidapi-key': '59d0c27c79msh6e6814003e3803ep1e5484jsn5fecf295231f',
+        'x-rapidapi-host': 'imdb8.p.rapidapi.com'
+      },
+    });
+  }
 };
 
 export default API;

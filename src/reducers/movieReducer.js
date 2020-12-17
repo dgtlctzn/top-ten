@@ -1,12 +1,12 @@
 const movieReducer = (state = [], action) => {
     switch(action.type) {
-        case "ADD_MOVIE":
-            state.push(action.payload);
+        case "SEARCH_MOVIES":
+            state = [];
+            for (const i of action.payload) {
+                state.push(i);
+            }
             return state;
-        case "DEL_MOVIE":
-            state = state.filter(movie => movie !== action.payload);
-            return state;
-        default:
+        default: 
             return state;
     }
 }

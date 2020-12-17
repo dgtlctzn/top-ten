@@ -1,16 +1,17 @@
-export const addMovie = (movie) => {
+//======
+// Token
+//======
+
+export const addToken = (token) => {
   return {
-    type: "ADD_MOVIE",
-    payload: movie,
+    type: "ADD_TOKEN",
+    payload: token,
   };
 };
 
-export const delMovie = (movie) => {
-  return {
-    type: "DEL_MOVIE",
-    payload: movie,
-  };
-};
+//=======
+// Albums
+//=======
 
 export const saveAlbums = (album) => {
   return {
@@ -40,16 +41,48 @@ export const sendAlbumDown = (album, index) => {
   };
 };
 
-export const addToken = (token) => {
-  return {
-    type: "ADD_TOKEN",
-    payload: token,
-  };
-};
-
 export const searchAlbums = (albums) => {
   return {
     type: "SEARCH_ALBUMS",
     payload: albums,
+  };
+};
+
+//=======
+// Movies
+//=======
+
+export const searchMovies = (movies) => {
+  return {
+    type: "SEARCH_MOVIES",
+    payload: movies,
+  };
+};
+
+export const saveMovies = (movie) => {
+  return {
+    type: "SAVE_MOVIES",
+    payload: movie,
+  };
+};
+
+export const delMovie = (movie) => {
+  return {
+    type: "DEL_MOVIE",
+    payload: movie,
+  };
+};
+
+export const sendMovieUp = (movie, index) => {
+  return {
+    type: "SEND_MOVIE_UP",
+    payload: { movie, index },
+  };
+};
+
+export const sendMovieDown = (movie, index) => {
+  return {
+    type: "SEND_MOVIE_DOWN",
+    payload: { movie, index },
   };
 };
