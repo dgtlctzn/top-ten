@@ -8,7 +8,7 @@ import {
   sendAlbumUp,
   sendAlbumDown,
 } from "../../actions";
-import { NavLink } from "react-router-dom";
+import Nav from "../../components/Nav/Nav";
 import API from "../../utils/API";
 import Card from "../../components/Card/Card";
 
@@ -165,10 +165,9 @@ const Albums = () => {
     }
   };
 
-  return (
+  return (<>
+    <Nav/>
     <div className="container">
-      <NavLink to="/movies">Movies</NavLink>
-
       <h1 className="text-center">Albums</h1>
       <div className="row">
         <div className="col-sm-4"></div>
@@ -225,6 +224,7 @@ const Albums = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

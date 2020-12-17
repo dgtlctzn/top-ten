@@ -22,13 +22,13 @@ import { connect } from "react-redux";
 
 function App() {
   return (
-        <Router>
-          <Switch>
-            <Route exact path="/movies" component={Movies} />
-            <Route exact path="/albums" component={Albums} />
-            <Route exact path="/" component={Home} />
-          </Switch>
-        </Router>
+    <Router>
+      <Switch>
+        <Route exact path="/movies" component={Movies} />
+        <Route exact path="/albums" component={Albums} />
+        <Route exact path="/" component={Home} />
+      </Switch>
+    </Router>
   );
 }
 
