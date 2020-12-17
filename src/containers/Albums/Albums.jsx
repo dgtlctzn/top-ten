@@ -99,7 +99,7 @@ const Albums = () => {
       saveAlbums({
         name: name,
         image: value,
-        index: savedAlbums.length - 1,
+        index: savedAlbums.length,
         type: "album",
       })
     );
@@ -133,7 +133,6 @@ const Albums = () => {
   const sortStorage = (index, saved, increase = true) => {
     let change;
     increase ? (change = -1) : (change = 1);
-    // localStorage.clear();
     for (const item of saved) {
       let newIndex;
       if (item.index === index) {

@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   saveMovies,
   delMovie,
-  // addToken,
   searchMovies,
   sendMovieUp,
   sendMovieDown,
@@ -20,7 +19,6 @@ const Movies = () => {
   const savedMovies = useSelector((state) => state.savedMoviesReducer);
   const sortedMovies = savedMovies.sort((a, b) => a.index - b.index);
 
-  // const token = useSelector((state) => state.tokenReducer);
   const searchedMovies = useSelector((state) => state.movieReducer);
 
   useEffect(() => {
@@ -46,28 +44,6 @@ const Movies = () => {
     setSearch(e.target.value);
   };
 
-  // const searchSpotifyAlbums = (search, token) => {
-  //   API.searchSpotify(search, token)
-  //     .then((searchRes) => {
-  //       console.log(searchRes);
-  //       const albums = searchRes.data.albums.items;
-  //       const found = [];
-  //       for (let i = 0; i < 10; i++) {
-  //         const item = {
-  //           name: albums[i].name ? albums[i].name : "No Artist Name",
-  //           image: albums[i].images[2]
-  //             ? albums[i].images[2].url
-  //             : "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Disque_Vinyl.svg/1024px-Disque_Vinyl.svg.png",
-  //         };
-  //         found.push(item);
-  //       }
-  //       dispatch(searchAlbums(found));
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
   const handleSearchSubmit = (e) => {
     e.preventDefault();
 
@@ -91,18 +67,6 @@ const Movies = () => {
     .catch((err) => {
       console.log(err);
     });
-    // if (!token) {
-    //   API.getToken()
-    //     .then((tokenRes) => {
-    //       dispatch(addToken(tokenRes.data.access_token));
-    //       searchSpotifyAlbums(search, tokenRes.data.access_token);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // } else {
-    //   searchSpotifyAlbums(search, token);
-    // }
   };
 
   const addMovie = (e) => {
@@ -119,7 +83,7 @@ const Movies = () => {
       saveMovies({
         name: name,
         image: value,
-        index: savedMovies.length - 1,
+        index: savedMovies.length,
         type: "movie"
       })
     );
@@ -132,7 +96,6 @@ const Movies = () => {
         name: name,
       })
     );
-    // localStorage.clear();
     let i = 0;
     for (const item of savedMovies) {
       localStorage.removeItem(item.name);
@@ -153,7 +116,6 @@ const Movies = () => {
   const sortStorage = (index, saved, increase = true) => {
     let change;
     increase ? (change = -1) : (change = 1);
-    // localStorage.clear();
     for (const item of saved) {
       let newIndex;
       if (item.index === index) {
