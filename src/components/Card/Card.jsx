@@ -1,11 +1,11 @@
 import React from "react";
 import "./Card.css";
 
-const Card = ({ name, image, index, addAlbum, deleteAlbum, handleAlbumUp, handleAlbumDown }) => {
+const Card = ({ name, image, index, addItem, deleteItem, handleItemUp, handleItemDown }) => {
   console.log(index)
   return (
     <div className="row">
-      <div className="col-sm-2 place">{addAlbum ? <></> : <h2 >#{index + 1}</h2>}</div>
+      <div className="col-sm-2 place">{addItem ? <></> : <h2 >#{index + 1}</h2>}</div>
       <div className="col-sm-10">
         <div className="card">
           <div className="card-body">
@@ -16,12 +16,12 @@ const Card = ({ name, image, index, addAlbum, deleteAlbum, handleAlbumUp, handle
               <div className="col-sm-7">
                 <h5 className="card-title">{name}</h5>
               </div>
-              {addAlbum ? (
+              {addItem ? (
                 <div className="col-sm-2">
                   <button
                     name={name}
                     value={image}
-                    onClick={(e) => addAlbum(e)}
+                    onClick={(e) => addItem(e)}
                   >
                     +
                   </button>
@@ -31,12 +31,12 @@ const Card = ({ name, image, index, addAlbum, deleteAlbum, handleAlbumUp, handle
                   <button
                     name={name}
                     value={image}
-                    onClick={(e) => deleteAlbum(e)}
+                    onClick={(e) => deleteItem(e)}
                   >
                     x
                   </button>
-                  <button name={name} value={index} onClick={(e) => handleAlbumUp(e)}>^</button>
-                  <button name={name} value={index} onClick={(e) => handleAlbumDown(e)}>v</button>
+                  <button name={name} value={index} onClick={(e) => handleItemUp(e)}>^</button>
+                  <button name={name} value={index} onClick={(e) => handleItemDown(e)}>v</button>
                 </div>
               )}
             </div>

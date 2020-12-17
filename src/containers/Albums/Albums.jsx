@@ -171,35 +171,16 @@ const Albums = () => {
       <Nav />
       <div className="container">
         <h1 className="text-center">Albums</h1>
-        <SearchBar
-          handleSearchSubmit={handleSearchSubmit}
-          handleSearchChange={handleSearchChange}
-          search={search}
-        />
-        {/* <div className="row">
-        <div className="col-sm-4"></div>
-        <div className="col-sm-4">
-          <form onSubmit={handleSearchSubmit} className="text-center">
-            <div className="mb-3">
-              <label htmlFor="exampleInputEmail1" className="form-label">
-                Search Albums
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                value={search}
-                onChange={handleSearchChange}
-              />
-            </div>
-
-            <button type="submit" className="btn btn-primary">
-              Submit
-            </button>
-          </form>
+        <div className="row">
+          <div className="col-sm-4"></div>
+          <div className="col-sm-4">
+            <SearchBar
+              handleSearchSubmit={handleSearchSubmit}
+              handleSearchChange={handleSearchChange}
+              search={search}
+            />
+          </div>
         </div>
-      </div> */}
         <div className="row">
           <div className="col-sm-6">
             <h2 className="text-center">Top Ten</h2>
@@ -208,9 +189,9 @@ const Albums = () => {
                 <Card
                   key={`album ${index + 1}`}
                   {...album}
-                  deleteAlbum={deleteAlbum}
-                  handleAlbumUp={handleAlbumUp}
-                  handleAlbumDown={handleAlbumDown}
+                  deleteItem={deleteAlbum}
+                  handleItemUp={handleAlbumUp}
+                  handleItemDown={handleAlbumDown}
                   index={index}
                 />
               ))}
@@ -224,7 +205,7 @@ const Albums = () => {
                 <Card
                   key={`search result ${index + 1}`}
                   {...album}
-                  addAlbum={addAlbum}
+                  addItem={addAlbum}
                 />
               ))}
             </ul>
