@@ -49,7 +49,6 @@ const Movies = () => {
 
     API.searchImdb(search)
     .then((searchRes) => {
-      console.log(searchRes)
       const movies = searchRes.data.results;
       const found = [];
       for (let i = 0; i < 10; i++) {
@@ -61,7 +60,6 @@ const Movies = () => {
         };
         found.push(item);
       }
-      console.log(found)
       dispatch(searchMovies(found));
     })
     .catch((err) => {
