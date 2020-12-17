@@ -9,6 +9,7 @@ import {
   sendAlbumDown,
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
+import SearchBar from "../../components/SearchBar/SearchBar";
 import API from "../../utils/API";
 import Card from "../../components/Card/Card";
 
@@ -125,7 +126,7 @@ const Albums = () => {
 
   const sortStorage = (index, saved, increase = true) => {
     let change;
-    increase ? change = -1 : change = 1;
+    increase ? (change = -1) : (change = 1);
     // localStorage.clear();
     for (const item of saved) {
       let newIndex;
@@ -136,7 +137,7 @@ const Albums = () => {
       } else {
         newIndex = item.index;
       }
-      localStorage.removeItem(item.name)
+      localStorage.removeItem(item.name);
       localStorage.setItem(
         item.name,
         JSON.stringify({
@@ -165,11 +166,17 @@ const Albums = () => {
     }
   };
 
-  return (<>
-    <Nav/>
-    <div className="container">
-      <h1 className="text-center">Albums</h1>
-      <div className="row">
+  return (
+    <>
+      <Nav />
+      <div className="container">
+        <h1 className="text-center">Albums</h1>
+        <SearchBar
+          handleSearchSubmit={handleSearchSubmit}
+          handleSearchChange={handleSearchChange}
+          search={search}
+        />
+        {/* <div className="row">
         <div className="col-sm-4"></div>
         <div className="col-sm-4">
           <form onSubmit={handleSearchSubmit} className="text-center">
@@ -192,38 +199,38 @@ const Albums = () => {
             </button>
           </form>
         </div>
-      </div>
-      <div className="row">
-        <div className="col-sm-6">
-          <h2 className="text-center">Top Ten</h2>
-          <ul>
-            {sortedAlbums.map((album, index) => (
-              <Card
-                key={`album ${index + 1}`}
-                {...album}
-                deleteAlbum={deleteAlbum}
-                handleAlbumUp={handleAlbumUp}
-                handleAlbumDown={handleAlbumDown}
-                index={index}
-              />
-            ))}
-          </ul>
-        </div>
-        <div className="col-sm-6">
-          <h2 className="text-center">Search Results</h2>
+      </div> */}
+        <div className="row">
+          <div className="col-sm-6">
+            <h2 className="text-center">Top Ten</h2>
+            <ul>
+              {sortedAlbums.map((album, index) => (
+                <Card
+                  key={`album ${index + 1}`}
+                  {...album}
+                  deleteAlbum={deleteAlbum}
+                  handleAlbumUp={handleAlbumUp}
+                  handleAlbumDown={handleAlbumDown}
+                  index={index}
+                />
+              ))}
+            </ul>
+          </div>
+          <div className="col-sm-6">
+            <h2 className="text-center">Search Results</h2>
 
-          <ul>
-            {searchedAlbums.map((album, index) => (
-              <Card
-                key={`search result ${index + 1}`}
-                {...album}
-                addAlbum={addAlbum}
-              />
-            ))}
-          </ul>
+            <ul>
+              {searchedAlbums.map((album, index) => (
+                <Card
+                  key={`search result ${index + 1}`}
+                  {...album}
+                  addAlbum={addAlbum}
+                />
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };
