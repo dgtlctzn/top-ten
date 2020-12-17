@@ -28,13 +28,16 @@ const Albums = () => {
     for (const [key, value] of Object.entries(localStorage)) {
       if (!savedAsString.includes(key)) {
         const parsedVal = JSON.parse(value);
-        dispatch(
-          saveAlbums({
-            name: key,
-            image: parsedVal.image,
-            index: parsedVal.index,
-          })
-        );
+        if (parsedVal.type === "album") {
+          dispatch(
+            saveAlbums({
+              name: key,
+              image: parsedVal.image,
+              index: parsedVal.index,
+              type: parsedVal.type,
+            })
+          );
+        }
       }
     }
   }, []);
@@ -86,8 +89,9 @@ const Albums = () => {
     const { name, value } = e.target;
     if (!localStorage.getItem(name)) {
       const data = JSON.stringify({
-        index: localStorage.length,
+        index: savedAlbums.length,
         image: value,
+        type: "album"
       });
       localStorage.setItem(name, data);
     }
@@ -95,8 +99,8 @@ const Albums = () => {
       saveAlbums({
         name: name,
         image: value,
-        index: localStorage.length - 1,
-        // type: "album"
+        index: savedAlbums.length - 1,
+        type: "album",
       })
     );
   };
@@ -118,7 +122,7 @@ const Albums = () => {
           JSON.stringify({
             index: i,
             image: item.image,
-            // type: "album"
+            type: "album",
           })
         );
         i++;
@@ -145,7 +149,7 @@ const Albums = () => {
         JSON.stringify({
           index: newIndex,
           image: item.image,
-          // type: "album"
+          type: "album",
         })
       );
     }

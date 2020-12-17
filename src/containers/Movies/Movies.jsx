@@ -28,13 +28,16 @@ const Movies = () => {
     for (const [key, value] of Object.entries(localStorage)) {
       if (!savedAsString.includes(key)) {
         const parsedVal = JSON.parse(value);
-        dispatch(
-          saveMovies({
-            name: key,
-            image: parsedVal.image,
-            index: parsedVal.index,
-          })
-        );
+        if (parsedVal.type === "movie") {
+          dispatch(
+            saveMovies({
+              name: key,
+              image: parsedVal.image,
+              index: parsedVal.index,
+              type: parsedVal.type
+            })
+          );
+        }
       }
     }
   }, []);
@@ -106,8 +109,9 @@ const Movies = () => {
     const { name, value } = e.target;
     if (!localStorage.getItem(name)) {
       const data = JSON.stringify({
-        index: localStorage.length,
+        index: savedMovies.length,
         image: value,
+        type: "movie"
       });
       localStorage.setItem(name, data);
     }
@@ -115,7 +119,8 @@ const Movies = () => {
       saveMovies({
         name: name,
         image: value,
-        index: localStorage.length - 1,
+        index: savedMovies.length - 1,
+        type: "movie"
       })
     );
   };
@@ -137,6 +142,7 @@ const Movies = () => {
           JSON.stringify({
             index: i,
             image: item.image,
+            type: "movie"
           })
         );
         i++;
@@ -163,6 +169,7 @@ const Movies = () => {
         JSON.stringify({
           index: newIndex,
           image: item.image,
+          type: "movie"
         })
       );
     }
