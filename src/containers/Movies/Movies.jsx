@@ -52,13 +52,15 @@ const Movies = () => {
       const movies = searchRes.data.results;
       const found = [];
       for (let i = 0; i < 10; i++) {
-        const item = {
-          name: movies[i].title ? movies[i].title : "No Movie Name",
-          image: movies[i].image
-            ? movies[i].image.url
-            : "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_497562.png&f=1&nofb=1",
-        };
-        found.push(item);
+        if (movies[i]) {
+          const item = {
+            name: movies[i].title ? movies[i].title : "No Movie Name",
+            image: movies[i].image
+              ? movies[i].image
+              : "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_497562.png&f=1&nofb=1",
+          };
+          found.push(item);
+        }
       }
       dispatch(searchMovies(found));
     })

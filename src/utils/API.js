@@ -24,14 +24,13 @@ const API = {
     });
   },
   searchImdb: function (search) {
-    console.log(process.env.REACT_APP_IMDB_KEY)
     return axios({
       method: "GET",
-      url: `https://imdb8.p.rapidapi.com/title/find?q=${search}`,
-      headers: {
-        'x-rapidapi-key': process.env.REACT_APP_IMDB_KEY,
-        'x-rapidapi-host': 'imdb8.p.rapidapi.com'
-      },
+      url: `https://imdb-api.com/en/API/SearchMovie/${process.env.REACT_APP_IMBD_SECRET}/${search}`,
+      // headers: {
+      //   'x-rapidapi-key': process.env.REACT_APP_IMDB_KEY,
+      //   'x-rapidapi-host': 'imdb8.p.rapidapi.com'
+      // },
     });
   }
 };
