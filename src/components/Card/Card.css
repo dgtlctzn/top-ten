@@ -1,13 +1,13 @@
 .album-image {
     width: 100px;
     height: 100px;
-    border-radius: 5px;
+    /* border-radius: 5px; */
 }
 
 .movie-image {
-    width: 75px;
+    width: 70px;
     height: 100px;
-    border-radius: 5px;
+    /* border-radius: 5px; */
 }
 
 .saved-albums {
@@ -16,6 +16,10 @@
 
 .place {
     padding-top: 50px;
+}
+
+.card-title {
+    padding-left: 20px;
 }
 
 button {
