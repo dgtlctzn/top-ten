@@ -6,6 +6,7 @@ import albumReducer from "./albumReducer";
 import savedMoviesReducer from "./savedMoviesReducer";
 import bookReducer from "./bookReducer";
 import savedBooksReducer from "./savedBooksReducer";
+import searchReducer from "./searchReducer";
 import { connectRouter } from 'connected-react-router';
 
 
@@ -18,6 +19,7 @@ const allReducers = (history) => combineReducers({
     savedMoviesReducer,
     bookReducer,
     savedBooksReducer,
+    searchReducer,
     router: connectRouter(history),
 })
 

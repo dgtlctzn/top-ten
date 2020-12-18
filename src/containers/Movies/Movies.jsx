@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  setSearch,
   saveMovies,
   delMovie,
   searchMovies,
@@ -13,13 +14,14 @@ import API from "../../utils/API";
 import Card from "../../components/Card/Card";
 
 const Movies = () => {
-  const [search, setSearch] = useState("");
+  // const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();
   const savedMovies = useSelector((state) => state.savedMoviesReducer);
   const sortedMovies = savedMovies.sort((a, b) => a.index - b.index);
 
   const searchedMovies = useSelector((state) => state.movieReducer);
+  const search = useSelector((state) => state.searchReducer);
 
   useEffect(() => {
     const savedAsString = JSON.stringify(savedMovies);
@@ -41,12 +43,13 @@ const Movies = () => {
   }, []);
 
   const handleSearchChange = (e) => {
-    setSearch(e.target.value);
+    dispatch(setSearch(e.target.value))
+    // setSearch(e.target.value);
   };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-
+    console.log(search)
     API.searchImdb(search)
     .then((searchRes) => {
       const movies = searchRes.data.results;

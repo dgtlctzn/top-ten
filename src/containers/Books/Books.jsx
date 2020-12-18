@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  setSearch,
   saveBooks,
   delBook,
   searchBooks,
@@ -13,11 +14,13 @@ import API from "../../utils/API";
 import Card from "../../components/Card/Card";
 
 const Books = () => {
-  const [search, setSearch] = useState("");
+  // const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();
   const savedBooks = useSelector((state) => state.savedBooksReducer);
   const sortedBooks = savedBooks.sort((a, b) => a.index - b.index);
+
+  const search = useSelector((state) => state.searchReducer);
 
   const searchedBooks = useSelector((state) => state.bookReducer);
 
@@ -41,7 +44,7 @@ const Books = () => {
   }, []);
 
   const handleSearchChange = (e) => {
-    setSearch(e.target.value);
+    dispatch(setSearch(e.target.value));
   };
 
   //   const searchSpotifyAlbums = (search, token) => {

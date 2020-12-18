@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  setSearch,
   saveAlbums,
   delAlbum,
   addToken,
@@ -14,11 +15,13 @@ import API from "../../utils/API";
 import Card from "../../components/Card/Card";
 
 const Albums = () => {
-  const [search, setSearch] = useState("");
+  // const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();
   const savedAlbums = useSelector((state) => state.savedAlbumsReducer);
   const sortedAlbums = savedAlbums.sort((a, b) => a.index - b.index);
+
+  const search = useSelector((state) => state.searchReducer);
 
   const token = useSelector((state) => state.tokenReducer);
   const searchedAlbums = useSelector((state) => state.albumReducer);
@@ -43,7 +46,7 @@ const Albums = () => {
   }, []);
 
   const handleSearchChange = (e) => {
-    setSearch(e.target.value);
+    dispatch(setSearch(e.target.value))
   };
 
   const searchSpotifyAlbums = (search, token) => {
