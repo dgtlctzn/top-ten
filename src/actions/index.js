@@ -86,3 +86,42 @@ export const sendMovieDown = (movie, index) => {
     payload: { movie, index },
   };
 };
+
+//======
+// Books
+//======
+
+export const searchBooks = (books) => {
+  return {
+    type: "SEARCH_BOOKS",
+    payload: books,
+  };
+};
+
+export const saveBooks = (book) => {
+  return {
+    type: "SAVE_BOOKS",
+    payload: book,
+  };
+};
+
+export const delBook = (book) => {
+  return {
+    type: "DEL_BOOK",
+    payload: book,
+  };
+};
+
+export const sendBookUp = (book, index) => {
+  return {
+    type: "SEND_BOOK_UP",
+    payload: { book, index },
+  };
+};
+
+export const sendBookDown = (book, index) => {
+  return {
+    type: "SEND_BOOK_DOWN",
+    payload: { book, index },
+  };
+};
