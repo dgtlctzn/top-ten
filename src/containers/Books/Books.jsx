@@ -28,7 +28,7 @@ const Books = () => {
         const parsedVal = JSON.parse(value);
         if (parsedVal.type === "book") {
           dispatch(
-            saveAlbums({
+            saveBooks({
               name: key,
               image: parsedVal.image,
               index: parsedVal.index,
@@ -175,7 +175,7 @@ const Books = () => {
     <>
       <Nav />
       <div className="container">
-        <h1 className="text-center">Albums</h1>
+        <h1 className="text-center">Books</h1>
         <div className="row">
           <div className="col-sm-4"></div>
           <div className="col-sm-4">

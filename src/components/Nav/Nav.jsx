@@ -35,6 +35,11 @@ const Nav = () => {
                 Movies
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink className="nav-link active" to="/books">
+                Books
+              </NavLink>
+            </li>
             {/* <li className="nav-item">
               <NavLink className="nav-link active" aria-current="page" href="/books">
                 Books
