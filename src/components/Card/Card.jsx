@@ -29,18 +29,24 @@ const Card = ({
                   />
                 </a>
               </div>
-              <div className="col-sm-6">
+              <div className="col-sm-7">
                 <h5 className="card-title">{name}</h5>
               </div>
               {addItem ? (
-                <div className="col-sm-3 text-right">
+                <div className="col-sm-2 text-right">
                   <button name={name} value={image} onClick={(e) => addItem(e)}>
                     <i class="fas fa-plus"></i>
                   </button>
                 </div>
               ) : (
-                <>
-                <div className="col-sm-1">
+                <div className="col-sm-2">
+                  <button
+                    name={name}
+                    value={image}
+                    onClick={(e) => deleteItem(e)}
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
                   <button
                     name={name}
                     value={index}
@@ -56,16 +62,6 @@ const Card = ({
                     <i className="fas fa-chevron-down"></i>
                   </button>
                 </div>
-                <div className="col-sm-1">
-                <button
-                    name={name}
-                    value={image}
-                    onClick={(e) => deleteItem(e)}
-                  >
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-                </>
               )}
             </div>
           </div>
