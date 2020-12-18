@@ -44,54 +44,57 @@ const Books = () => {
     setSearch(e.target.value);
   };
 
-//   const searchSpotifyAlbums = (search, token) => {
-//     API.searchSpotify(search, token)
-//       .then((searchRes) => {
-//         console.log(searchRes);
-//         const albums = searchRes.data.albums.items;
-//         const found = [];
-//         for (let i = 0; i < 10; i++) {
-//           const item = {
-//             name: albums[i].name ? albums[i].name : "No Artist Name",
-//             image: albums[i].images[0]
-//               ? albums[i].images[0].url
-//               : "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Disque_Vinyl.svg/1024px-Disque_Vinyl.svg.png",
-//           };
-//           found.push(item);
-//         }
-//         dispatch(searchAlbums(found));
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   };
+  //   const searchSpotifyAlbums = (search, token) => {
+  //     API.searchSpotify(search, token)
+  //       .then((searchRes) => {
+  //         console.log(searchRes);
+  //         const albums = searchRes.data.albums.items;
+  //         const found = [];
+  //         for (let i = 0; i < 10; i++) {
+  //           const item = {
+  //             name: albums[i].name ? albums[i].name : "No Artist Name",
+  //             image: albums[i].images[0]
+  //               ? albums[i].images[0].url
+  //               : "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Disque_Vinyl.svg/1024px-Disque_Vinyl.svg.png",
+  //           };
+  //           found.push(item);
+  //         }
+  //         dispatch(searchAlbums(found));
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
 
-    API.searchGoogleBooks(search).then(searchRes => {
-        const books = searchRes.data.items;
-        const found = [];
-        for (let i = 0; i < 10; i++) {
-          const item = {
-            name: books[i].volumeInfo.title ? books[i].volumeInfo.title : "No Book Name",
-            image: books[i].volumeInfo.imageLinks
-              ? books[i].volumeInfo.imageLinks.thumbnail
-              : "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_323457.png&f=1&nofb=1",
-          };
-          found.push(item);
-        }
-        dispatch(searchBooks(found));
-    })
+    API.searchGoogleBooks(search).then((searchRes) => {
+      const books = searchRes.data.items;
+      const found = [];
+      for (let i = 0; i < 10; i++) {
+        const item = {
+          name: books[i].volumeInfo.title
+            ? books[i].volumeInfo.title
+            : "No Book Name",
+          image: books[i].volumeInfo.imageLinks
+            ? books[i].volumeInfo.imageLinks.thumbnail
+            : "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_323457.png&f=1&nofb=1",
+        };
+        found.push(item);
+      }
+      dispatch(searchBooks(found));
+    });
   };
 
   const addBook = (e) => {
-    const { name, value } = e.target;
+    const name = e.target.parentNode.name || e.target.name;
+    const value = e.target.parentNode.value || e.target.value;
     if (!localStorage.getItem(name)) {
       const data = JSON.stringify({
         index: savedBooks.length,
         image: value,
-        type: "book"
+        type: "book",
       });
       localStorage.setItem(name, data);
     }
@@ -106,7 +109,7 @@ const Books = () => {
   };
 
   const deleteBook = (e) => {
-    const { name } = e.target;
+    const name = e.target.parentNode.name || e.target.name;
     dispatch(
       delBook({
         name: name,
@@ -154,8 +157,8 @@ const Books = () => {
   };
 
   const handleBookUp = (e) => {
-    const name = e.target.name;
-    const index = parseInt(e.target.value);
+    const name = e.target.parentNode.name || e.target.name;
+    const index = parseInt(e.target.parentNode.value || e.target.value);
     if (index) {
       dispatch(sendBookUp(name, index));
       sortStorage(index, savedBooks);
@@ -163,8 +166,8 @@ const Books = () => {
   };
 
   const handleBookDown = (e) => {
-    const name = e.target.name;
-    const index = parseInt(e.target.value);
+    const name = e.target.parentNode.name || e.target.name;
+    const index = parseInt(e.target.parentNode.value || e.target.value);
     if (index !== savedBooks.length - 1) {
       dispatch(sendBookDown(name, index));
       sortStorage(index, savedBooks, false);

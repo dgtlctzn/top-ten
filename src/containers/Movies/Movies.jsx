@@ -70,7 +70,8 @@ const Movies = () => {
   };
 
   const addMovie = (e) => {
-    const { name, value } = e.target;
+    const name = e.target.parentNode.name || e.target.name;
+    const value = e.target.parentNode.value || e.target.value;
     if (!localStorage.getItem(name)) {
       const data = JSON.stringify({
         index: savedMovies.length,
@@ -90,7 +91,7 @@ const Movies = () => {
   };
 
   const deleteMovie = (e) => {
-    const { name } = e.target;
+    const name = e.target.parentNode.name || e.target.name;
     dispatch(
       delMovie({
         name: name,
@@ -138,8 +139,8 @@ const Movies = () => {
   };
 
   const handleMovieUp = (e) => {
-    const name = e.target.name;
-    const index = parseInt(e.target.value);
+    const name = e.target.parentNode.name || e.target.name;
+    const index = parseInt(e.target.parentNode.value || e.target.value);
     if (index) {
       dispatch(sendMovieUp(name, index));
       sortStorage(index, savedMovies);
@@ -147,8 +148,8 @@ const Movies = () => {
   };
 
   const handleMovieDown = (e) => {
-    const name = e.target.name;
-    const index = parseInt(e.target.value);
+    const name = e.target.parentNode.name || e.target.name;
+    const index = parseInt(e.target.parentNode.value || e.target.value);
     if (index !== savedMovies.length - 1) {
       dispatch(sendMovieDown(name, index));
       sortStorage(index, savedMovies, false);

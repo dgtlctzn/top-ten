@@ -86,19 +86,20 @@ const Albums = () => {
   };
 
   const addAlbum = (e) => {
-    const { name, value } = e.target;
-    if (!localStorage.getItem(name)) {
+    const name = e.target.parentNode.name || e.target.name;
+    const value = e.target.parentNode.value || e.target.value
+    if (!localStorage.getItem(e.target.parentNode.name || e.target.name)) {
       const data = JSON.stringify({
         index: savedAlbums.length,
-        image: value,
-        type: "album"
+        image: e.target.parentNode.value || e.target.value,
+        type: "album",
       });
-      localStorage.setItem(name, data);
+      localStorage.setItem(e.target.parentNode.name || e.target.name, data);
     }
     dispatch(
       saveAlbums({
-        name: name,
-        image: value,
+        name: e.target.parentNode.name || e.target.name,
+        image: e.target.parentNode.value || e.target.value,
         index: savedAlbums.length,
         type: "album",
       })
@@ -106,13 +107,12 @@ const Albums = () => {
   };
 
   const deleteAlbum = (e) => {
-    const { name } = e.target;
+    const name = e.target.parentNode.name || e.target.name
     dispatch(
       delAlbum({
         name: name,
       })
     );
-    // localStorage.clear();
     let i = 0;
     for (const item of savedAlbums) {
       localStorage.removeItem(item.name);
@@ -155,8 +155,8 @@ const Albums = () => {
   };
 
   const handleAlbumUp = (e) => {
-    const name = e.target.name;
-    const index = parseInt(e.target.value);
+    const name = e.target.parentNode.name || e.target.name;
+    const index = parseInt(e.target.parentNode.value || e.target.value);
     if (index) {
       dispatch(sendAlbumUp(name, index));
       sortStorage(index, savedAlbums);
@@ -164,8 +164,8 @@ const Albums = () => {
   };
 
   const handleAlbumDown = (e) => {
-    const name = e.target.name;
-    const index = parseInt(e.target.value);
+    const name = e.target.parentNode.name || e.target.name;
+    const index = parseInt(e.target.parentNode.value || e.target.value);
     if (index !== savedAlbums.length - 1) {
       dispatch(sendAlbumDown(name, index));
       sortStorage(index, savedAlbums, false);

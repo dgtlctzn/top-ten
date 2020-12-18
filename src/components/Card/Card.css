@@ -17,3 +17,12 @@
 .place {
     padding-top: 50px;
 }
+
+button {
+    background-color: white;
+    border: 0;
+}
+
+button:focus {
+    outline: none;
+}
