@@ -30,7 +30,7 @@ const Card = ({
                 </a>
               </div>
               <div className="col-sm-7">
-                <h5 className="card-title">{name}</h5>
+                <h5 className="card-title text-center">{name}</h5>
               </div>
               {addItem ? (
                 <div className="col-sm-2 text-right">
