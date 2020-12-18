@@ -32,7 +32,13 @@ const API = {
       //   'x-rapidapi-host': 'imdb8.p.rapidapi.com'
       // },
     });
-  }
+  },
+  searchGoogleBooks: function (search) {
+    return axios({
+      method: "GET",
+      url: `https://www.googleapis.com/books/v1/volumes?q=${search}&key=${process.env.REACT_APP_GOOGLE_KEY}`,
+    });
+  },
 };
 
 export default API;
