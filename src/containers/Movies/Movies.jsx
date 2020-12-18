@@ -167,6 +167,7 @@ const Movies = () => {
               handleSearchSubmit={handleSearchSubmit}
               handleSearchChange={handleSearchChange}
               search={search}
+              page="Movies"
             />
           </div>
         </div>
@@ -182,6 +183,7 @@ const Movies = () => {
                   handleItemUp={handleMovieUp}
                   handleItemDown={handleMovieDown}
                   index={index}
+                  page="movie"
                 />
               ))}
             </ul>
@@ -195,6 +197,7 @@ const Movies = () => {
                   key={`search result ${index + 1}`}
                   {...movie}
                   addItem={addMovie}
+                  page="movie"
                 />
               ))}
             </ul>

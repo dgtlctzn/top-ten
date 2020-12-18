@@ -1,7 +1,7 @@
 import React from "react";
 import "./Card.css";
 
-const Card = ({ type, name, image, index, addItem, deleteItem, handleItemUp, handleItemDown }) => {
+const Card = ({ page, name, image, index, addItem, deleteItem, handleItemUp, handleItemDown }) => {
   return (
     <div className="row">
       <div className="col-sm-2 place">{addItem ? <></> : <h2 >#{index + 1}</h2>}</div>
@@ -10,7 +10,9 @@ const Card = ({ type, name, image, index, addItem, deleteItem, handleItemUp, han
           <div className="card-body">
             <div className="row">
               <div className="col-sm-3">
-                <img className={type === "album" ? "album-image" : "movie-image"} src={image} alt={name} />
+                <a href={image}>
+                <img className={page === "album" ? "album-image" : "movie-image"} src={image} alt={name} />
+                </a>
               </div>
               <div className="col-sm-7">
                 <h5 className="card-title">{name}</h5>

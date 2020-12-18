@@ -55,8 +55,8 @@ const Albums = () => {
         for (let i = 0; i < 10; i++) {
           const item = {
             name: albums[i].name ? albums[i].name : "No Artist Name",
-            image: albums[i].images[2]
-              ? albums[i].images[2].url
+            image: albums[i].images[0]
+              ? albums[i].images[0].url
               : "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Disque_Vinyl.svg/1024px-Disque_Vinyl.svg.png",
           };
           found.push(item);
@@ -184,6 +184,7 @@ const Albums = () => {
               handleSearchSubmit={handleSearchSubmit}
               handleSearchChange={handleSearchChange}
               search={search}
+              page="Albums"
             />
           </div>
         </div>
@@ -198,6 +199,7 @@ const Albums = () => {
                   deleteItem={deleteAlbum}
                   handleItemUp={handleAlbumUp}
                   handleItemDown={handleAlbumDown}
+                  page="album"
                   index={index}
                 />
               ))}
@@ -212,6 +214,7 @@ const Albums = () => {
                   key={`search result ${index + 1}`}
                   {...album}
                   addItem={addAlbum}
+                  page="album"
                 />
               ))}
             </ul>

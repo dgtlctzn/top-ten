@@ -1,11 +1,11 @@
 import React from "react";
 
-const SearchBar = ({ search, handleSearchSubmit, handleSearchChange }) => {
+const SearchBar = ({ page, search, handleSearchSubmit, handleSearchChange }) => {
   return (
     <form onSubmit={handleSearchSubmit} className="text-center">
       <div className="mb-3">
         <label htmlFor="exampleInputEmail1" className="form-label">
-          Search Albums
+          {`Search ${page}`}
         </label>
         <input
           type="text"
@@ -18,7 +18,7 @@ const SearchBar = ({ search, handleSearchSubmit, handleSearchChange }) => {
       </div>
 
       <button type="submit" className="btn btn-primary">
-        Submit
+        Search
       </button>
     </form>
   );
