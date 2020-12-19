@@ -1,6 +1,15 @@
-import React from "react";
+import React, {useEffect, useRef} from "react";
 
 const SearchBar = ({ page, search, handleSearchSubmit, handleSearchChange }) => {
+
+  const searchEl = useRef(null);
+
+  useEffect(() => {
+    if(searchEl) {
+      searchEl.current.focus();
+    }
+  }, [])
+
   return (
     <form onSubmit={handleSearchSubmit} className="text-center">
       <div className="mb-3">
@@ -14,6 +23,7 @@ const SearchBar = ({ page, search, handleSearchSubmit, handleSearchChange }) => 
           aria-describedby="emailHelp"
           value={search}
           onChange={handleSearchChange}
+          ref={searchEl}
         />
       </div>
 
