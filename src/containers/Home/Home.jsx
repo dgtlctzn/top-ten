@@ -2,7 +2,14 @@ import React from "react";
 import Nav from "../../components/Nav/Nav";
 import "./Home.css";
 import { Link } from "react-router-dom";
-import { FacebookShareButton, FacebookIcon } from "react-share";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  RedditShareButton,
+  RedditIcon,
+} from "react-share";
 import { useSelector } from "react-redux";
 
 const Home = () => {
@@ -19,7 +26,10 @@ const Home = () => {
         category.forEach((item, index) => {
           if (!index) {
             topTenString +=
-              `My Top ${category.length} ${item.type}s:` +
+              `My Top ${category.length} ${
+                item.type.slice(0, 1).toUpperCase() +
+                item.type.slice(1, item.type.length)
+              }s:` +
               "\n" +
               `${index + 1}. ${item.name}` +
               "\n";
@@ -33,6 +43,10 @@ const Home = () => {
     }
     return topTenString;
   };
+
+  const topTenList = stringList(topTenAlbums, topTenMovies, topTenBooks);
+  // share is disabled if no books/movies/albums are added
+  const isContent = Boolean(topTenList);
 
   return (
     <div>
@@ -59,12 +73,34 @@ const Home = () => {
         </div>
         <div className="row">
           <div className="col-sm-12 text-center">
+            <h5 className="description">
+              Craft your top tens and share to social media
+            </h5>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-12 text-center">
             <FacebookShareButton
               url="google.com"
-              quote={stringList(topTenAlbums, topTenMovies, topTenBooks)}
+              quote={topTenList}
+              disabled={!isContent}
             >
-              <FacebookIcon />
+              <FacebookIcon className="shareable" size={100} round={true} />
             </FacebookShareButton>
+            <TwitterShareButton
+              url="google.com"
+              title={topTenList}
+              disabled={!isContent}
+            >
+              <TwitterIcon className="shareable" size={100} round={true} />
+            </TwitterShareButton>
+            <RedditShareButton
+              url="google.com"
+              title={topTenList}
+              disabled={!isContent}
+            >
+              <RedditIcon className="shareable" size={100} round={true} />
+            </RedditShareButton>
           </div>
         </div>
       </div>

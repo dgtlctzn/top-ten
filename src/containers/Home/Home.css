@@ -23,3 +23,11 @@ h1 {
 .link {
     color:rgba(255, 167, 243, 0.849);
 }
+
+.shareable {
+    margin: 10px;
+}
+
+.description {
+    color: white;
+}
