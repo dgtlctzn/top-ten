@@ -23,7 +23,7 @@ const Card = ({
           <div className="card-body">
             <div className="row">
               <div className="col-sm-3">
-                <a href={image}>
+                <a href={image} target="_blank" rel="noreferrer">
                   <img
                     className={page === "album" ? "album-image" : "movie-image"}
                     src={image}

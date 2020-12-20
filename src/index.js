@@ -9,7 +9,6 @@ import { Provider } from "react-redux";
 import { createBrowserHistory } from "history";
 import {
   ConnectedRouter,
-  connectRouter,
   routerMiddleware,
 } from "connected-react-router";
 
@@ -17,10 +16,10 @@ const history = createBrowserHistory();
 
 const store = createStore(
   allReducers(history),
-  compose(
-    applyMiddleware(routerMiddleware(history)),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
+  // compose(
+  applyMiddleware(routerMiddleware(history))
+  // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  // )
 );
 
 ReactDOM.render(
