@@ -162,4 +162,13 @@ export const warningMessage = (enabled, category="") => {
   };
 };
 
+//=======
+// search
+//=======
 
+export const searchStatus = (enabled) => {
+  return {
+    type: "SEARCHING",
+    payload: enabled,
+  };
+};

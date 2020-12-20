@@ -9,7 +9,8 @@ import {
   sendMovieDown,
   successMessage,
   deleteMessage,
-  warningMessage
+  warningMessage,
+  searchStatus
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -53,7 +54,9 @@ const Movies = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    console.log(search)
+
+    dispatch(searchStatus(true))
+
     API.searchImdb(search)
     .then((searchRes) => {
       const movies = searchRes.data.results;
@@ -70,9 +73,12 @@ const Movies = () => {
         }
       }
       dispatch(searchMovies(found));
+      dispatch(searchStatus(false))
+
     })
     .catch((err) => {
       console.log(err);
+      dispatch(searchStatus(false))
     });
   };
 

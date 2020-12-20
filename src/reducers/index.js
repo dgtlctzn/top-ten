@@ -8,6 +8,7 @@ import bookReducer from "./bookReducer";
 import savedBooksReducer from "./savedBooksReducer";
 import searchReducer from "./searchReducer";
 import alertReducer from "./alertReducer";
+import searchStatusReducer from "./searchStatusReducer"
 import { connectRouter } from 'connected-react-router';
 
 
@@ -22,6 +23,7 @@ const allReducers = (history) => combineReducers({
     savedBooksReducer,
     searchReducer,
     alertReducer,
+    searchStatusReducer,
     router: connectRouter(history),
 })
 

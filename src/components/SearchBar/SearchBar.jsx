@@ -1,14 +1,22 @@
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
+import {useSelector} from "react-redux";
+import "./SearchBar.css";
 
-const SearchBar = ({ page, search, handleSearchSubmit, handleSearchChange }) => {
-
+const SearchBar = ({
+  page,
+  search,
+  handleSearchSubmit,
+  handleSearchChange,
+}) => {
   const searchEl = useRef(null);
 
+  const searching = useSelector(state => state.searchStatusReducer);
+
   useEffect(() => {
-    if(searchEl) {
+    if (searchEl) {
       searchEl.current.focus();
     }
-  }, [])
+  }, []);
 
   return (
     <form onSubmit={handleSearchSubmit} className="text-center">
@@ -27,8 +35,14 @@ const SearchBar = ({ page, search, handleSearchSubmit, handleSearchChange }) => 
         />
       </div>
 
-      <button type="submit" className="btn btn-primary">
-        Search
+      <button type="submit" className="btn btn-primary search-button">
+        {searching ? 
+         (
+        <div class="spinner-border text-light" role="status">
+          <span class="visually-hidden"></span>
+        </div>
+        ) : "Search"
+}
       </button>
     </form>
   );

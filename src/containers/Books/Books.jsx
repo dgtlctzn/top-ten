@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setSearch,
@@ -9,7 +9,8 @@ import {
   sendBookDown,
   successMessage,
   deleteMessage,
-  warningMessage
+  warningMessage,
+  searchStatus
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -19,7 +20,6 @@ import Alert from "../../components/Alert/Alert"
 
 
 const Books = () => {
-  // const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();
   const savedBooks = useSelector((state) => state.savedBooksReducer);
@@ -55,6 +55,8 @@ const Books = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
 
+    dispatch(searchStatus(true));
+
     API.searchGoogleBooks(search).then((searchRes) => {
       const books = searchRes.data.items;
       const found = [];
@@ -70,6 +72,10 @@ const Books = () => {
         found.push(item);
       }
       dispatch(searchBooks(found));
+      dispatch(searchStatus(false));
+    }).catch(err => {
+      console.log(err);
+      dispatch(searchStatus(false))
     });
   };
 

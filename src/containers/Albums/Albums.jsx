@@ -11,6 +11,7 @@ import {
   successMessage,
   deleteMessage,
   warningMessage,
+  searchStatus
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -69,14 +70,18 @@ const Albums = () => {
           found.push(item);
         }
         dispatch(searchAlbums(found));
+        dispatch(searchStatus(false));
       })
       .catch((err) => {
         console.log(err);
+        dispatch(searchStatus(false));
       });
   };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+
+    dispatch(searchStatus(true));
 
     if (!token) {
       API.getToken()
@@ -86,6 +91,7 @@ const Albums = () => {
         })
         .catch((err) => {
           console.log(err);
+          dispatch(searchStatus(false));
         });
     } else {
       searchSpotifyAlbums(search, token);
