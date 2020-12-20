@@ -109,7 +109,10 @@ const Albums = () => {
         type: "album",
       })
     );
-    dispatch(successMessage())
+    dispatch(successMessage(true))
+    setTimeout(() => {
+      dispatch(successMessage(false))
+    }, 1500);
   };
 
   const deleteAlbum = (e) => {

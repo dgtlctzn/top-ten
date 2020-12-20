@@ -1,7 +1,8 @@
 const alertReducer = (state = false, action) => {
     switch(action.type) {
         case "SUCCESS":
-            return true;
+            state = action.payload;
+            return state;
         default:
             return false;
     }
