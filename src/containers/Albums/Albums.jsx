@@ -8,7 +8,8 @@ import {
   searchAlbums,
   sendAlbumUp,
   sendAlbumDown,
-  successMessage
+  successMessage,
+  deleteMessage,
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -109,7 +110,7 @@ const Albums = () => {
         type: "album",
       })
     );
-    dispatch(successMessage(true))
+    dispatch(successMessage(true, "album"))
     setTimeout(() => {
       dispatch(successMessage(false))
     }, 1500);
@@ -137,6 +138,10 @@ const Albums = () => {
         i++;
       }
     }
+    dispatch(deleteMessage(true, "album"))
+    setTimeout(() => {
+      dispatch(deleteMessage(false))
+    }, 1500);
   };
 
   const sortStorage = (index, saved, increase = true) => {

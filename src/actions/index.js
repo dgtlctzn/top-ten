@@ -141,9 +141,16 @@ export const sendBookDown = (book, index) => {
 // alert
 //======
 
-export const successMessage = (enabled) => {
+export const successMessage = (enabled, category="") => {
   return {
     type: "SUCCESS",
-    payload: enabled,
+    payload: {category, enabled},
+  };
+};
+
+export const deleteMessage = (enabled, category="") => {
+  return {
+    type: "DELETE",
+    payload: {category, enabled},
   };
 };

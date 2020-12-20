@@ -1,10 +1,19 @@
-const alertReducer = (state = false, action) => {
+const alertReducer = (state = {}, action) => {
     switch(action.type) {
         case "SUCCESS":
-            state = action.payload;
-            return state;
+            return {
+                message: `${action.payload.category} added to top ten!`,
+                status: action.payload.enabled,
+                color: "alert alert-success"
+            }
+        case "DELETE":
+            return {
+                message: `${action.payload.category} removed from top ten.`,
+                status: action.payload.enabled,
+                color: "alert alert-danger"
+            }
         default:
-            return false;
+            return state;
     }
 }
 

@@ -4,12 +4,12 @@ import "./Alert.css";
 
 const Alert = () => {
 
-    const success = useSelector(state => state.alertReducer)
+    const {message, status, color} = useSelector(state => state.alertReducer)
   return (
-    <div className="alertMessage">
-      {success ? (
-        <div className="alert alert-success" role="alert">
-          Added to top ten!
+    <div className="alertMessage text-center">
+      {status ? (
+        <div className={color} role="alert">
+          {message}
         </div>
       ) : (
         <></>
