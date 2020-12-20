@@ -154,3 +154,12 @@ export const deleteMessage = (enabled, category="") => {
     payload: {category, enabled},
   };
 };
+
+export const warningMessage = (enabled, category="") => {
+  return {
+    type: "WARNING",
+    payload: {category, enabled},
+  };
+};
+
+

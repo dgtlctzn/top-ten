@@ -12,6 +12,12 @@ const alertReducer = (state = {}, action) => {
                 status: action.payload.enabled,
                 color: "alert alert-danger"
             }
+        case "WARNING":
+            return {
+                message: `You already have 10 ${action.payload.category}s. Remove one to add more.`,
+                status: action.payload.enabled,
+                color: "alert alert-warning"
+            }
         default:
             return state;
     }

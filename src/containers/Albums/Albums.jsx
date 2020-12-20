@@ -10,6 +10,7 @@ import {
   sendAlbumDown,
   successMessage,
   deleteMessage,
+  warningMessage,
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -92,6 +93,14 @@ const Albums = () => {
   };
 
   const addAlbum = (e) => {
+    console.log(savedAlbums.length)
+    if (savedAlbums.length === 10) {
+      dispatch(warningMessage(true, "album"))
+      setTimeout(() => {
+        dispatch(warningMessage(false))
+      }, 2000);
+      return;
+    }
     const name = e.target.parentNode.name || e.target.name;
     const value = e.target.parentNode.value || e.target.value
     if (!localStorage.getItem(name)) {
