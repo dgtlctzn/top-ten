@@ -7,6 +7,8 @@ import {
   searchMovies,
   sendMovieUp,
   sendMovieDown,
+  successMessage,
+  deleteMessage
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -92,6 +94,10 @@ const Movies = () => {
         type: "movie"
       })
     );
+    dispatch(successMessage(true, "movie"))
+    setTimeout(() => {
+      dispatch(successMessage(false))
+    }, 1500);
   };
 
   const deleteMovie = (e) => {
@@ -116,6 +122,10 @@ const Movies = () => {
         i++;
       }
     }
+    dispatch(deleteMessage(true, "movie"))
+    setTimeout(() => {
+      dispatch(deleteMessage(false))
+    }, 1500);
   };
 
   const sortStorage = (index, saved, increase = true) => {

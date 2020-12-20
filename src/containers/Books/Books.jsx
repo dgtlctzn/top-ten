@@ -7,6 +7,8 @@ import {
   searchBooks,
   sendBookUp,
   sendBookDown,
+  successMessage,
+  deleteMessage
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -49,28 +51,6 @@ const Books = () => {
     dispatch(setSearch(e.target.value));
   };
 
-  //   const searchSpotifyAlbums = (search, token) => {
-  //     API.searchSpotify(search, token)
-  //       .then((searchRes) => {
-  //         console.log(searchRes);
-  //         const albums = searchRes.data.albums.items;
-  //         const found = [];
-  //         for (let i = 0; i < 10; i++) {
-  //           const item = {
-  //             name: albums[i].name ? albums[i].name : "No Artist Name",
-  //             image: albums[i].images[0]
-  //               ? albums[i].images[0].url
-  //               : "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Disque_Vinyl.svg/1024px-Disque_Vinyl.svg.png",
-  //           };
-  //           found.push(item);
-  //         }
-  //         dispatch(searchAlbums(found));
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   };
-
   const handleSearchSubmit = (e) => {
     e.preventDefault();
 
@@ -111,6 +91,10 @@ const Books = () => {
         type: "book",
       })
     );
+    dispatch(successMessage(true, "book"))
+    setTimeout(() => {
+      dispatch(successMessage(false))
+    }, 1500);
   };
 
   const deleteBook = (e) => {
@@ -135,6 +119,10 @@ const Books = () => {
         i++;
       }
     }
+    dispatch(deleteMessage(true, "book"))
+    setTimeout(() => {
+      dispatch(deleteMessage(false))
+    }, 1500);
   };
 
   const sortStorage = (index, saved, increase = true) => {
