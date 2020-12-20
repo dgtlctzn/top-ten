@@ -40,6 +40,7 @@ const Books = () => {
             saveBooks({
               name: key,
               image: parsedVal.image,
+              info: parsedVal.info,
               index: parsedVal.index,
               type: parsedVal.type,
             })
@@ -61,7 +62,7 @@ const Books = () => {
     API.searchGoogleBooks(search).then((searchRes) => {
       const books = searchRes.data.items;
       const found = [];
-
+      console.log(books)
       if (!books) {
         dispatch(noResultsMessage(true, "book"))
         dispatch(searchStatus(false));
@@ -78,6 +79,7 @@ const Books = () => {
           image: books[i].volumeInfo.imageLinks
             ? books[i].volumeInfo.imageLinks.thumbnail
             : "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_323457.png&f=1&nofb=1",
+          info: books[i].volumeInfo.authors ? books[i].volumeInfo.authors.join(", ") : "unknown author"
         };
         found.push(item);
       }
@@ -99,10 +101,13 @@ const Books = () => {
     }
     const name = e.target.parentNode.name || e.target.name;
     const value = e.target.parentNode.value || e.target.value;
+    const [image, info] = value.split(",");
+
     if (!localStorage.getItem(name)) {
       const data = JSON.stringify({
         index: savedBooks.length,
-        image: value,
+        image: image,
+        info: info,
         type: "book",
       });
       localStorage.setItem(name, data);
@@ -110,8 +115,9 @@ const Books = () => {
     dispatch(
       saveBooks({
         name: name,
-        image: value,
+        image: image,
         index: savedBooks.length,
+        info: info,
         type: "book",
       })
     );
@@ -137,6 +143,7 @@ const Books = () => {
           JSON.stringify({
             index: i,
             image: item.image,
+            info: item.info,
             type: "book",
           })
         );

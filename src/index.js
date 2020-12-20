@@ -16,10 +16,10 @@ const history = createBrowserHistory();
 
 const store = createStore(
   allReducers(history),
-  // compose(
+  compose(
   applyMiddleware(routerMiddleware(history)),
-  // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  // )
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  )
 );
 
 ReactDOM.render(

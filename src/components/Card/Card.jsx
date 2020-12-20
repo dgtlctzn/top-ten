@@ -6,6 +6,7 @@ const Card = ({
   page,
   name,
   image,
+  info,
   index,
   addItem,
   deleteItem,
@@ -13,6 +14,8 @@ const Card = ({
   handleItemDown,
 }) => {
 
+  // let data = {image: image, info: info};
+  // console.log(data)
   return (
     <div className="row">
       <div className="col-sm-2 place">
@@ -33,10 +36,11 @@ const Card = ({
               </div>
               <div className="col-sm-7">
                 <h5 className="card-title">{name}</h5>
+                <p className="artist-name">{info}</p>
               </div>
               {addItem ? (
                 <div className="col-sm-2 text-right">
-                  <button name={name} value={image} onClick={(e) => addItem(e)}>
+                  <button name={name} value={`${image},${info}`} onClick={(e) => addItem(e)}>
                     <i class="fas fa-plus"></i>
                   </button>
                 </div>

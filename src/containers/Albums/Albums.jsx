@@ -42,6 +42,7 @@ const Albums = () => {
             saveAlbums({
               name: key,
               image: parsedVal.image,
+              info: parsedVal.info,
               index: parsedVal.index,
               type: parsedVal.type,
             })
@@ -58,6 +59,7 @@ const Albums = () => {
   const searchSpotifyAlbums = (search, token) => {
     API.searchSpotify(search, token)
       .then((searchRes) => {
+        console.log(searchRes);
         const albums = searchRes.data.albums.items;
         const found = [];
         if (!albums.length) {
@@ -74,6 +76,7 @@ const Albums = () => {
             image: albums[i].images[0]
               ? albums[i].images[0].url
               : "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Disque_Vinyl.svg/1024px-Disque_Vinyl.svg.png",
+            info: albums[i].artists[0].name
           };
           found.push(item);
         }
@@ -115,11 +118,13 @@ const Albums = () => {
       return;
     }
     const name = e.target.parentNode.name || e.target.name;
-    const value = e.target.parentNode.value || e.target.value
+    const value = e.target.parentNode.value || e.target.value;
+    const [image, info] = value.split(",");
     if (!localStorage.getItem(name)) {
       const data = JSON.stringify({
         index: savedAlbums.length,
-        image: value,
+        image: image,
+        info: info,
         type: "album",
       });
       localStorage.setItem(name, data);
@@ -127,8 +132,9 @@ const Albums = () => {
     dispatch(
       saveAlbums({
         name: name,
-        image: value,
+        image: image,
         index: savedAlbums.length,
+        info: info,
         type: "album",
       })
     );
@@ -154,6 +160,7 @@ const Albums = () => {
           JSON.stringify({
             index: i,
             image: item.image,
+            info: item.info,
             type: "album",
           })
         );
@@ -184,6 +191,7 @@ const Albums = () => {
         JSON.stringify({
           index: newIndex,
           image: item.image,
+          info: item.info,
           type: "album",
         })
       );
