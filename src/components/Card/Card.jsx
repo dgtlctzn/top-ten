@@ -1,5 +1,6 @@
 import React from "react";
 import "./Card.css";
+import {useSelector} from "react-redux";
 
 const Card = ({
   page,
@@ -11,6 +12,7 @@ const Card = ({
   handleItemUp,
   handleItemDown,
 }) => {
+
   return (
     <div className="row">
       <div className="col-sm-2 place">

@@ -30,3 +30,7 @@ button {
 button:focus {
     outline: none;
 }
+
+.alertMessage {
+    position: relative;
+}

@@ -12,6 +12,8 @@ import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import API from "../../utils/API";
 import Card from "../../components/Card/Card";
+import Alert from "../../components/Alert/Alert"
+
 
 const Books = () => {
   // const [search, setSearch] = useState("");
@@ -180,6 +182,7 @@ const Books = () => {
   return (
     <>
       <Nav />
+      <Alert/>
       <div className="container">
         <h1 className="text-center">Books</h1>
         <div className="row">

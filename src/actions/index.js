@@ -136,3 +136,13 @@ export const sendBookDown = (book, index) => {
     payload: { book, index },
   };
 };
+
+//======
+// alert
+//======
+
+export const successMessage = () => {
+  return {
+    type: "SUCCESS",
+  };
+};

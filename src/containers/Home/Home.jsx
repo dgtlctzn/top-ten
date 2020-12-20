@@ -12,6 +12,7 @@ import {
 } from "react-share";
 import { useSelector } from "react-redux";
 
+
 const Home = () => {
   const topTenAlbums = useSelector((state) => state.savedAlbumsReducer);
   const topTenMovies = useSelector((state) => state.savedMoviesReducer);

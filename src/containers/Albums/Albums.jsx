@@ -8,11 +8,13 @@ import {
   searchAlbums,
   sendAlbumUp,
   sendAlbumDown,
+  successMessage
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import API from "../../utils/API";
 import Card from "../../components/Card/Card";
+import Alert from "../../components/Alert/Alert"
 
 const Albums = () => {
   // const [search, setSearch] = useState("");
@@ -91,22 +93,23 @@ const Albums = () => {
   const addAlbum = (e) => {
     const name = e.target.parentNode.name || e.target.name;
     const value = e.target.parentNode.value || e.target.value
-    if (!localStorage.getItem(e.target.parentNode.name || e.target.name)) {
+    if (!localStorage.getItem(name)) {
       const data = JSON.stringify({
         index: savedAlbums.length,
-        image: e.target.parentNode.value || e.target.value,
+        image: value,
         type: "album",
       });
-      localStorage.setItem(e.target.parentNode.name || e.target.name, data);
+      localStorage.setItem(name, data);
     }
     dispatch(
       saveAlbums({
-        name: e.target.parentNode.name || e.target.name,
-        image: e.target.parentNode.value || e.target.value,
+        name: name,
+        image: value,
         index: savedAlbums.length,
         type: "album",
       })
     );
+    dispatch(successMessage())
   };
 
   const deleteAlbum = (e) => {
@@ -178,6 +181,7 @@ const Albums = () => {
   return (
     <>
       <Nav />
+      <Alert/>
       <div className="container">
         <h1 className="text-center">Albums</h1>
         <div className="row">

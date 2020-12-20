@@ -12,6 +12,7 @@ import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import API from "../../utils/API";
 import Card from "../../components/Card/Card";
+import Alert from "../../components/Alert/Alert"
 
 const Movies = () => {
   // const [search, setSearch] = useState("");
@@ -162,6 +163,7 @@ const Movies = () => {
   return (
     <>
       <Nav />
+      <Alert/>
       <div className="container">
         <h1 className="text-center">Movies</h1>
         <div className="row">
