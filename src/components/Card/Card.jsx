@@ -41,7 +41,7 @@ const Card = ({
               {addItem ? (
                 <div className="col-sm-2 text-right">
                   <button name={name} value={`${image},${info}`} onClick={(e) => addItem(e)}>
-                    <i class="fas fa-plus"></i>
+                    <i className="fas fa-plus"></i>
                   </button>
                 </div>
               ) : (
@@ -51,7 +51,7 @@ const Card = ({
                     value={image}
                     onClick={(e) => deleteItem(e)}
                   >
-                    <i class="fas fa-times"></i>
+                    <i className="fas fa-times"></i>
                   </button>
                   <button
                     name={name}

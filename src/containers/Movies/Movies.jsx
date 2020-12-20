@@ -39,6 +39,7 @@ const Movies = () => {
             saveMovies({
               name: key,
               image: parsedVal.image,
+              info: parsedVal.info,
               index: parsedVal.index,
               type: parsedVal.type
             })
@@ -78,6 +79,7 @@ const Movies = () => {
             image: movies[i].image
               ? movies[i].image
               : "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_497562.png&f=1&nofb=1",
+            info: movies[i].description ? movies[i].description.replace(/[()]/g, "") : ""
           };
           found.push(item);
         }
@@ -102,10 +104,14 @@ const Movies = () => {
     }
     const name = e.target.parentNode.name || e.target.name;
     const value = e.target.parentNode.value || e.target.value;
+
+    const [image, info] = value.split(",");
+
     if (!localStorage.getItem(name)) {
       const data = JSON.stringify({
         index: savedMovies.length,
-        image: value,
+        image: image,
+        info: info,
         type: "movie"
       });
       localStorage.setItem(name, data);
@@ -113,7 +119,8 @@ const Movies = () => {
     dispatch(
       saveMovies({
         name: name,
-        image: value,
+        image: image,
+        info: info,
         index: savedMovies.length,
         type: "movie"
       })
@@ -140,6 +147,7 @@ const Movies = () => {
           JSON.stringify({
             index: i,
             image: item.image,
+            info: item.info,
             type: "movie"
           })
         );
@@ -170,6 +178,7 @@ const Movies = () => {
         JSON.stringify({
           index: newIndex,
           image: item.image,
+          info: item.info,
           type: "movie"
         })
       );

@@ -62,7 +62,7 @@ const Books = () => {
     API.searchGoogleBooks(search).then((searchRes) => {
       const books = searchRes.data.items;
       const found = [];
-      console.log(books)
+
       if (!books) {
         dispatch(noResultsMessage(true, "book"))
         dispatch(searchStatus(false));
@@ -174,6 +174,7 @@ const Books = () => {
         JSON.stringify({
           index: newIndex,
           image: item.image,
+          info: item.info,
           type: "book",
         })
       );
