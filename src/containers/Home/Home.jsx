@@ -82,21 +82,21 @@ const Home = () => {
         <div className="row">
           <div className="col-sm-12 text-center">
             <FacebookShareButton
-              url="google.com"
+              url="https://top-ten.netlify.app/"
               quote={topTenList}
               disabled={!isContent}
             >
               <FacebookIcon className="shareable" size={100} round={true} />
             </FacebookShareButton>
             <TwitterShareButton
-              url="google.com"
+              url="https://top-ten.netlify.app/"
               title={topTenList}
               disabled={!isContent}
             >
               <TwitterIcon className="shareable" size={100} round={true} />
             </TwitterShareButton>
             <RedditShareButton
-              url="google.com"
+              url="https://top-ten.netlify.app/"
               title={topTenList}
               disabled={!isContent}
             >
