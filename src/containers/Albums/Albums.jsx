@@ -11,7 +11,8 @@ import {
   successMessage,
   deleteMessage,
   warningMessage,
-  searchStatus
+  searchStatus,
+  noResultsMessage
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -57,9 +58,16 @@ const Albums = () => {
   const searchSpotifyAlbums = (search, token) => {
     API.searchSpotify(search, token)
       .then((searchRes) => {
-        console.log(searchRes);
         const albums = searchRes.data.albums.items;
         const found = [];
+        if (!albums.length) {
+          dispatch(noResultsMessage(true, "album"))
+          dispatch(searchStatus(false));
+          setTimeout(() => {
+            dispatch(noResultsMessage(false))
+          }, 2000);
+          return;
+        }
         for (let i = 0; i < 10; i++) {
           const item = {
             name: albums[i].name ? albums[i].name : "No Artist Name",

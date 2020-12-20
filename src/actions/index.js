@@ -162,6 +162,13 @@ export const warningMessage = (enabled, category="") => {
   };
 };
 
+export const noResultsMessage = (enabled, category="") => {
+  return {
+    type: "NO_RESULTS",
+    payload: {category, enabled},
+  };
+};
+
 //=======
 // search
 //=======

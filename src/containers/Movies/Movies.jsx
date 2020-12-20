@@ -10,7 +10,8 @@ import {
   successMessage,
   deleteMessage,
   warningMessage,
-  searchStatus
+  searchStatus,
+  noResultsMessage
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -61,6 +62,15 @@ const Movies = () => {
     .then((searchRes) => {
       const movies = searchRes.data.results;
       const found = [];
+
+      if (!movies.length) {
+        dispatch(noResultsMessage(true, "movie"))
+        dispatch(searchStatus(false));
+        setTimeout(() => {
+          dispatch(noResultsMessage(false))
+        }, 2000);
+        return;
+      }
       for (let i = 0; i < 10; i++) {
         if (movies[i]) {
           const item = {

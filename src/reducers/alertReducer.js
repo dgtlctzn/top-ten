@@ -18,6 +18,12 @@ const alertReducer = (state = {}, action) => {
                 status: action.payload.enabled,
                 color: "alert alert-warning"
             }
+        case "NO_RESULTS":
+            return {
+                message: `No ${action.payload.category}s found.`,
+                status: action.payload.enabled,
+                color: "alert alert-warning"
+            }
         default:
             return state;
     }

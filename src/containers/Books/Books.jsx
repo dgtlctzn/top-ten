@@ -10,7 +10,8 @@ import {
   successMessage,
   deleteMessage,
   warningMessage,
-  searchStatus
+  searchStatus,
+  noResultsMessage
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -60,6 +61,15 @@ const Books = () => {
     API.searchGoogleBooks(search).then((searchRes) => {
       const books = searchRes.data.items;
       const found = [];
+
+      if (!books) {
+        dispatch(noResultsMessage(true, "book"))
+        dispatch(searchStatus(false));
+        setTimeout(() => {
+          dispatch(noResultsMessage(false))
+        }, 2000);
+        return;
+      }
       for (let i = 0; i < 10; i++) {
         const item = {
           name: books[i].volumeInfo.title
