@@ -93,7 +93,6 @@ const Albums = () => {
   };
 
   const addAlbum = (e) => {
-    console.log(savedAlbums.length)
     if (savedAlbums.length === 10) {
       dispatch(warningMessage(true, "album"))
       setTimeout(() => {

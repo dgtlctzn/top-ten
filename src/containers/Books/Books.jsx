@@ -8,7 +8,8 @@ import {
   sendBookUp,
   sendBookDown,
   successMessage,
-  deleteMessage
+  deleteMessage,
+  warningMessage
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -73,6 +74,13 @@ const Books = () => {
   };
 
   const addBook = (e) => {
+    if (savedBooks.length === 10) {
+      dispatch(warningMessage(true, "book"))
+      setTimeout(() => {
+        dispatch(warningMessage(false))
+      }, 2000);
+      return;
+    }
     const name = e.target.parentNode.name || e.target.name;
     const value = e.target.parentNode.value || e.target.value;
     if (!localStorage.getItem(name)) {

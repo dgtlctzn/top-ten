@@ -8,7 +8,8 @@ import {
   sendMovieUp,
   sendMovieDown,
   successMessage,
-  deleteMessage
+  deleteMessage,
+  warningMessage
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -76,6 +77,13 @@ const Movies = () => {
   };
 
   const addMovie = (e) => {
+    if (savedMovies.length === 10) {
+      dispatch(warningMessage(true, "movie"))
+      setTimeout(() => {
+        dispatch(warningMessage(false))
+      }, 2000);
+      return;
+    }
     const name = e.target.parentNode.name || e.target.name;
     const value = e.target.parentNode.value || e.target.value;
     if (!localStorage.getItem(name)) {
