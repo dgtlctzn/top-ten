@@ -10,17 +10,18 @@ const data = {
 const API = {
   getToken: function () {
     return axios({
-      method: "POST",
-      url: "https://accounts.spotify.com/api/token",
-      headers: { "content-type": "application/x-www-form-urlencoded" },
-      data: qs.stringify(data),
+      method: "GET",
+      url: "https://top-ten.netlify.app/.netlify/functions/spotifyToken",
     });
   },
   searchSpotify: function (search, token) {
     return axios({
-      method: "GET",
-      url: `https://api.spotify.com/v1/search?q=${search}&type=album`,
-      headers: { Authorization: `Bearer ${token}` },
+      method: "POST",
+      url: "https://top-ten.netlify.app/.netlify/functions/spotifySearch",
+      data: {
+        search,
+        token
+      }
     });
   },
   searchImdb: function (search) {
