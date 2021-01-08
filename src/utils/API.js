@@ -1,11 +1,4 @@
 import axios from "axios";
-import qs from "qs";
-
-const data = {
-  grant_type: "client_credentials",
-  client_id: process.env.REACT_APP_CLIENT_ID,
-  client_secret: process.env.REACT_APP_CLIENT_SECRET,
-};
 
 const API = {
   getToken: function () {
@@ -27,11 +20,7 @@ const API = {
   searchImdb: function (search) {
     return axios({
       method: "GET",
-      url: `https://imdb-api.com/en/API/SearchMovie/${process.env.REACT_APP_IMBD_SECRET}/${search}`,
-      // headers: {
-      //   'x-rapidapi-key': process.env.REACT_APP_IMDB_KEY,
-      //   'x-rapidapi-host': 'imdb8.p.rapidapi.com'
-      // },
+      url: `https://top-ten.netlify.app/.netlify/functions/imdbSearch/${search}`,
     });
   },
   searchGoogleBooks: function (search) {
