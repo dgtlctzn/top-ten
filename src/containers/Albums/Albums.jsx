@@ -12,7 +12,8 @@ import {
   deleteMessage,
   warningMessage,
   searchStatus,
-  noResultsMessage
+  noResultsMessage,
+  noSearchTermMessage
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -90,6 +91,14 @@ const Albums = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+
+    if (!search) {
+      dispatch(noSearchTermMessage(true, "album"))
+      setTimeout(() => {
+        dispatch(noSearchTermMessage(false));
+      }, 2000);
+      return;
+    }
 
     dispatch(searchStatus(true));
 

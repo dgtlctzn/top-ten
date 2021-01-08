@@ -57,10 +57,13 @@ const Books = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    if (!search.length) {
+
+    if (!search) {
+      dispatch(noSearchTermMessage(true, "book"))
       setTimeout(() => {
         dispatch(noSearchTermMessage(false));
       }, 2000);
+      return;
     }
 
     dispatch(searchStatus(true));
