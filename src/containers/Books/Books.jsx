@@ -62,7 +62,7 @@ const Books = () => {
     API.searchGoogleBooks(search).then((searchRes) => {
       const books = searchRes.data.items;
       const found = [];
-
+      console.log(searchRes)
       if (!books) {
         dispatch(noResultsMessage(true, "book"))
         dispatch(searchStatus(false));
