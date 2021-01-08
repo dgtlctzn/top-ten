@@ -4,7 +4,7 @@ exports.handler = async function (event, context) {
   try {
       console.log(event.queryStringParameters);
     const {search} = event.queryStringParameters;
-    const { data } = axios({
+    const { data } = await axios({
       method: "GET",
       url: `https://imdb-api.com/en/API/SearchMovie/${process.env.REACT_APP_IMBD_SECRET}/${search}`,
     });
