@@ -59,7 +59,6 @@ const Albums = () => {
   const searchSpotifyAlbums = (search, token) => {
     API.searchSpotify(search, token)
       .then((searchRes) => {
-        console.log(searchRes);
         const albums = searchRes.data.albums.items;
         const found = [];
         if (!albums.length) {
@@ -97,7 +96,6 @@ const Albums = () => {
     if (!token) {
       API.getToken()
         .then((tokenRes) => {
-          console.log(tokenRes);
           dispatch(addToken(tokenRes.data.access_token));
           searchSpotifyAlbums(search, tokenRes.data.access_token);
         })

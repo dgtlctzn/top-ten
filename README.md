@@ -4,7 +4,9 @@
   ![top ten](./public/top-ten.png)
 
   ## Description
-  Top Ten is a site to search, rank, and share your favorite movies, albums, and books. The app is built with React and Redux and item's names, image urls, and rank are stored in local storage to enable the content to persist. The Spotify API is used for the album search, IMDB API for movie search, and Google Books API for books search. The Spotify API requires two seperate calls, one for an OAuth token and the second for the search. After the token is recieved it is stored in state and any further search can be made with that token. After each search 10 items are stored in state for each category until the next search. On page load any items in local storage are added to the Redux store. At any point if content is added to the Redux store the items are reduced to a single string that can be shared via the home page on Facebook, Twitter, or Reddit!
+  Top Ten is a site to search, rank, and share your favorite movies, albums, and books. The app is built with React and Redux and item's names, image urls, and rank are stored in local storage to enable the content to persist. The Spotify API is used for the album search, IMDB API for movie search, and Google Books API for books search. All requests to third party APIs are enabled by Netlify's lambda functions. 
+  
+  The Spotify API requires two seperate calls, one for an OAuth token and the second for the search. After the token is recieved it is stored in state and any further search can be made with that token. After each search 10 items are stored in state for each category until the next search. On page load any items in local storage are added to the Redux store. At any point if content is added to the Redux store the items are reduced to a single string that can be shared via the home page on Facebook, Twitter, or Reddit!
 
   ## Usage
   Deployed Site:
