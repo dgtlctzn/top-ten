@@ -61,6 +61,7 @@ const Movies = () => {
 
     API.searchImdb(search)
     .then((searchRes) => {
+      console.log(searchRes);
       const movies = searchRes.data.results;
       const found = [];
 
