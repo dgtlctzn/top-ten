@@ -26,7 +26,7 @@ const API = {
   searchGoogleBooks: function (search) {
     return axios({
       method: "GET",
-      url: `https://www.googleapis.com/books/v1/volumes?q=${search}&key=${process.env.REACT_APP_GOOGLE_KEY}`,
+      url: `https://top-ten.netlify.app/.netlify/functions/googleBooksSearch?search=${search}`,
     });
   },
 };

@@ -5,7 +5,7 @@ exports.handler = async function (event, context) {
     const { search } = event.queryStringParameters;
     const { data } = await axios({
       method: "GET",
-      url: `https://imdb-api.com/en/API/SearchMovie/${process.env.REACT_APP_IMBD_SECRET}/${search}`,
+      url: `https://www.googleapis.com/books/v1/volumes?q=${search}&key=${process.env.REACT_APP_GOOGLE_KEY}`,
     });
     return {
       statusCode: 200,
