@@ -11,7 +11,8 @@ import {
   deleteMessage,
   warningMessage,
   searchStatus,
-  noResultsMessage
+  noResultsMessage,
+  noSearchTermMessage
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -56,6 +57,11 @@ const Books = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+    if (!search.length) {
+      setTimeout(() => {
+        dispatch(noSearchTermMessage(false));
+      }, 2000);
+    }
 
     dispatch(searchStatus(true));
 

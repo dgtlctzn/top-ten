@@ -24,6 +24,12 @@ const alertReducer = (state = {}, action) => {
                 status: action.payload.enabled,
                 color: "alert alert-warning"
             }
+        case "NO_SEARCH_TERM":
+            return {
+                message: `Nothing to search!`,
+                status: action.payload.enabled,
+                color: "alert alert-warning"
+            }
         default:
             return state;
     }

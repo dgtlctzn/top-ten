@@ -169,6 +169,13 @@ export const noResultsMessage = (enabled, category="") => {
   };
 };
 
+export const noSearchTermMessage = (enabled, category="") => {
+  return {
+    type: "NO_SEARCH_TERM",
+    payload: {category, enabled},
+  };
+};
+
 //=======
 // search
 //=======
