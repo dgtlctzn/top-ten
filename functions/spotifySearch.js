@@ -3,7 +3,7 @@ const qs = require("qs");
 
 exports.handler = async function (event, context) {
   console.log(event.body);
-  const { search, token } = qs.parse(event.body);
+  const { search, token } = JSON.parse(event.body);
   console.log(token);
   console.log(search);
   const { data } = await axios({
