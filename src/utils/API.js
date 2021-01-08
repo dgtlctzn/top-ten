@@ -20,7 +20,7 @@ const API = {
   searchImdb: function (search) {
     return axios({
       method: "GET",
-      url: `https://top-ten.netlify.app/.netlify/functions/imdbSearch/${search}`,
+      url: `https://top-ten.netlify.app/.netlify/functions/imdbSearch/?search=${search}`,
     });
   },
   searchGoogleBooks: function (search) {
