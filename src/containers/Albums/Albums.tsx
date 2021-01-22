@@ -281,7 +281,7 @@ const Albums = () => {
                   handleItemUp={handleAlbumUp}
                   handleItemDown={handleAlbumUp}
                   page="album"
-                  saved={false}
+                  saved={true}
                   name={album.name}
                   image={album.image}
                   info={album.info}
