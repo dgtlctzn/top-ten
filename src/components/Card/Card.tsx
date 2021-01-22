@@ -1,4 +1,4 @@
-import React, { MouseEvent } from "react";
+import React, { ChangeEvent, MouseEvent } from "react";
 import "./Card.css";
 // import {useSelector} from "react-redux";
 
@@ -52,7 +52,7 @@ const Card = ({
               </div>
               {!saved ? (
                 <div className="col-sm-2 text-right">
-                  <button name={name} value={`${image},${info}`} onClick={(e) => addItem(e)}>
+                  <button name={name} value={`${image},${info}`} onClick={addItem}>
                     <i className="fas fa-plus"></i>
                   </button>
                 </div>
@@ -61,21 +61,21 @@ const Card = ({
                   <button
                     name={name}
                     value={image}
-                    onClick={(e) => deleteItem(e)}
+                    onClick={deleteItem}
                   >
                     <i className="fas fa-times"></i>
                   </button>
                   <button
                     name={name}
                     value={index}
-                    onClick={(e) => handleItemUp(e)}
+                    onClick={handleItemUp}
                   >
                     <i className="fas fa-chevron-up"></i>
                   </button>
                   <button
                     name={name}
                     value={index}
-                    onClick={(e) => handleItemDown(e)}
+                    onClick={handleItemDown}
                   >
                     <i className="fas fa-chevron-down"></i>
                   </button>

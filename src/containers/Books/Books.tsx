@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { ChangeEvent, FormEvent, MouseEvent, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setSearch,
@@ -12,24 +12,26 @@ import {
   warningMessage,
   searchStatus,
   noResultsMessage,
-  noSearchTermMessage
+  noSearchTermMessage,
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import API from "../../utils/API";
 import Card from "../../components/Card/Card";
-import Alert from "../../components/Alert/Alert"
+import Alert from "../../components/Alert/Alert";
 import axios from "axios";
+import RootState from "../../reducers/interface";
+import { SavedItems } from "../Interfaces/Interfaces";
+import { Click } from "../Interfaces/Interfaces";
 
 const Books = () => {
-
   const dispatch = useDispatch();
-  const savedBooks = useSelector((state) => state.savedBooksReducer);
+  const savedBooks = useSelector((state: RootState) => state.savedBooksReducer);
   const sortedBooks = savedBooks.sort((a, b) => a.index - b.index);
 
-  const search = useSelector((state) => state.searchReducer);
+  const search = useSelector((state: RootState) => state.searchReducer);
 
-  const searchedBooks = useSelector((state) => state.bookReducer);
+  const searchedBooks = useSelector((state: RootState) => state.bookReducer);
 
   useEffect(() => {
     const savedAsString = JSON.stringify(savedBooks);
@@ -51,15 +53,15 @@ const Books = () => {
     }
   }, []);
 
-  const handleSearchChange = (e) => {
-    dispatch(setSearch(e.target.value));
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSearch(e.currentTarget.value));
   };
 
-  const handleSearchSubmit = (e) => {
+  const handleSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!search) {
-      dispatch(noSearchTermMessage(true, "book"))
+      dispatch(noSearchTermMessage(true, "book"));
       setTimeout(() => {
         dispatch(noSearchTermMessage(false));
       }, 2000);
@@ -68,53 +70,57 @@ const Books = () => {
 
     dispatch(searchStatus(true));
 
-    API.searchGoogleBooks(search).then((searchRes) => {
-      // axios({
-      //   method: "GET",
-      //   url: `https://www.googleapis.com/books/v1/volumes?q=${search}&key=AIzaSyCOBjLd64ZKNzBP6K2-kpjG2lfok48KhBY`,
-      // }).then((searchRes) => {
-      console.log(searchRes)
-      const books = searchRes.data.items;
-      const found = [];
-      console.log(searchRes)
-      if (!books) {
-        dispatch(noResultsMessage(true, "book"))
+    API.searchGoogleBooks(search)
+      .then((searchRes) => {
+        // axios({
+        //   method: "GET",
+        //   url: `https://www.googleapis.com/books/v1/volumes?q=${search}&key=AIzaSyCOBjLd64ZKNzBP6K2-kpjG2lfok48KhBY`,
+        // }).then((searchRes) => {
+        console.log(searchRes);
+        const books = searchRes.data.items;
+        const found = [];
+        console.log(searchRes);
+        if (!books) {
+          dispatch(noResultsMessage(true, "book"));
+          dispatch(searchStatus(false));
+          setTimeout(() => {
+            dispatch(noResultsMessage(false));
+          }, 2000);
+          return;
+        }
+        for (let i = 0; i < 10; i++) {
+          const item = {
+            name: books[i].volumeInfo.title
+              ? books[i].volumeInfo.title
+              : "No Book Name",
+            image: books[i].volumeInfo.imageLinks
+              ? books[i].volumeInfo.imageLinks.thumbnail
+              : "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_323457.png&f=1&nofb=1",
+            info: books[i].volumeInfo.authors
+              ? books[i].volumeInfo.authors.join(", ")
+              : "unknown author",
+          };
+          found.push(item);
+        }
+        dispatch(searchBooks(found));
         dispatch(searchStatus(false));
-        setTimeout(() => {
-          dispatch(noResultsMessage(false))
-        }, 2000);
-        return;
-      }
-      for (let i = 0; i < 10; i++) {
-        const item = {
-          name: books[i].volumeInfo.title
-            ? books[i].volumeInfo.title
-            : "No Book Name",
-          image: books[i].volumeInfo.imageLinks
-            ? books[i].volumeInfo.imageLinks.thumbnail
-            : "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_323457.png&f=1&nofb=1",
-          info: books[i].volumeInfo.authors ? books[i].volumeInfo.authors.join(", ") : "unknown author"
-        };
-        found.push(item);
-      }
-      dispatch(searchBooks(found));
-      dispatch(searchStatus(false));
-    }).catch(err => {
-      console.log(err);
-      dispatch(searchStatus(false))
-    });
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(searchStatus(false));
+      });
   };
 
-  const addBook = (e) => {
+  const addBook = (e: MouseEvent<HTMLButtonElement>) => {
     if (savedBooks.length === 10) {
-      dispatch(warningMessage(true, "book"))
+      dispatch(warningMessage(true, "book"));
       setTimeout(() => {
-        dispatch(warningMessage(false))
+        dispatch(warningMessage(false));
       }, 2000);
       return;
     }
-    const name = e.target.parentNode.name || e.target.name;
-    const value = e.target.parentNode.value || e.target.value;
+    const name = e?.currentTarget?.name;
+    const value = e?.currentTarget?.value;
     const [image, info] = value.split(",");
 
     if (!localStorage.getItem(name)) {
@@ -135,17 +141,21 @@ const Books = () => {
         type: "book",
       })
     );
-    dispatch(successMessage(true, "book"))
+    dispatch(successMessage(true, "book"));
     setTimeout(() => {
-      dispatch(successMessage(false))
+      dispatch(successMessage(false));
     }, 1500);
   };
 
-  const deleteBook = (e) => {
-    const name = e.target.parentNode.name || e.target.name;
+  const deleteBook = (e: MouseEvent<HTMLButtonElement>) => {
+    const name = e?.currentTarget?.name;
     dispatch(
       delBook({
         name: name,
+        image: "",
+        index: NaN,
+        info: "",
+        type: "book",
       })
     );
     let i = 0;
@@ -164,13 +174,17 @@ const Books = () => {
         i++;
       }
     }
-    dispatch(deleteMessage(true, "book"))
+    dispatch(deleteMessage(true, "book"));
     setTimeout(() => {
-      dispatch(deleteMessage(false))
+      dispatch(deleteMessage(false));
     }, 1500);
   };
 
-  const sortStorage = (index, saved, increase = true) => {
+  const sortStorage = (
+    index: number,
+    saved: Array<SavedItems>,
+    increase = true
+  ): void => {
     let change;
     increase ? (change = -1) : (change = 1);
     for (const item of saved) {
@@ -195,20 +209,30 @@ const Books = () => {
     }
   };
 
-  const handleBookUp = (e) => {
-    const name = e.target.parentNode.name || e.target.name;
-    const index = parseInt(e.target.parentNode.value || e.target.value);
+  const handleBookUp = (e: MouseEvent<HTMLButtonElement>) => {
+    const name = e?.currentTarget?.name;
+    const index = parseInt(e?.currentTarget?.value);
     if (index) {
-      dispatch(sendBookUp(name, index));
+      dispatch(
+        sendBookUp(
+          { name, image: "", info: "", index: NaN, type: "book" },
+          index
+        )
+      );
       sortStorage(index, savedBooks);
     }
   };
 
-  const handleBookDown = (e) => {
-    const name = e.target.parentNode.name || e.target.name;
-    const index = parseInt(e.target.parentNode.value || e.target.value);
+  const handleBookDown = (e: MouseEvent<HTMLButtonElement>) => {
+    const name = e?.currentTarget?.name;
+    const index = parseInt(e?.currentTarget?.value);
     if (index !== savedBooks.length - 1) {
-      dispatch(sendBookDown(name, index));
+      dispatch(
+        sendBookDown(
+          { name, image: "", info: "", index: NaN, type: "book" },
+          index
+        )
+      );
       sortStorage(index, savedBooks, false);
     }
   };
@@ -216,7 +240,7 @@ const Books = () => {
   return (
     <>
       <Nav />
-      <Alert/>
+      <Alert />
       <div className="container">
         <h1 className="text-center">Books</h1>
         <div className="row">
@@ -237,12 +261,15 @@ const Books = () => {
               {sortedBooks.map((book, index) => (
                 <Card
                   key={`book ${index + 1}`}
-                  {...book}
+                  addItem={addBook}
                   deleteItem={deleteBook}
                   handleItemUp={handleBookUp}
                   handleItemDown={handleBookDown}
-                  saved={true}
                   page="book"
+                  saved={true}
+                  name={book.name}
+                  image={book.image}
+                  info={book.info}
                   index={index}
                 />
               ))}
@@ -255,10 +282,16 @@ const Books = () => {
               {searchedBooks.map((book, index) => (
                 <Card
                   key={`search result ${index + 1}`}
-                  {...book}
                   addItem={addBook}
+                  deleteItem={deleteBook}
+                  handleItemUp={handleBookUp}
+                  handleItemDown={handleBookDown}
                   page="book"
                   saved={false}
+                  name={book.name}
+                  image={book.image}
+                  info={book.info}
+                  index={index}
                 />
               ))}
             </ul>
