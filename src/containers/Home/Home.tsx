@@ -11,17 +11,28 @@ import {
   RedditIcon,
 } from "react-share";
 import { useSelector } from "react-redux";
-
+import RootState from "../../reducers/interface";
+import { SavedItems } from "../Interfaces/Interfaces";
 
 const Home = () => {
-  const topTenAlbums = useSelector((state) => state.savedAlbumsReducer);
-  const topTenMovies = useSelector((state) => state.savedMoviesReducer);
-  const topTenBooks = useSelector((state) => state.savedBooksReducer);
+  const topTenAlbums = useSelector(
+    (state: RootState) => state.savedAlbumsReducer
+  );
+  const topTenMovies = useSelector(
+    (state: RootState) => state.savedMoviesReducer
+  );
+  const topTenBooks = useSelector(
+    (state: RootState) => state.savedBooksReducer
+  );
 
   // formats top ten lists into single shareable string
-  const stringList = (albums, movies, books) => {
-    const categories = [albums, movies, books];
-    let topTenString = "";
+  const stringList = (
+    albums: Array<SavedItems>,
+    movies: Array<SavedItems>,
+    books: Array<SavedItems>
+  ): string => {
+    const categories: Array<Array<SavedItems>> = [albums, movies, books];
+    let topTenString: string = "";
     for (const category of categories) {
       if (category.length) {
         category.forEach((item, index) => {
@@ -45,9 +56,13 @@ const Home = () => {
     return topTenString;
   };
 
-  const topTenList = stringList(topTenAlbums, topTenMovies, topTenBooks);
+  const topTenList: string = stringList(
+    topTenAlbums,
+    topTenMovies,
+    topTenBooks
+  );
   // share is disabled if no books/movies/albums are added
-  const isContent = Boolean(topTenList);
+  const isContent: boolean = Boolean(topTenList);
 
   return (
     <div>

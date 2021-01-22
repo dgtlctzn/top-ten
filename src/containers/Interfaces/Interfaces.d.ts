@@ -1,5 +1,4 @@
-import {MouseEvent} from "react";
-
+import { MouseEvent } from "react";
 
 export interface SearchItems {
   name: string;
