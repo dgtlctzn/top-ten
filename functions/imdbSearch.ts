@@ -1,6 +1,6 @@
-const axios = require("axios");
+import axios from "axios";
 
-exports.handler = async function (event, context) {
+exports.handler = async function (event: any, context: any) {
   try {
     const { search } = event.queryStringParameters;
     const { data } = await axios({

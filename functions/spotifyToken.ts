@@ -1,7 +1,7 @@
-const axios = require("axios");
-const qs = require("qs");
+import axios from "axios";
+import qs from "qs";
 
-exports.handler = async function (event, context) {
+exports.handler = async function (event: any, context: any) {
   try {
     const options = {
         grant_type: "client_credentials",

@@ -12,7 +12,7 @@ import searchStatusReducer from "./searchStatusReducer"
 import { connectRouter } from 'connected-react-router';
 
 
-const allReducers = (history) => combineReducers({
+const allReducers = (history: any) => combineReducers({
     movieReducer,
     savedAlbumsReducer,
     tokenReducer,

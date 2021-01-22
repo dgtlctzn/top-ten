@@ -1,13 +1,20 @@
-import axios from "axios";
+import axios, { AxiosPromise } from "axios";
 
-const API = {
+interface APIinterface {
+  getToken: () => AxiosPromise;
+  searchSpotify: (search: string, token: string) => AxiosPromise;
+  searchImdb: (search: string) => AxiosPromise;
+  searchGoogleBooks: (search: string) => AxiosPromise;
+}
+
+const API: APIinterface = {
   getToken: function () {
     return axios({
       method: "GET",
       url: "https://top-ten.netlify.app/.netlify/functions/spotifyToken",
     });
   },
-  searchSpotify: function (search, token) {
+  searchSpotify: function (search: string, token: string) {
     return axios({
       method: "POST",
       url: "https://top-ten.netlify.app/.netlify/functions/spotifySearch",
@@ -17,13 +24,13 @@ const API = {
       }
     });
   },
-  searchImdb: function (search) {
+  searchImdb: function (search: string) {
     return axios({
       method: "GET",
       url: `https://top-ten.netlify.app/.netlify/functions/imdbSearch?search=${search}`,
     });
   },
-  searchGoogleBooks: function (search) {
+  searchGoogleBooks: function (search: string) {
     return axios({
       method: "GET",
       url: `https://top-ten.netlify.app/.netlify/functions/googleBooksSearch?search=${search}`,
