@@ -19,6 +19,7 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import API from "../../utils/API";
 import Card from "../../components/Card/Card";
 import Alert from "../../components/Alert/Alert"
+import axios from "axios";
 
 
 const Books = () => {
@@ -68,7 +69,12 @@ const Books = () => {
 
     dispatch(searchStatus(true));
 
-    API.searchGoogleBooks(search).then((searchRes) => {
+    // API.searchGoogleBooks(search).then((searchRes) => {
+      axios({
+        method: "GET",
+        url: `https://www.googleapis.com/books/v1/volumes?q=${search}&key=AIzaSyCOBjLd64ZKNzBP6K2-kpjG2lfok48KhBY`,
+      }).then((searchRes) => {
+      console.log(searchRes)
       const books = searchRes.data.items;
       const found = [];
       console.log(searchRes)
@@ -236,6 +242,7 @@ const Books = () => {
                   deleteItem={deleteBook}
                   handleItemUp={handleBookUp}
                   handleItemDown={handleBookDown}
+                  saved={true}
                   page="book"
                   index={index}
                 />
@@ -252,6 +259,7 @@ const Books = () => {
                   {...book}
                   addItem={addBook}
                   page="book"
+                  saved={false}
                 />
               ))}
             </ul>

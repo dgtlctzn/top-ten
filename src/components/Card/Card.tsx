@@ -8,6 +8,7 @@ interface Props {
   image: string;
   info: string;
   index: number;
+  saved: boolean;
   addItem: (e: MouseEvent<HTMLButtonElement>) => void;
   handleItemUp: (e: MouseEvent<HTMLButtonElement>) => void;
   handleItemDown: (e: MouseEvent<HTMLButtonElement>) => void;
@@ -20,18 +21,17 @@ const Card = ({
   image,
   info,
   index,
+  saved,
   addItem,
   deleteItem,
   handleItemUp,
   handleItemDown,
 }: Props) => {
 
-  // let data = {image: image, info: info};
-  // console.log(data)
   return (
     <div className="row">
       <div className="col-sm-2 place">
-        {<h2>#{index + 1}</h2>}
+        {saved ? <h2>#{index + 1}</h2> : <></>}
       </div>
       <div className="col-sm-10">
         <div className="card">
@@ -50,7 +50,7 @@ const Card = ({
                 <h5 className="card-title">{name}</h5>
                 <p className="artist-name">{info}</p>
               </div>
-              {addItem ? (
+              {!saved ? (
                 <div className="col-sm-2 text-right">
                   <button name={name} value={`${image},${info}`} onClick={(e) => addItem(e)}>
                     <i className="fas fa-plus"></i>
