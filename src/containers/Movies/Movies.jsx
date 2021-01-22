@@ -242,6 +242,7 @@ const Movies = () => {
                   handleItemDown={handleMovieDown}
                   index={index}
                   page="movie"
+                  saved={true}
                 />
               ))}
             </ul>
@@ -256,6 +257,7 @@ const Movies = () => {
                   {...movie}
                   addItem={addMovie}
                   page="movie"
+                  saved={false}
                 />
               ))}
             </ul>

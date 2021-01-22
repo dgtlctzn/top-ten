@@ -253,6 +253,7 @@ const Albums = () => {
                   handleItemUp={handleAlbumUp}
                   handleItemDown={handleAlbumDown}
                   page="album"
+                  saved={true}
                   index={index}
                 />
               ))}
@@ -268,6 +269,7 @@ const Albums = () => {
                   {...album}
                   addItem={addAlbum}
                   page="album"
+                  saved={false}
                 />
               ))}
             </ul>
