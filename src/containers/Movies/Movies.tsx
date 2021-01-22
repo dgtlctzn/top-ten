@@ -1,4 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  MouseEvent,
+  useEffect,
+  useState,
+} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setSearch,
@@ -12,23 +18,27 @@ import {
   warningMessage,
   searchStatus,
   noResultsMessage,
-  noSearchTermMessage
+  noSearchTermMessage,
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import API from "../../utils/API";
 import Card from "../../components/Card/Card";
-import Alert from "../../components/Alert/Alert"
+import Alert from "../../components/Alert/Alert";
+import RootState from "../../reducers/interface";
+import { SavedItems } from "../Interfaces/Interfaces";
 
 const Movies = () => {
   // const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();
-  const savedMovies = useSelector((state) => state.savedMoviesReducer);
+  const savedMovies = useSelector(
+    (state: RootState) => state.savedMoviesReducer
+  );
   const sortedMovies = savedMovies.sort((a, b) => a.index - b.index);
 
-  const searchedMovies = useSelector((state) => state.movieReducer);
-  const search = useSelector((state) => state.searchReducer);
+  const searchedMovies = useSelector((state: RootState) => state.movieReducer);
+  const search = useSelector((state: RootState) => state.searchReducer);
 
   useEffect(() => {
     const savedAsString = JSON.stringify(savedMovies);
@@ -42,7 +52,7 @@ const Movies = () => {
               image: parsedVal.image,
               info: parsedVal.info,
               index: parsedVal.index,
-              type: parsedVal.type
+              type: parsedVal.type,
             })
           );
         }
@@ -50,69 +60,70 @@ const Movies = () => {
     }
   }, []);
 
-  const handleSearchChange = (e) => {
-    dispatch(setSearch(e.target.value))
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSearch(e.currentTarget.value));
     // setSearch(e.target.value);
   };
 
-  const handleSearchSubmit = (e) => {
+  const handleSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!search) {
-      dispatch(noSearchTermMessage(true, "movie"))
+      dispatch(noSearchTermMessage(true, "movie"));
       setTimeout(() => {
         dispatch(noSearchTermMessage(false));
       }, 2000);
       return;
     }
 
-    dispatch(searchStatus(true))
+    dispatch(searchStatus(true));
 
     API.searchImdb(search)
-    .then((searchRes) => {
-      console.log(searchRes);
-      const movies = searchRes.data.results;
-      const found = [];
+      .then((searchRes) => {
+        console.log(searchRes);
+        const movies = searchRes.data.results;
+        const found = [];
 
-      if (!movies.length) {
-        dispatch(noResultsMessage(true, "movie"))
-        dispatch(searchStatus(false));
-        setTimeout(() => {
-          dispatch(noResultsMessage(false))
-        }, 2000);
-        return;
-      }
-      for (let i = 0; i < 10; i++) {
-        if (movies[i]) {
-          const item = {
-            name: movies[i].title ? movies[i].title : "No Movie Name",
-            image: movies[i].image
-              ? movies[i].image
-              : "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_497562.png&f=1&nofb=1",
-            info: movies[i].description ? movies[i].description.replace(/[()]/g, "") : ""
-          };
-          found.push(item);
+        if (!movies.length) {
+          dispatch(noResultsMessage(true, "movie"));
+          dispatch(searchStatus(false));
+          setTimeout(() => {
+            dispatch(noResultsMessage(false));
+          }, 2000);
+          return;
         }
-      }
-      dispatch(searchMovies(found));
-      dispatch(searchStatus(false))
-
-    })
-    .catch((err) => {
-      console.log(err);
-      dispatch(searchStatus(false))
-    });
+        for (let i = 0; i < 10; i++) {
+          if (movies[i]) {
+            const item = {
+              name: movies[i].title ? movies[i].title : "No Movie Name",
+              image: movies[i].image
+                ? movies[i].image
+                : "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_497562.png&f=1&nofb=1",
+              info: movies[i].description
+                ? movies[i].description.replace(/[()]/g, "")
+                : "",
+            };
+            found.push(item);
+          }
+        }
+        dispatch(searchMovies(found));
+        dispatch(searchStatus(false));
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(searchStatus(false));
+      });
   };
 
-  const addMovie = (e) => {
+  const addMovie = (e: MouseEvent<HTMLButtonElement>) => {
     if (savedMovies.length === 10) {
-      dispatch(warningMessage(true, "movie"))
+      dispatch(warningMessage(true, "movie"));
       setTimeout(() => {
-        dispatch(warningMessage(false))
+        dispatch(warningMessage(false));
       }, 2000);
       return;
     }
-    const name = e.target.parentNode.name || e.target.name;
-    const value = e.target.parentNode.value || e.target.value;
+    const name = e?.currentTarget?.name;
+    const value = e?.currentTarget?.value;
 
     const [image, info] = value.split(",");
 
@@ -121,7 +132,7 @@ const Movies = () => {
         index: savedMovies.length,
         image: image,
         info: info,
-        type: "movie"
+        type: "movie",
       });
       localStorage.setItem(name, data);
     }
@@ -131,20 +142,24 @@ const Movies = () => {
         image: image,
         info: info,
         index: savedMovies.length,
-        type: "movie"
+        type: "movie",
       })
     );
-    dispatch(successMessage(true, "movie"))
+    dispatch(successMessage(true, "movie"));
     setTimeout(() => {
-      dispatch(successMessage(false))
+      dispatch(successMessage(false));
     }, 1500);
   };
 
-  const deleteMovie = (e) => {
-    const name = e.target.parentNode.name || e.target.name;
+  const deleteMovie = (e: MouseEvent<HTMLButtonElement>) => {
+    const name = e?.currentTarget?.name;
     dispatch(
       delMovie({
         name: name,
+        image: "",
+        index: NaN,
+        info: "",
+        type: "movie",
       })
     );
     let i = 0;
@@ -157,19 +172,23 @@ const Movies = () => {
             index: i,
             image: item.image,
             info: item.info,
-            type: "movie"
+            type: "movie",
           })
         );
         i++;
       }
     }
-    dispatch(deleteMessage(true, "movie"))
+    dispatch(deleteMessage(true, "movie"));
     setTimeout(() => {
-      dispatch(deleteMessage(false))
+      dispatch(deleteMessage(false));
     }, 1500);
   };
 
-  const sortStorage = (index, saved, increase = true) => {
+  const sortStorage = (
+    index: number,
+    saved: Array<SavedItems>,
+    increase = true
+  ): void => {
     let change;
     increase ? (change = -1) : (change = 1);
     for (const item of saved) {
@@ -188,26 +207,36 @@ const Movies = () => {
           index: newIndex,
           image: item.image,
           info: item.info,
-          type: "movie"
+          type: "movie",
         })
       );
     }
   };
 
-  const handleMovieUp = (e) => {
-    const name = e.target.parentNode.name || e.target.name;
-    const index = parseInt(e.target.parentNode.value || e.target.value);
+  const handleMovieUp = (e: MouseEvent<HTMLButtonElement>) => {
+    const name = e?.currentTarget?.name;
+    const index = parseInt(e?.currentTarget?.value);
     if (index) {
-      dispatch(sendMovieUp(name, index));
+      dispatch(
+        sendMovieUp(
+          { name, image: "", info: "", index: NaN, type: "movie" },
+          index
+        )
+      );
       sortStorage(index, savedMovies);
     }
   };
 
-  const handleMovieDown = (e) => {
-    const name = e.target.parentNode.name || e.target.name;
-    const index = parseInt(e.target.parentNode.value || e.target.value);
+  const handleMovieDown = (e: MouseEvent<HTMLButtonElement>) => {
+    const name = e?.currentTarget?.name;
+    const index = parseInt(e?.currentTarget?.value);
     if (index !== savedMovies.length - 1) {
-      dispatch(sendMovieDown(name, index));
+      dispatch(
+        sendMovieDown(
+          { name, image: "", info: "", index: NaN, type: "movie" },
+          index
+        )
+      );
       sortStorage(index, savedMovies, false);
     }
   };
@@ -215,7 +244,7 @@ const Movies = () => {
   return (
     <>
       <Nav />
-      <Alert/>
+      <Alert />
       <div className="container">
         <h1 className="text-center">Movies</h1>
         <div className="row">
@@ -236,13 +265,16 @@ const Movies = () => {
               {sortedMovies.map((movie, index) => (
                 <Card
                   key={`movie ${index + 1}`}
-                  {...movie}
+                  addItem={addMovie}
                   deleteItem={deleteMovie}
                   handleItemUp={handleMovieUp}
                   handleItemDown={handleMovieDown}
-                  index={index}
                   page="movie"
                   saved={true}
+                  name={movie.name}
+                  image={movie.image}
+                  info={movie.info}
+                  index={index}
                 />
               ))}
             </ul>
@@ -254,10 +286,16 @@ const Movies = () => {
               {searchedMovies.map((movie, index) => (
                 <Card
                   key={`search result ${index + 1}`}
-                  {...movie}
                   addItem={addMovie}
+                  deleteItem={deleteMovie}
+                  handleItemUp={handleMovieUp}
+                  handleItemDown={handleMovieDown}
                   page="movie"
                   saved={false}
+                  name={movie.name}
+                  image={movie.image}
+                  info={movie.info}
+                  index={index}
                 />
               ))}
             </ul>

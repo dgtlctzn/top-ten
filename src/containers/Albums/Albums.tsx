@@ -1,4 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  MouseEvent,
+  useEffect,
+  useState,
+} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setSearch,
@@ -13,25 +19,29 @@ import {
   warningMessage,
   searchStatus,
   noResultsMessage,
-  noSearchTermMessage
+  noSearchTermMessage,
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import API from "../../utils/API";
 import Card from "../../components/Card/Card";
-import Alert from "../../components/Alert/Alert"
+import Alert from "../../components/Alert/Alert";
+import RootState from "../../reducers/interface";
+import { SavedItems } from "../Interfaces/Interfaces";
 
 const Albums = () => {
   // const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();
-  const savedAlbums = useSelector((state) => state.savedAlbumsReducer);
+  const savedAlbums = useSelector(
+    (state: RootState) => state.savedAlbumsReducer
+  );
   const sortedAlbums = savedAlbums.sort((a, b) => a.index - b.index);
 
-  const search = useSelector((state) => state.searchReducer);
+  const search = useSelector((state: RootState) => state.searchReducer);
 
-  const token = useSelector((state) => state.tokenReducer);
-  const searchedAlbums = useSelector((state) => state.albumReducer);
+  const token = useSelector((state: RootState) => state.tokenReducer);
+  const searchedAlbums = useSelector((state: RootState) => state.albumReducer);
 
   useEffect(() => {
     const savedAsString = JSON.stringify(savedAlbums);
@@ -53,20 +63,20 @@ const Albums = () => {
     }
   }, []);
 
-  const handleSearchChange = (e) => {
-    dispatch(setSearch(e.target.value))
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSearch(e.currentTarget.value));
   };
 
-  const searchSpotifyAlbums = (search, token) => {
+  const searchSpotifyAlbums = (search: string, token: string): void => {
     API.searchSpotify(search, token)
       .then((searchRes) => {
         const albums = searchRes.data.albums.items;
         const found = [];
         if (!albums.length) {
-          dispatch(noResultsMessage(true, "album"))
+          dispatch(noResultsMessage(true, "album"));
           dispatch(searchStatus(false));
           setTimeout(() => {
-            dispatch(noResultsMessage(false))
+            dispatch(noResultsMessage(false));
           }, 2000);
           return;
         }
@@ -76,7 +86,7 @@ const Albums = () => {
             image: albums[i].images[0]
               ? albums[i].images[0].url
               : "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Disque_Vinyl.svg/1024px-Disque_Vinyl.svg.png",
-            info: albums[i].artists[0].name
+            info: albums[i].artists[0].name,
           };
           found.push(item);
         }
@@ -89,11 +99,11 @@ const Albums = () => {
       });
   };
 
-  const handleSearchSubmit = (e) => {
+  const handleSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!search) {
-      dispatch(noSearchTermMessage(true, "album"))
+      dispatch(noSearchTermMessage(true, "album"));
       setTimeout(() => {
         dispatch(noSearchTermMessage(false));
       }, 2000);
@@ -117,16 +127,16 @@ const Albums = () => {
     }
   };
 
-  const addAlbum = (e) => {
+  const addAlbum = (e: MouseEvent<HTMLButtonElement>) => {
     if (savedAlbums.length === 10) {
-      dispatch(warningMessage(true, "album"))
+      dispatch(warningMessage(true, "album"));
       setTimeout(() => {
-        dispatch(warningMessage(false))
+        dispatch(warningMessage(false));
       }, 2000);
       return;
     }
-    const name = e.target.parentNode.name || e.target.name;
-    const value = e.target.parentNode.value || e.target.value;
+    const name = e?.currentTarget?.name;
+    const value = e?.currentTarget?.value;
     const [image, info] = value.split(",");
     if (!localStorage.getItem(name)) {
       const data = JSON.stringify({
@@ -146,17 +156,21 @@ const Albums = () => {
         type: "album",
       })
     );
-    dispatch(successMessage(true, "album"))
+    dispatch(successMessage(true, "album"));
     setTimeout(() => {
-      dispatch(successMessage(false))
+      dispatch(successMessage(false));
     }, 1500);
   };
 
-  const deleteAlbum = (e) => {
-    const name = e.target.parentNode.name || e.target.name
+  const deleteAlbum = (e: MouseEvent<HTMLButtonElement>) => {
+    const name = e?.currentTarget?.name;
     dispatch(
       delAlbum({
         name: name,
+        image: "",
+        index: NaN,
+        info: "",
+        type: "album",
       })
     );
     let i = 0;
@@ -175,13 +189,17 @@ const Albums = () => {
         i++;
       }
     }
-    dispatch(deleteMessage(true, "album"))
+    dispatch(deleteMessage(true, "album"));
     setTimeout(() => {
-      dispatch(deleteMessage(false))
+      dispatch(deleteMessage(false));
     }, 1500);
   };
 
-  const sortStorage = (index, saved, increase = true) => {
+  const sortStorage = (
+    index: number,
+    saved: Array<SavedItems>,
+    increase = true
+  ): void => {
     let change;
     increase ? (change = -1) : (change = 1);
     for (const item of saved) {
@@ -206,20 +224,30 @@ const Albums = () => {
     }
   };
 
-  const handleAlbumUp = (e) => {
-    const name = e.target.parentNode.name || e.target.name;
-    const index = parseInt(e.target.parentNode.value || e.target.value);
+  const handleAlbumUp = (e: MouseEvent<HTMLButtonElement>) => {
+    const name = e?.currentTarget?.name;
+    const index = parseInt(e?.currentTarget?.value);
     if (index) {
-      dispatch(sendAlbumUp(name, index));
+      dispatch(
+        sendAlbumUp(
+          { name, image: "", info: "", index: NaN, type: "album" },
+          index
+        )
+      );
       sortStorage(index, savedAlbums);
     }
   };
 
-  const handleAlbumDown = (e) => {
-    const name = e.target.parentNode.name || e.target.name;
-    const index = parseInt(e.target.parentNode.value || e.target.value);
+  const handleAlbumDown = (e: MouseEvent<HTMLButtonElement>) => {
+    const name = e?.currentTarget?.name;
+    const index = parseInt(e?.currentTarget?.value);
     if (index !== savedAlbums.length - 1) {
-      dispatch(sendAlbumDown(name, index));
+      dispatch(
+        sendAlbumDown(
+          { name, image: "", info: "", index: NaN, type: "album" },
+          index
+        )
+      );
       sortStorage(index, savedAlbums, false);
     }
   };
@@ -227,7 +255,7 @@ const Albums = () => {
   return (
     <>
       <Nav />
-      <Alert/>
+      <Alert />
       <div className="container">
         <h1 className="text-center">Albums</h1>
         <div className="row">
@@ -248,12 +276,15 @@ const Albums = () => {
               {sortedAlbums.map((album, index) => (
                 <Card
                   key={`album ${index + 1}`}
-                  {...album}
+                  addItem={addAlbum}
                   deleteItem={deleteAlbum}
                   handleItemUp={handleAlbumUp}
-                  handleItemDown={handleAlbumDown}
-                  page="album"
-                  saved={true}
+                  handleItemDown={handleAlbumUp}
+                  page="book"
+                  saved={false}
+                  name={album.name}
+                  image={album.image}
+                  info={album.info}
                   index={index}
                 />
               ))}
@@ -266,10 +297,16 @@ const Albums = () => {
               {searchedAlbums.map((album, index) => (
                 <Card
                   key={`search result ${index + 1}`}
-                  {...album}
                   addItem={addAlbum}
-                  page="album"
+                  deleteItem={deleteAlbum}
+                  handleItemUp={handleAlbumUp}
+                  handleItemDown={handleAlbumUp}
+                  page="book"
                   saved={false}
+                  name={album.name}
+                  image={album.image}
+                  info={album.info}
+                  index={index}
                 />
               ))}
             </ul>
