@@ -280,7 +280,7 @@ const Albums = () => {
                   deleteItem={deleteAlbum}
                   handleItemUp={handleAlbumUp}
                   handleItemDown={handleAlbumUp}
-                  page="book"
+                  page="album"
                   saved={false}
                   name={album.name}
                   image={album.image}
@@ -301,7 +301,7 @@ const Albums = () => {
                   deleteItem={deleteAlbum}
                   handleItemUp={handleAlbumUp}
                   handleItemDown={handleAlbumUp}
-                  page="book"
+                  page="album"
                   saved={false}
                   name={album.name}
                   image={album.image}
