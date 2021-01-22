@@ -1,4 +1,10 @@
-const savedAlbumsReducer = (state = [], action) => {
+import { SaveAction } from "../actions/actions";
+import { SavedItems } from "../containers/Interfaces/Interfaces";
+
+const savedAlbumsReducer = (
+  state: Array<SavedItems> = [],
+  action: SaveAction
+) => {
   switch (action.type) {
     case "SAVE_ALBUMS":
       return [...state, action.payload];

@@ -1,23 +1,28 @@
-import { FoundItems } from "../containers/Interfaces/Interfaces";
+import { SearchItems, SavedItems } from "../containers/Interfaces/Interfaces";
 
 interface Book {
-  book: string;
+  book: SavedItems;
   index: number;
 }
 
 interface Movie {
-  movie: string;
+  movie: SavedItems;
   index: number;
 }
 
 interface Album {
-  album: string;
+  album: SavedItems;
   index: number;
 }
 
 export interface Action {
   type: string;
   payload: string;
+}
+
+export interface SaveAction {
+    type: string;
+    payload: SavedItems
 }
 
 export interface ModAction {
@@ -38,7 +43,7 @@ export interface SearchStatus {
   payload: boolean;
 }
 
-export interface FoundAction {
+export interface SearchAction {
   type: string;
-  payload: Array<FoundItems>;
+  payload: Array<SearchItems>;
 }

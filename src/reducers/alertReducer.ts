@@ -1,4 +1,6 @@
-const alertReducer = (state = {}, action) => {
+import {Alert} from "../actions/actions";
+
+const alertReducer = (state = {}, action: Alert) => {
     switch(action.type) {
         case "SUCCESS":
             return {

@@ -1,4 +1,6 @@
-const searchReducer = (state = "", action) => {
+import {Action} from "../actions/actions"
+
+const searchReducer = (state = "", action: Action) => {
     switch(action.type) {
         case "SET_SEARCH":
             // state = ;

@@ -1,4 +1,6 @@
-const tokenReducer = (state = "", action) => {
+import {Action} from "../actions/actions"
+
+const tokenReducer = (state = "", action: Action) => {
     switch(action.type) {
         case "ADD_TOKEN":
             state = action.payload;

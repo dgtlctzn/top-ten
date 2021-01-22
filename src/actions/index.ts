@@ -1,5 +1,5 @@
-import { Action, ModAction, Alert, SearchStatus, FoundAction } from "./actions";
-import { FoundItems } from "../containers/Interfaces/Interfaces";
+import { Action, ModAction, Alert, SearchStatus, SearchAction, SaveAction } from "./actions";
+import { SearchItems, SavedItems } from "../containers/Interfaces/Interfaces";
 //======
 // Token
 //======
@@ -26,35 +26,35 @@ export const setSearch = (search: string): Action => {
 // Albums
 //=======
 
-export const saveAlbums = (album: string): Action => {
+export const saveAlbums = (album: SavedItems): SaveAction => {
   return {
     type: "SAVE_ALBUMS",
     payload: album,
   };
 };
 
-export const delAlbum = (album: string): Action => {
+export const delAlbum = (album: SavedItems): SaveAction => {
   return {
     type: "DEL_ALBUM",
     payload: album,
   };
 };
 
-export const sendAlbumUp = (album: string, index: number): ModAction => {
+export const sendAlbumUp = (album: SavedItems, index: number): ModAction => {
   return {
     type: "SEND_ALBUM_UP",
     payload: { album, index },
   };
 };
 
-export const sendAlbumDown = (album: string, index: number): ModAction => {
+export const sendAlbumDown = (album: SavedItems, index: number): ModAction => {
   return {
     type: "SEND_ALBUM_DOWN",
     payload: { album, index },
   };
 };
 
-export const searchAlbums = (albums: Array<FoundItems>): FoundAction => {
+export const searchAlbums = (albums: Array<SearchItems>): SearchAction => {
   return {
     type: "SEARCH_ALBUMS",
     payload: albums,
@@ -65,35 +65,35 @@ export const searchAlbums = (albums: Array<FoundItems>): FoundAction => {
 // Movies
 //=======
 
-export const searchMovies = (movies: Array<FoundItems>): FoundAction => {
+export const searchMovies = (movies: Array<SearchItems>): SearchAction => {
   return {
     type: "SEARCH_MOVIES",
     payload: movies,
   };
 };
 
-export const saveMovies = (movie: string): Action => {
+export const saveMovies = (movie: SavedItems): SaveAction => {
   return {
     type: "SAVE_MOVIES",
     payload: movie,
   };
 };
 
-export const delMovie = (movie: string): Action => {
+export const delMovie = (movie: SavedItems): SaveAction => {
   return {
     type: "DEL_MOVIE",
     payload: movie,
   };
 };
 
-export const sendMovieUp = (movie: string, index: number): ModAction => {
+export const sendMovieUp = (movie: SavedItems, index: number): ModAction => {
   return {
     type: "SEND_MOVIE_UP",
     payload: { movie, index },
   };
 };
 
-export const sendMovieDown = (movie: string, index: number): ModAction => {
+export const sendMovieDown = (movie: SavedItems, index: number): ModAction => {
   return {
     type: "SEND_MOVIE_DOWN",
     payload: { movie, index },
@@ -104,35 +104,35 @@ export const sendMovieDown = (movie: string, index: number): ModAction => {
 // Books
 //======
 
-export const searchBooks = (books: Array<FoundItems>): FoundAction => {
+export const searchBooks = (books: Array<SearchItems>): SearchAction => {
   return {
     type: "SEARCH_BOOKS",
     payload: books,
   };
 };
 
-export const saveBooks = (book: string): Action => {
+export const saveBooks = (book: SavedItems): SaveAction => {
   return {
     type: "SAVE_BOOKS",
     payload: book,
   };
 };
 
-export const delBook = (book: string): Action => {
+export const delBook = (book: SavedItems): SaveAction => {
   return {
     type: "DEL_BOOK",
     payload: book,
   };
 };
 
-export const sendBookUp = (book: string, index: number): ModAction => {
+export const sendBookUp = (book: SavedItems, index: number): ModAction => {
   return {
     type: "SEND_BOOK_UP",
     payload: { book, index },
   };
 };
 
-export const sendBookDown = (book: string, index: number): ModAction => {
+export const sendBookDown = (book: SavedItems, index: number): ModAction => {
   return {
     type: "SEND_BOOK_DOWN",
     payload: { book, index },

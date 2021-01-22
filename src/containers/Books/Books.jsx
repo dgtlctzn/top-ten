@@ -68,11 +68,11 @@ const Books = () => {
 
     dispatch(searchStatus(true));
 
-    API.searchGoogleBooks(search).then((searchRes) => {
-      // axios({
-      //   method: "GET",
-      //   url: `https://www.googleapis.com/books/v1/volumes?q=${search}&key=AIzaSyCOBjLd64ZKNzBP6K2-kpjG2lfok48KhBY`,
-      // }).then((searchRes) => {
+    // API.searchGoogleBooks(search).then((searchRes) => {
+      axios({
+        method: "GET",
+        url: `https://www.googleapis.com/books/v1/volumes?q=${search}&key=AIzaSyCOBjLd64ZKNzBP6K2-kpjG2lfok48KhBY`,
+      }).then((searchRes) => {
       console.log(searchRes)
       const books = searchRes.data.items;
       const found = [];
