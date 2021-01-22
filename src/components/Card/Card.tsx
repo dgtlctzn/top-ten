@@ -1,6 +1,18 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import "./Card.css";
-import {useSelector} from "react-redux";
+// import {useSelector} from "react-redux";
+
+interface Props {
+  page: "album" | "book" | "movie";
+  name: string;
+  image: string;
+  info: string;
+  index: number;
+  addItem: (e: MouseEvent<HTMLButtonElement>) => void;
+  handleItemUp: (e: MouseEvent<HTMLButtonElement>) => void;
+  handleItemDown: (e: MouseEvent<HTMLButtonElement>) => void;
+  deleteItem: (e: MouseEvent<HTMLButtonElement>) => void;
+}
 
 const Card = ({
   page,
@@ -12,14 +24,14 @@ const Card = ({
   deleteItem,
   handleItemUp,
   handleItemDown,
-}) => {
+}: Props) => {
 
   // let data = {image: image, info: info};
   // console.log(data)
   return (
     <div className="row">
       <div className="col-sm-2 place">
-        {addItem ? <></> : <h2>#{index + 1}</h2>}
+        {<h2>#{index + 1}</h2>}
       </div>
       <div className="col-sm-10">
         <div className="card">
