@@ -23,6 +23,7 @@ import axios from "axios";
 import RootState from "../../reducers/interface";
 import { SavedItems } from "../Interfaces/Interfaces";
 import { Click } from "../Interfaces/Interfaces";
+const {DragDropContext, Draggable, Droppable} = require("react-beautiful-dnd");
 
 const Books = () => {
   const dispatch = useDispatch();
@@ -257,23 +258,49 @@ const Books = () => {
         <div className="row">
           <div className="col-sm-6">
             <h2 className="text-center">Top Ten</h2>
-            <ul>
-              {sortedBooks.map((book, index) => (
-                <Card
-                  key={`book ${index + 1}`}
-                  addItem={addBook}
-                  deleteItem={deleteBook}
-                  handleItemUp={handleBookUp}
-                  handleItemDown={handleBookDown}
-                  page="book"
-                  saved={true}
-                  name={book.name}
-                  image={book.image}
-                  info={book.info}
-                  index={index}
-                />
-              ))}
-            </ul>
+            <DragDropContext>
+              <Droppable droppableId="characters">
+                {(provided: any) => (
+                  <ul
+                    className="characters"
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {sortedBooks.map((book, index) => {
+                      return (
+                        <Draggable
+                          key={index}
+                          draggableId={book.name}
+                          index={index}
+                        >
+                          {(provided: any) => (
+                            <li
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <Card
+                                key={`book ${index + 1}`}
+                                addItem={addBook}
+                                deleteItem={deleteBook}
+                                handleItemUp={handleBookUp}
+                                handleItemDown={handleBookDown}
+                                page="book"
+                                saved={true}
+                                name={book.name}
+                                image={book.image}
+                                info={book.info}
+                                index={index}
+                              />
+                            </li>
+                          )}
+                        </Draggable>
+                      );
+                    })}
+                  </ul>
+                )}
+              </Droppable>
+            </DragDropContext>
           </div>
           <div className="col-sm-6">
             <h2 className="text-center">Search Results</h2>
