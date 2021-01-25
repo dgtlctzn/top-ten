@@ -13,6 +13,7 @@ import {
   searchStatus,
   noResultsMessage,
   noSearchTermMessage,
+  reorderBook
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -238,6 +239,15 @@ const Books = () => {
     }
   };
 
+  const handleOnDragEnd = (result: any) => {
+    console.log(result);
+    const originalPos: number = result.source.index;
+    const position: number = result.destination.index;
+    const name: string = result.destination.draggableId;
+    dispatch(reorderBook({ name, image: "", info: "", index: NaN, type: "book" }, originalPos))
+    console.log(savedBooks);
+  }
+
   return (
     <>
       <Nav />
@@ -258,7 +268,7 @@ const Books = () => {
         <div className="row">
           <div className="col-sm-6">
             <h2 className="text-center">Top Ten</h2>
-            <DragDropContext>
+            <DragDropContext onDragEnd={handleOnDragEnd}>
               <Droppable droppableId="characters">
                 {(provided: any) => (
                   <ul

@@ -47,6 +47,13 @@ export const sendAlbumUp = (album: SavedItems, index: number): ModAction => {
   };
 };
 
+export const reorderBook = (book: SavedItems, index: number): ModAction => {
+  return {
+    type: "REORDER_BOOK",
+    payload: { book, index },
+  };
+};
+
 export const sendAlbumDown = (album: SavedItems, index: number): ModAction => {
   return {
     type: "SEND_ALBUM_DOWN",

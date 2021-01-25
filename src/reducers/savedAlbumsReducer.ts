@@ -24,6 +24,10 @@ const savedAlbumsReducer = (
       state[action.payload.index].index++;
       state[action.payload.index + 1].index--;
       return [...state.sort((a, b) => a.index - b.index)];
+    case "REORDER_ALBUM":
+      const newList: Array<SavedItems> = state.slice(0, action.payload.index);
+      const currAlbum: SavedItems = action.payload;
+      return [...newList, currAlbum];
     default:
       return state;
   }
