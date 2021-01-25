@@ -22,7 +22,7 @@ export interface Action {
 
 export interface SaveAction {
     type: string;
-    payload: SavedItems
+    payload: any
 }
 
 export interface ModAction {

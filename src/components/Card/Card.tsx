@@ -65,7 +65,7 @@ const Card = ({
                   >
                     <i className="fas fa-times"></i>
                   </button>
-                  <button
+                  {/* <button
                     name={name}
                     value={index}
                     onClick={handleItemUp}
@@ -78,7 +78,7 @@ const Card = ({
                     onClick={handleItemDown}
                   >
                     <i className="fas fa-chevron-down"></i>
-                  </button>
+                  </button> */}
                 </div>
               )}
             </div>

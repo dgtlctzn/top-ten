@@ -244,7 +244,7 @@ const Books = () => {
     const originalPos: number = result.source.index;
     const position: number = result.destination.index;
     const name: string = result.destination.draggableId;
-    dispatch(reorderBook({ name, image: "", info: "", index: NaN, type: "book" }, originalPos))
+    dispatch(reorderBook({ name, image: "", info: "", index: NaN, type: "book" }, originalPos, position))
     console.log(savedBooks);
   }
 

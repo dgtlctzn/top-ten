@@ -47,10 +47,10 @@ export const sendAlbumUp = (album: SavedItems, index: number): ModAction => {
   };
 };
 
-export const reorderBook = (book: SavedItems, index: number): ModAction => {
+export const reorderBook = (book: SavedItems, index: number, newIndex: number) => {
   return {
     type: "REORDER_BOOK",
-    payload: { book, index },
+    payload: { book, index, newIndex },
   };
 };
 
