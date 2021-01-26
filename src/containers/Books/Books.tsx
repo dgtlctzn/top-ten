@@ -42,7 +42,6 @@ const Books = () => {
       if (!savedAsString.includes(key)) {
         const parsedVal = JSON.parse(value);
         if (parsedVal.type === "book") {
-          console.log("here");
           dispatch(
             saveBooks({
               name: key,
@@ -58,7 +57,6 @@ const Books = () => {
   }, []);
 
   useEffect(() => {
-    console.log("storage sorted");
     Sort.storage(savedBooks, "book");
   }, [savedBooks])
 
@@ -85,10 +83,8 @@ const Books = () => {
         //   method: "GET",
         //   url: `https://www.googleapis.com/books/v1/volumes?q=${search}&key=${process.env.REACT_APP_GOOGLE_KEY}`,
         // }).then((searchRes) => {
-        console.log(searchRes);
         const books = searchRes.data.items;
         const found = [];
-        console.log(searchRes);
         if (!books) {
           dispatch(noResultsMessage(true, "book"));
           dispatch(searchStatus(false));

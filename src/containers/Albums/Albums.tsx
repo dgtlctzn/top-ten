@@ -68,7 +68,6 @@ const Albums = () => {
   }, []);
 
   useEffect(() => {
-    console.log("storage sorted");
     Sort.storage(savedAlbums, "album");
   }, [savedAlbums])
 
