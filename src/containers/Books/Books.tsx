@@ -33,7 +33,7 @@ const {
 const Books = () => {
   const dispatch = useDispatch();
   const savedBooks = useSelector((state: RootState) => state.savedBooksReducer);
-  const sortedBooks = savedBooks; //.sort((a, b) => a.index - b.index);
+  const sortedBooks = savedBooks.sort((a, b) => a.index - b.index);
 
   const search = useSelector((state: RootState) => state.searchReducer);
 
