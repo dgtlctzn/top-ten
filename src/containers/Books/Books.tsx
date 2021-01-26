@@ -5,8 +5,6 @@ import {
   saveBooks,
   delBook,
   searchBooks,
-  sendBookUp,
-  sendBookDown,
   successMessage,
   deleteMessage,
   warningMessage,
@@ -18,12 +16,11 @@ import {
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import API from "../../utils/API";
+import Sort from "../../utils/Sort";
 import Card from "../../components/Card/Card";
 import Alert from "../../components/Alert/Alert";
 import axios from "axios";
 import RootState from "../../reducers/interface";
-import { SavedItems } from "../Interfaces/Interfaces";
-import { Click } from "../Interfaces/Interfaces";
 const {
   DragDropContext,
   Draggable,
@@ -62,7 +59,7 @@ const Books = () => {
 
   useEffect(() => {
     console.log("storage sorted");
-    sortStorage(savedBooks);
+    Sort.storage(savedBooks, "book");
   }, [savedBooks])
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -86,7 +83,7 @@ const Books = () => {
     //   .then((searchRes) => {
         axios({
           method: "GET",
-          url: `https://www.googleapis.com/books/v1/volumes?q=${search}&key=AIzaSyCOBjLd64ZKNzBP6K2-kpjG2lfok48KhBY`,
+          url: `https://www.googleapis.com/books/v1/volumes?q=${search}&key=${process.env.REACT_APP_GOOGLE_KEY}`,
         }).then((searchRes) => {
         console.log(searchRes);
         const books = searchRes.data.items;
@@ -192,67 +189,7 @@ const Books = () => {
     }, 1500);
   };
 
-  const sortStorage = (
-    // index: number,
-    saved: Array<SavedItems>,
-    // increase = true
-  ): void => {
-    // let change;
-    // increase ? (change = -1) : (change = 1);
-    for (const item of saved) {
-      // let newIndex;
-      // if (item.index === index) {
-      //   newIndex = index;
-      // } else if (item.index === index + change) {
-      //   newIndex = index + change;
-      // } else {
-      //   newIndex = item.index;
-      // }
-      if (item.type === "book") {
-        localStorage.removeItem(item.name);
-        localStorage.setItem(
-          item.name,
-          JSON.stringify({
-            index: item.index,
-            image: item.image,
-            info: item.info,
-            type: "book",
-          })
-        );
-      }
-    }
-  };
-
-  const handleBookUp = (e: MouseEvent<HTMLButtonElement>) => {
-    const name = e?.currentTarget?.name;
-    const index = parseInt(e?.currentTarget?.value);
-    if (index) {
-      dispatch(
-        sendBookUp(
-          { name, image: "", info: "", index: NaN, type: "book" },
-          index
-        )
-      );
-      // sortStorage(index, savedBooks);
-    }
-  };
-
-  const handleBookDown = (e: MouseEvent<HTMLButtonElement>) => {
-    const name = e?.currentTarget?.name;
-    const index = parseInt(e?.currentTarget?.value);
-    if (index !== savedBooks.length - 1) {
-      dispatch(
-        sendBookDown(
-          { name, image: "", info: "", index: NaN, type: "book" },
-          index
-        )
-      );
-      // sortStorage(index, savedBooks, false);
-    }
-  };
-
   const handleOnDragEnd = (result: any) => {
-    console.log(result);
     if (!result.destination) return;
     const originalPos: number = result.source.index;
     const position: number = result.destination.index;
@@ -264,8 +201,6 @@ const Books = () => {
         position
       )
     );
-    // console.log(savedBooks);
-    // sortStorage(savedBooks);
   };
 
   return (
@@ -289,7 +224,7 @@ const Books = () => {
           <div className="col-sm-6">
             <h2 className="text-center">Top Ten</h2>
             <DragDropContext onDragEnd={handleOnDragEnd}>
-              <Droppable droppableId="characters">
+              <Droppable droppableId="book">
                 {(provided: any) => (
                   <ul
                     className="characters"
@@ -313,8 +248,6 @@ const Books = () => {
                                 key={`book ${index + 1}`}
                                 addItem={addBook}
                                 deleteItem={deleteBook}
-                                handleItemUp={handleBookUp}
-                                handleItemDown={handleBookDown}
                                 page="book"
                                 saved={true}
                                 name={book.name}
@@ -342,8 +275,6 @@ const Books = () => {
                   key={`search result ${index + 1}`}
                   addItem={addBook}
                   deleteItem={deleteBook}
-                  handleItemUp={handleBookUp}
-                  handleItemDown={handleBookDown}
                   page="book"
                   saved={false}
                   name={book.name}

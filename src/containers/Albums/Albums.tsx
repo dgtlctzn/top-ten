@@ -3,17 +3,15 @@ import React, {
   FormEvent,
   MouseEvent,
   useEffect,
-  useState,
 } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setSearch,
   saveAlbums,
   delAlbum,
+  reorderAlbum,
   addToken,
   searchAlbums,
-  sendAlbumUp,
-  sendAlbumDown,
   successMessage,
   deleteMessage,
   warningMessage,
@@ -24,10 +22,16 @@ import {
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import API from "../../utils/API";
+import Sort from "../../utils/Sort";
 import Card from "../../components/Card/Card";
 import Alert from "../../components/Alert/Alert";
 import RootState from "../../reducers/interface";
 import { SavedItems } from "../Interfaces/Interfaces";
+const {
+  DragDropContext,
+  Draggable,
+  Droppable,
+} = require("react-beautiful-dnd");
 
 const Albums = () => {
   // const [search, setSearch] = useState("");
@@ -62,6 +66,11 @@ const Albums = () => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    console.log("storage sorted");
+    Sort.storage(savedAlbums, "album");
+  }, [savedAlbums])
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearch(e.currentTarget.value));
@@ -195,62 +204,20 @@ const Albums = () => {
     }, 1500);
   };
 
-  const sortStorage = (
-    index: number,
-    saved: Array<SavedItems>,
-    increase = true
-  ): void => {
-    let change;
-    increase ? (change = -1) : (change = 1);
-    for (const item of saved) {
-      let newIndex;
-      if (item.index === index) {
-        newIndex = index;
-      } else if (item.index === index + change) {
-        newIndex = index + change;
-      } else {
-        newIndex = item.index;
-      }
-      localStorage.removeItem(item.name);
-      localStorage.setItem(
-        item.name,
-        JSON.stringify({
-          index: newIndex,
-          image: item.image,
-          info: item.info,
-          type: "album",
-        })
-      );
-    }
+  const handleOnDragEnd = (result: any) => {
+    if (!result.destination) return;
+    const originalPos: number = result.source.index;
+    const position: number = result.destination.index;
+    const name: string = result.destination.draggableId;
+    dispatch(
+      reorderAlbum(
+        { name, image: "", info: "", index: NaN, type: "album" },
+        originalPos,
+        position
+      )
+    );
   };
 
-  const handleAlbumUp = (e: MouseEvent<HTMLButtonElement>) => {
-    const name = e?.currentTarget?.name;
-    const index = parseInt(e?.currentTarget?.value);
-    if (index) {
-      dispatch(
-        sendAlbumUp(
-          { name, image: "", info: "", index: NaN, type: "album" },
-          index
-        )
-      );
-      sortStorage(index, savedAlbums);
-    }
-  };
-
-  const handleAlbumDown = (e: MouseEvent<HTMLButtonElement>) => {
-    const name = e?.currentTarget?.name;
-    const index = parseInt(e?.currentTarget?.value);
-    if (index !== savedAlbums.length - 1) {
-      dispatch(
-        sendAlbumDown(
-          { name, image: "", info: "", index: NaN, type: "album" },
-          index
-        )
-      );
-      sortStorage(index, savedAlbums, false);
-    }
-  };
 
   return (
     <>
@@ -272,23 +239,48 @@ const Albums = () => {
         <div className="row">
           <div className="col-sm-6">
             <h2 className="text-center">Top Ten</h2>
-            <ul>
-              {sortedAlbums.map((album, index) => (
-                <Card
-                  key={`album ${index + 1}`}
-                  addItem={addAlbum}
-                  deleteItem={deleteAlbum}
-                  handleItemUp={handleAlbumUp}
-                  handleItemDown={handleAlbumUp}
-                  page="album"
-                  saved={true}
-                  name={album.name}
-                  image={album.image}
-                  info={album.info}
-                  index={index}
-                />
-              ))}
-            </ul>
+            <DragDropContext onDragEnd={handleOnDragEnd}>
+              <Droppable droppableId="album">
+                {(provided: any) => (
+                  <ul
+                    className="characters"
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {sortedAlbums.map((album, index) => {
+                      return (
+                        <Draggable
+                          key={album.name}
+                          draggableId={album.name}
+                          index={index}
+                        >
+                          {(provided: any) => (
+                            <li
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <Card
+                                key={`album ${index + 1}`}
+                                addItem={addAlbum}
+                                deleteItem={deleteAlbum}
+                                page="album"
+                                saved={true}
+                                name={album.name}
+                                image={album.image}
+                                info={album.info}
+                                index={index}
+                              />
+                            </li>
+                          )}
+                        </Draggable>
+                      );
+                    })}
+                    {provided.placeholder}
+                  </ul>
+                )}
+              </Droppable>
+            </DragDropContext>
           </div>
           <div className="col-sm-6">
             <h2 className="text-center">Search Results</h2>
@@ -299,8 +291,6 @@ const Albums = () => {
                   key={`search result ${index + 1}`}
                   addItem={addAlbum}
                   deleteItem={deleteAlbum}
-                  handleItemUp={handleAlbumUp}
-                  handleItemDown={handleAlbumUp}
                   page="album"
                   saved={false}
                   name={album.name}

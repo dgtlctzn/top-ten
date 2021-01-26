@@ -16,18 +16,16 @@ const savedAlbumsReducer = (
           return album;
         });
       return state;
-    case "SEND_ALBUM_UP":
-      state[action.payload.index].index--;
-      state[action.payload.index - 1].index++;
-      return [...state.sort((a, b) => a.index - b.index)];
-    case "SEND_ALBUM_DOWN":
-      state[action.payload.index].index++;
-      state[action.payload.index + 1].index--;
-      return [...state.sort((a, b) => a.index - b.index)];
-    case "REORDER_ALBUM":
-      const newList: Array<SavedItems> = state.slice(0, action.payload.index);
-      const currAlbum: SavedItems = action.payload;
-      return [...newList, currAlbum];
+      case "REORDER_ALBUM":
+        const [reorderedItem]: Array<SavedItems> = state.splice(
+          action.payload.index,
+          1
+        );
+        state.splice(action.payload.newIndex, 0, reorderedItem);
+        const newList: Array<SavedItems | null> = state.map((item, index) => {
+          return { ...item, index: index };
+        });
+        return newList;
     default:
       return state;
   }

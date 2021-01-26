@@ -10,8 +10,6 @@ interface Props {
   index: number;
   saved: boolean;
   addItem: (e: MouseEvent<HTMLButtonElement>) => void;
-  handleItemUp: (e: MouseEvent<HTMLButtonElement>) => void;
-  handleItemDown: (e: MouseEvent<HTMLButtonElement>) => void;
   deleteItem: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -24,8 +22,6 @@ const Card = ({
   saved,
   addItem,
   deleteItem,
-  handleItemUp,
-  handleItemDown,
 }: Props) => {
 
   return (
@@ -65,20 +61,6 @@ const Card = ({
                   >
                     <i className="fas fa-times"></i>
                   </button>
-                  {/* <button
-                    name={name}
-                    value={index}
-                    onClick={handleItemUp}
-                  >
-                    <i className="fas fa-chevron-up"></i>
-                  </button>
-                  <button
-                    name={name}
-                    value={index}
-                    onClick={handleItemDown}
-                  >
-                    <i className="fas fa-chevron-down"></i>
-                  </button> */}
                 </div>
               )}
             </div>

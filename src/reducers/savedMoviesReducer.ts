@@ -16,14 +16,16 @@ const savedMoviesReducer = (
           return movie;
         });
       return state;
-    case "SEND_MOVIE_UP":
-      state[action.payload.index].index--;
-      state[action.payload.index - 1].index++;
-      return [...state.sort((a, b) => a.index - b.index)];
-    case "SEND_MOVIE_DOWN":
-      state[action.payload.index].index++;
-      state[action.payload.index + 1].index--;
-      return [...state.sort((a, b) => a.index - b.index)];
+    case "REORDER_MOVIE":
+      const [reorderedItem]: Array<SavedItems> = state.splice(
+        action.payload.index,
+        1
+      );
+      state.splice(action.payload.newIndex, 0, reorderedItem);
+      const newList: Array<SavedItems | null> = state.map((item, index) => {
+        return { ...item, index: index };
+      });
+      return newList;
     default:
       return state;
   }

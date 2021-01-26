@@ -11,22 +11,28 @@ import {
   saveMovies,
   delMovie,
   searchMovies,
-  sendMovieUp,
-  sendMovieDown,
   successMessage,
   deleteMessage,
   warningMessage,
   searchStatus,
   noResultsMessage,
   noSearchTermMessage,
+  reorderMovie,
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import API from "../../utils/API";
+import Sort from "../../utils/Sort"
 import Card from "../../components/Card/Card";
 import Alert from "../../components/Alert/Alert";
 import RootState from "../../reducers/interface";
 import { SavedItems } from "../Interfaces/Interfaces";
+import axios from "axios";
+const {
+  DragDropContext,
+  Draggable,
+  Droppable,
+} = require("react-beautiful-dnd");
 
 const Movies = () => {
   // const [search, setSearch] = useState("");
@@ -60,6 +66,10 @@ const Movies = () => {
     }
   }, []);
 
+  useEffect(() => {
+    Sort.storage(savedMovies, "movie");
+  }, [savedMovies])
+
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearch(e.currentTarget.value));
     // setSearch(e.target.value);
@@ -77,8 +87,12 @@ const Movies = () => {
 
     dispatch(searchStatus(true));
 
-    API.searchImdb(search)
-      .then((searchRes) => {
+    // API.searchImdb(search)
+    //   .then((searchRes) => {
+      axios({
+        method: "GET",
+        url: `https://imdb-api.com/en/API/SearchMovie/${process.env.REACT_APP_IMBD_SECRET}/${search}`,
+      }).then((searchRes: any) => {
         console.log(searchRes);
         const movies = searchRes.data.results;
         const found = [];
@@ -184,61 +198,18 @@ const Movies = () => {
     }, 1500);
   };
 
-  const sortStorage = (
-    index: number,
-    saved: Array<SavedItems>,
-    increase = true
-  ): void => {
-    let change;
-    increase ? (change = -1) : (change = 1);
-    for (const item of saved) {
-      let newIndex;
-      if (item.index === index) {
-        newIndex = index;
-      } else if (item.index === index + change) {
-        newIndex = index + change;
-      } else {
-        newIndex = item.index;
-      }
-      localStorage.removeItem(item.name);
-      localStorage.setItem(
-        item.name,
-        JSON.stringify({
-          index: newIndex,
-          image: item.image,
-          info: item.info,
-          type: "movie",
-        })
-      );
-    }
-  };
-
-  const handleMovieUp = (e: MouseEvent<HTMLButtonElement>) => {
-    const name = e?.currentTarget?.name;
-    const index = parseInt(e?.currentTarget?.value);
-    if (index) {
-      dispatch(
-        sendMovieUp(
-          { name, image: "", info: "", index: NaN, type: "movie" },
-          index
-        )
-      );
-      sortStorage(index, savedMovies);
-    }
-  };
-
-  const handleMovieDown = (e: MouseEvent<HTMLButtonElement>) => {
-    const name = e?.currentTarget?.name;
-    const index = parseInt(e?.currentTarget?.value);
-    if (index !== savedMovies.length - 1) {
-      dispatch(
-        sendMovieDown(
-          { name, image: "", info: "", index: NaN, type: "movie" },
-          index
-        )
-      );
-      sortStorage(index, savedMovies, false);
-    }
+  const handleOnDragEnd = (result: any) => {
+    if (!result.destination) return;
+    const originalPos: number = result.source.index;
+    const position: number = result.destination.index;
+    const name: string = result.destination.draggableId;
+    dispatch(
+      reorderMovie(
+        { name, image: "", info: "", index: NaN, type: "movie" },
+        originalPos,
+        position
+      )
+    );
   };
 
   return (
@@ -261,23 +232,48 @@ const Movies = () => {
         <div className="row">
           <div className="col-sm-6">
             <h2 className="text-center">Top Ten</h2>
-            <ul>
-              {sortedMovies.map((movie, index) => (
-                <Card
-                  key={`movie ${index + 1}`}
-                  addItem={addMovie}
-                  deleteItem={deleteMovie}
-                  handleItemUp={handleMovieUp}
-                  handleItemDown={handleMovieDown}
-                  page="movie"
-                  saved={true}
-                  name={movie.name}
-                  image={movie.image}
-                  info={movie.info}
-                  index={index}
-                />
-              ))}
-            </ul>
+            <DragDropContext onDragEnd={handleOnDragEnd}>
+              <Droppable droppableId="movie">
+                {(provided: any) => (
+                  <ul
+                    className="characters"
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {sortedMovies.map((movie, index) => {
+                      return (
+                        <Draggable
+                          key={movie.name}
+                          draggableId={movie.name}
+                          index={index}
+                        >
+                          {(provided: any) => (
+                            <li
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <Card
+                                key={`movie ${index + 1}`}
+                                addItem={addMovie}
+                                deleteItem={deleteMovie}
+                                page="movie"
+                                saved={true}
+                                name={movie.name}
+                                image={movie.image}
+                                info={movie.info}
+                                index={index}
+                              />
+                            </li>
+                          )}
+                        </Draggable>
+                      );
+                    })}
+                    {provided.placeholder}
+                  </ul>
+                )}
+              </Droppable>
+            </DragDropContext>
           </div>
           <div className="col-sm-6">
             <h2 className="text-center">Search Results</h2>
@@ -288,8 +284,6 @@ const Movies = () => {
                   key={`search result ${index + 1}`}
                   addItem={addMovie}
                   deleteItem={deleteMovie}
-                  handleItemUp={handleMovieUp}
-                  handleItemDown={handleMovieDown}
                   page="movie"
                   saved={false}
                   name={movie.name}

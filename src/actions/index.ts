@@ -40,31 +40,31 @@ export const delAlbum = (album: SavedItems): SaveAction => {
   };
 };
 
-export const sendAlbumUp = (album: SavedItems, index: number): ModAction => {
-  return {
-    type: "SEND_ALBUM_UP",
-    payload: { album, index },
-  };
-};
+// export const sendAlbumUp = (album: SavedItems, index: number): ModAction => {
+//   return {
+//     type: "SEND_ALBUM_UP",
+//     payload: { album, index },
+//   };
+// };
 
-export const reorderBook = (book: SavedItems, index: number, newIndex: number) => {
-  return {
-    type: "REORDER_BOOK",
-    payload: { book, index, newIndex },
-  };
-};
-
-export const sendAlbumDown = (album: SavedItems, index: number): ModAction => {
-  return {
-    type: "SEND_ALBUM_DOWN",
-    payload: { album, index },
-  };
-};
+// export const sendAlbumDown = (album: SavedItems, index: number): ModAction => {
+//   return {
+//     type: "SEND_ALBUM_DOWN",
+//     payload: { album, index },
+//   };
+// };
 
 export const searchAlbums = (albums: Array<SearchItems>): SearchAction => {
   return {
     type: "SEARCH_ALBUMS",
     payload: albums,
+  };
+};
+
+export const reorderAlbum = (album: SavedItems, index: number, newIndex: number) => {
+  return {
+    type: "REORDER_ALBUM",
+    payload: { album, index, newIndex },
   };
 };
 
@@ -93,19 +93,26 @@ export const delMovie = (movie: SavedItems): SaveAction => {
   };
 };
 
-export const sendMovieUp = (movie: SavedItems, index: number): ModAction => {
+export const reorderMovie = (movie: SavedItems, index: number, newIndex: number) => {
   return {
-    type: "SEND_MOVIE_UP",
-    payload: { movie, index },
+    type: "REORDER_MOVIE",
+    payload: { movie, index, newIndex },
   };
 };
 
-export const sendMovieDown = (movie: SavedItems, index: number): ModAction => {
-  return {
-    type: "SEND_MOVIE_DOWN",
-    payload: { movie, index },
-  };
-};
+// export const sendMovieUp = (movie: SavedItems, index: number): ModAction => {
+//   return {
+//     type: "SEND_MOVIE_UP",
+//     payload: { movie, index },
+//   };
+// };
+
+// export const sendMovieDown = (movie: SavedItems, index: number): ModAction => {
+//   return {
+//     type: "SEND_MOVIE_DOWN",
+//     payload: { movie, index },
+//   };
+// };
 
 //======
 // Books
@@ -132,19 +139,26 @@ export const delBook = (book: SavedItems): SaveAction => {
   };
 };
 
-export const sendBookUp = (book: SavedItems, index: number): ModAction => {
+export const reorderBook = (book: SavedItems, index: number, newIndex: number) => {
   return {
-    type: "SEND_BOOK_UP",
-    payload: { book, index },
+    type: "REORDER_BOOK",
+    payload: { book, index, newIndex },
   };
 };
 
-export const sendBookDown = (book: SavedItems, index: number): ModAction => {
-  return {
-    type: "SEND_BOOK_DOWN",
-    payload: { book, index },
-  };
-};
+// export const sendBookUp = (book: SavedItems, index: number): ModAction => {
+//   return {
+//     type: "SEND_BOOK_UP",
+//     payload: { book, index },
+//   };
+// };
+
+// export const sendBookDown = (book: SavedItems, index: number): ModAction => {
+//   return {
+//     type: "SEND_BOOK_DOWN",
+//     payload: { book, index },
+//   };
+// };
 
 //======
 // alert
