@@ -57,7 +57,7 @@ const Card = ({
                   </button>
                 </div>
               ) : (
-                <div className="col-sm-2">
+                <div className="col-sm-2 text-right">
                   <button
                     name={name}
                     value={image}
