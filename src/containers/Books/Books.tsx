@@ -60,6 +60,11 @@ const Books = () => {
     }
   }, []);
 
+  useEffect(() => {
+    console.log("storage sorted");
+    sortStorage(savedBooks);
+  }, [savedBooks])
+
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearch(e.currentTarget.value));
   };
@@ -77,12 +82,12 @@ const Books = () => {
 
     dispatch(searchStatus(true));
 
-    API.searchGoogleBooks(search)
-      .then((searchRes) => {
-        // axios({
-        //   method: "GET",
-        //   url: `https://www.googleapis.com/books/v1/volumes?q=${search}&key=AIzaSyCOBjLd64ZKNzBP6K2-kpjG2lfok48KhBY`,
-        // }).then((searchRes) => {
+    // API.searchGoogleBooks(search)
+    //   .then((searchRes) => {
+        axios({
+          method: "GET",
+          url: `https://www.googleapis.com/books/v1/volumes?q=${search}&key=AIzaSyCOBjLd64ZKNzBP6K2-kpjG2lfok48KhBY`,
+        }).then((searchRes) => {
         console.log(searchRes);
         const books = searchRes.data.items;
         const found = [];
@@ -188,31 +193,33 @@ const Books = () => {
   };
 
   const sortStorage = (
-    index: number,
+    // index: number,
     saved: Array<SavedItems>,
-    increase = true
+    // increase = true
   ): void => {
-    let change;
-    increase ? (change = -1) : (change = 1);
+    // let change;
+    // increase ? (change = -1) : (change = 1);
     for (const item of saved) {
-      let newIndex;
-      if (item.index === index) {
-        newIndex = index;
-      } else if (item.index === index + change) {
-        newIndex = index + change;
-      } else {
-        newIndex = item.index;
+      // let newIndex;
+      // if (item.index === index) {
+      //   newIndex = index;
+      // } else if (item.index === index + change) {
+      //   newIndex = index + change;
+      // } else {
+      //   newIndex = item.index;
+      // }
+      if (item.type === "book") {
+        localStorage.removeItem(item.name);
+        localStorage.setItem(
+          item.name,
+          JSON.stringify({
+            index: item.index,
+            image: item.image,
+            info: item.info,
+            type: "book",
+          })
+        );
       }
-      localStorage.removeItem(item.name);
-      localStorage.setItem(
-        item.name,
-        JSON.stringify({
-          index: newIndex,
-          image: item.image,
-          info: item.info,
-          type: "book",
-        })
-      );
     }
   };
 
@@ -226,7 +233,7 @@ const Books = () => {
           index
         )
       );
-      sortStorage(index, savedBooks);
+      // sortStorage(index, savedBooks);
     }
   };
 
@@ -240,7 +247,7 @@ const Books = () => {
           index
         )
       );
-      sortStorage(index, savedBooks, false);
+      // sortStorage(index, savedBooks, false);
     }
   };
 
@@ -257,7 +264,8 @@ const Books = () => {
         position
       )
     );
-    console.log(savedBooks);
+    // console.log(savedBooks);
+    // sortStorage(savedBooks);
   };
 
   return (
