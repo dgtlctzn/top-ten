@@ -40,20 +40,6 @@ export const delAlbum = (album: SavedItems): SaveAction => {
   };
 };
 
-// export const sendAlbumUp = (album: SavedItems, index: number): ModAction => {
-//   return {
-//     type: "SEND_ALBUM_UP",
-//     payload: { album, index },
-//   };
-// };
-
-// export const sendAlbumDown = (album: SavedItems, index: number): ModAction => {
-//   return {
-//     type: "SEND_ALBUM_DOWN",
-//     payload: { album, index },
-//   };
-// };
-
 export const searchAlbums = (albums: Array<SearchItems>): SearchAction => {
   return {
     type: "SEARCH_ALBUMS",
@@ -100,20 +86,6 @@ export const reorderMovie = (movie: SavedItems, index: number, newIndex: number)
   };
 };
 
-// export const sendMovieUp = (movie: SavedItems, index: number): ModAction => {
-//   return {
-//     type: "SEND_MOVIE_UP",
-//     payload: { movie, index },
-//   };
-// };
-
-// export const sendMovieDown = (movie: SavedItems, index: number): ModAction => {
-//   return {
-//     type: "SEND_MOVIE_DOWN",
-//     payload: { movie, index },
-//   };
-// };
-
 //======
 // Books
 //======
@@ -145,20 +117,6 @@ export const reorderBook = (book: SavedItems, index: number, newIndex: number) =
     payload: { book, index, newIndex },
   };
 };
-
-// export const sendBookUp = (book: SavedItems, index: number): ModAction => {
-//   return {
-//     type: "SEND_BOOK_UP",
-//     payload: { book, index },
-//   };
-// };
-
-// export const sendBookDown = (book: SavedItems, index: number): ModAction => {
-//   return {
-//     type: "SEND_BOOK_DOWN",
-//     payload: { book, index },
-//   };
-// };
 
 //======
 // alert

@@ -87,11 +87,11 @@ const Movies = () => {
 
     dispatch(searchStatus(true));
 
-    // API.searchImdb(search)
-    //   .then((searchRes) => {
-      axios({
-        method: "GET",
-        url: `https://imdb-api.com/en/API/SearchMovie/${process.env.REACT_APP_IMBD_SECRET}/${search}`,
+    API.searchImdb(search)
+      .then((searchRes) => {
+      // axios({
+      //   method: "GET",
+      //   url: `https://imdb-api.com/en/API/SearchMovie/${process.env.REACT_APP_IMBD_SECRET}/${search}`,
       }).then((searchRes: any) => {
         console.log(searchRes);
         const movies = searchRes.data.results;
