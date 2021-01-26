@@ -13,7 +13,7 @@ import {
   searchStatus,
   noResultsMessage,
   noSearchTermMessage,
-  reorderBook
+  reorderBook,
 } from "../../actions";
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -24,12 +24,16 @@ import axios from "axios";
 import RootState from "../../reducers/interface";
 import { SavedItems } from "../Interfaces/Interfaces";
 import { Click } from "../Interfaces/Interfaces";
-const {DragDropContext, Draggable, Droppable} = require("react-beautiful-dnd");
+const {
+  DragDropContext,
+  Draggable,
+  Droppable,
+} = require("react-beautiful-dnd");
 
 const Books = () => {
   const dispatch = useDispatch();
   const savedBooks = useSelector((state: RootState) => state.savedBooksReducer);
-  const sortedBooks = savedBooks.sort((a, b) => a.index - b.index);
+  const sortedBooks = savedBooks; //.sort((a, b) => a.index - b.index);
 
   const search = useSelector((state: RootState) => state.searchReducer);
 
@@ -41,6 +45,7 @@ const Books = () => {
       if (!savedAsString.includes(key)) {
         const parsedVal = JSON.parse(value);
         if (parsedVal.type === "book") {
+          console.log("here");
           dispatch(
             saveBooks({
               name: key,
@@ -241,12 +246,19 @@ const Books = () => {
 
   const handleOnDragEnd = (result: any) => {
     console.log(result);
+    if (!result.destination) return;
     const originalPos: number = result.source.index;
     const position: number = result.destination.index;
     const name: string = result.destination.draggableId;
-    dispatch(reorderBook({ name, image: "", info: "", index: NaN, type: "book" }, originalPos, position))
+    dispatch(
+      reorderBook(
+        { name, image: "", info: "", index: NaN, type: "book" },
+        originalPos,
+        position
+      )
+    );
     console.log(savedBooks);
-  }
+  };
 
   return (
     <>
@@ -279,7 +291,7 @@ const Books = () => {
                     {sortedBooks.map((book, index) => {
                       return (
                         <Draggable
-                          key={index}
+                          key={book.name}
                           draggableId={book.name}
                           index={index}
                         >
@@ -307,6 +319,7 @@ const Books = () => {
                         </Draggable>
                       );
                     })}
+                    {provided.placeholder}
                   </ul>
                 )}
               </Droppable>

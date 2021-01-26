@@ -26,22 +26,24 @@ const savedBooksReducer = (
       return [...state.sort((a, b) => a.index - b.index)];
     case "REORDER_BOOK":
       const book: SavedItems = state[action.payload.index];
-      const currList: Array<SavedItems> = [...state.slice(0, action.payload.index), ...state.slice(action.payload.index + 1)];
+      // const currList: Array<SavedItems> = [...state.slice(0, action.payload.index), ...state.slice(action.payload.index + 1)];
       const newList: Array<SavedItems | null> = [];
-      for (const item of currList) {
-        if (item.index < action.payload.newIndex) {
-          newList.push(item);
-        } else if (item.index === action.payload.newIndex) {
-          book.index = item.index;
-          item.index++;
-          newList.push(book)
-          newList.push(item);
-        } else {
-          item.index++;
-          newList.push(item);
-        }
-      }
-      return newList;
+      const [reorderedItem] = state.splice(action.payload.index, 1);
+      state.splice(action.payload.newIndex, 0, reorderedItem);
+      // for (const item of currList) {
+      //   if (item.index < action.payload.newIndex) {
+      //     newList.push(item);
+      //   } else if (item.index === action.payload.newIndex) {
+      //     book.index = item.index;
+      //     item.index++;
+      //     newList.push(book)
+      //     newList.push(item);
+      //   } else {
+      //     // item.index++;
+      //     newList.push(item);
+      //   }
+      // }
+      return state;
     default:
       return state;
   }
