@@ -59,7 +59,7 @@ const Books = () => {
 
   useEffect(() => {
     Sort.storage(savedBooks, "book");
-  }, [savedBooks])
+  }, [savedBooks]);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearch(e.currentTarget.value));
@@ -220,48 +220,52 @@ const Books = () => {
         <div className="row">
           <div className="col-sm-6">
             <h2 className="text-center">Top Ten</h2>
-            <DragDropContext onDragEnd={handleOnDragEnd}>
-              <Droppable droppableId="book">
-                {(provided: any) => (
-                  <ul
-                    className="characters"
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                    {sortedBooks.map((book, index) => {
-                      return (
-                        <Draggable
-                          key={book.name}
-                          draggableId={book.name}
-                          index={index}
-                        >
-                          {(provided: any) => (
-                            <li
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
-                              <Card
-                                key={`book ${index + 1}`}
-                                addItem={addBook}
-                                deleteItem={deleteBook}
-                                page="book"
-                                saved={true}
-                                name={book.name}
-                                image={book.image}
-                                info={book.info}
-                                index={index}
-                              />
-                            </li>
-                          )}
-                        </Draggable>
-                      );
-                    })}
-                    {provided.placeholder}
-                  </ul>
-                )}
-              </Droppable>
-            </DragDropContext>
+            {sortedBooks.length ? (
+              <DragDropContext onDragEnd={handleOnDragEnd}>
+                <Droppable droppableId="book">
+                  {(provided: any) => (
+                    <ul
+                      className="characters"
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {sortedBooks.map((book, index) => {
+                        return (
+                          <Draggable
+                            key={book.name}
+                            draggableId={book.name}
+                            index={index}
+                          >
+                            {(provided: any) => (
+                              <li
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                <Card
+                                  key={`book ${index + 1}`}
+                                  addItem={addBook}
+                                  deleteItem={deleteBook}
+                                  page="book"
+                                  saved={true}
+                                  name={book.name}
+                                  image={book.image}
+                                  info={book.info}
+                                  index={index}
+                                />
+                              </li>
+                            )}
+                          </Draggable>
+                        );
+                      })}
+                      {provided.placeholder}
+                    </ul>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            ) : (
+              <p className="text-center description">No books added yet. Search and add</p>
+            )}
           </div>
           <div className="col-sm-6">
             <h2 className="text-center">Search Results</h2>
@@ -285,7 +289,7 @@ const Books = () => {
         </div>
         <div className="row">
           <div className="col-sm-12 text-center">
-            <Socials/>
+            <Socials />
           </div>
         </div>
       </div>

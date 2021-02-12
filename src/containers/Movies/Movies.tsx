@@ -22,11 +22,12 @@ import {
 import Nav from "../../components/Nav/Nav";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import API from "../../utils/API";
-import Sort from "../../utils/Sort"
+import Sort from "../../utils/Sort";
 import Card from "../../components/Card/Card";
 import Alert from "../../components/Alert/Alert";
 import RootState from "../../reducers/interface";
 import { SavedItems } from "../Interfaces/Interfaces";
+import Socials from "../../components/Socials/Socials";
 import axios from "axios";
 const {
   DragDropContext,
@@ -68,7 +69,7 @@ const Movies = () => {
 
   useEffect(() => {
     Sort.storage(savedMovies, "movie");
-  }, [savedMovies])
+  }, [savedMovies]);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearch(e.currentTarget.value));
@@ -89,10 +90,10 @@ const Movies = () => {
 
     API.searchImdb(search)
       .then((searchRes) => {
-      // axios({
-      //   method: "GET",
-      //   url: `https://imdb-api.com/en/API/SearchMovie/${process.env.REACT_APP_IMBD_SECRET}/${search}`,
-      // }).then((searchRes: any) => {
+        // axios({
+        //   method: "GET",
+        //   url: `https://imdb-api.com/en/API/SearchMovie/${process.env.REACT_APP_IMBD_SECRET}/${search}`,
+        // }).then((searchRes: any) => {
         const movies = searchRes.data.results;
         const found = [];
 
@@ -231,48 +232,52 @@ const Movies = () => {
         <div className="row">
           <div className="col-sm-6">
             <h2 className="text-center">Top Ten</h2>
-            <DragDropContext onDragEnd={handleOnDragEnd}>
-              <Droppable droppableId="movie">
-                {(provided: any) => (
-                  <ul
-                    className="characters"
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                    {sortedMovies.map((movie, index) => {
-                      return (
-                        <Draggable
-                          key={movie.name}
-                          draggableId={movie.name}
-                          index={index}
-                        >
-                          {(provided: any) => (
-                            <li
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
-                              <Card
-                                key={`movie ${index + 1}`}
-                                addItem={addMovie}
-                                deleteItem={deleteMovie}
-                                page="movie"
-                                saved={true}
-                                name={movie.name}
-                                image={movie.image}
-                                info={movie.info}
-                                index={index}
-                              />
-                            </li>
-                          )}
-                        </Draggable>
-                      );
-                    })}
-                    {provided.placeholder}
-                  </ul>
-                )}
-              </Droppable>
-            </DragDropContext>
+            {sortedMovies.length ? (
+              <DragDropContext onDragEnd={handleOnDragEnd}>
+                <Droppable droppableId="movie">
+                  {(provided: any) => (
+                    <ul
+                      className="characters"
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {sortedMovies.map((movie, index) => {
+                        return (
+                          <Draggable
+                            key={movie.name}
+                            draggableId={movie.name}
+                            index={index}
+                          >
+                            {(provided: any) => (
+                              <li
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                <Card
+                                  key={`movie ${index + 1}`}
+                                  addItem={addMovie}
+                                  deleteItem={deleteMovie}
+                                  page="movie"
+                                  saved={true}
+                                  name={movie.name}
+                                  image={movie.image}
+                                  info={movie.info}
+                                  index={index}
+                                />
+                              </li>
+                            )}
+                          </Draggable>
+                        );
+                      })}
+                      {provided.placeholder}
+                    </ul>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            ) : (
+              <p className="text-center description">No movies added yet. Search and add</p>
+            )}
           </div>
           <div className="col-sm-6">
             <h2 className="text-center">Search Results</h2>
@@ -292,6 +297,11 @@ const Movies = () => {
                 />
               ))}
             </ul>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-12 text-center">
+            <Socials />
           </div>
         </div>
       </div>

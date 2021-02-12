@@ -70,7 +70,7 @@ const Social = () => {
         </h5>
       ) : (
         <h5 className="description">
-          Go add movies, albums, or books to share
+          Add movies, albums, or books to share
         </h5>
       )}
 

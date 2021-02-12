@@ -1,9 +1,4 @@
-import React, {
-  ChangeEvent,
-  FormEvent,
-  MouseEvent,
-  useEffect,
-} from "react";
+import React, { ChangeEvent, FormEvent, MouseEvent, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setSearch,
@@ -70,7 +65,7 @@ const Albums = () => {
 
   useEffect(() => {
     Sort.storage(savedAlbums, "album");
-  }, [savedAlbums])
+  }, [savedAlbums]);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearch(e.currentTarget.value));
@@ -218,7 +213,6 @@ const Albums = () => {
     );
   };
 
-
   return (
     <>
       <Nav />
@@ -239,48 +233,52 @@ const Albums = () => {
         <div className="row">
           <div className="col-sm-6">
             <h2 className="text-center">Top Ten</h2>
-            <DragDropContext onDragEnd={handleOnDragEnd}>
-              <Droppable droppableId="album">
-                {(provided: any) => (
-                  <ul
-                    className="characters"
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                    {sortedAlbums.map((album, index) => {
-                      return (
-                        <Draggable
-                          key={album.name}
-                          draggableId={album.name}
-                          index={index}
-                        >
-                          {(provided: any) => (
-                            <li
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
-                              <Card
-                                key={`album ${index + 1}`}
-                                addItem={addAlbum}
-                                deleteItem={deleteAlbum}
-                                page="album"
-                                saved={true}
-                                name={album.name}
-                                image={album.image}
-                                info={album.info}
-                                index={index}
-                              />
-                            </li>
-                          )}
-                        </Draggable>
-                      );
-                    })}
-                    {provided.placeholder}
-                  </ul>
-                )}
-              </Droppable>
-            </DragDropContext>
+            {sortedAlbums.length ? (
+              <DragDropContext onDragEnd={handleOnDragEnd}>
+                <Droppable droppableId="album">
+                  {(provided: any) => (
+                    <ul
+                      className="characters"
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {sortedAlbums.map((album, index) => {
+                        return (
+                          <Draggable
+                            key={album.name}
+                            draggableId={album.name}
+                            index={index}
+                          >
+                            {(provided: any) => (
+                              <li
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                <Card
+                                  key={`album ${index + 1}`}
+                                  addItem={addAlbum}
+                                  deleteItem={deleteAlbum}
+                                  page="album"
+                                  saved={true}
+                                  name={album.name}
+                                  image={album.image}
+                                  info={album.info}
+                                  index={index}
+                                />
+                              </li>
+                            )}
+                          </Draggable>
+                        );
+                      })}
+                      {provided.placeholder}
+                    </ul>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            ) : (
+              <p className="text-center description">No albums added yet. Search and add</p>
+            )}
           </div>
           <div className="col-sm-6">
             <h2 className="text-center">Search Results</h2>
@@ -304,7 +302,7 @@ const Albums = () => {
         </div>
         <div className="row">
           <div className="col-sm-12 text-center">
-            <Socials/>
+            <Socials />
           </div>
         </div>
       </div>
