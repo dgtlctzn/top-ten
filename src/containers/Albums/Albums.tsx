@@ -27,6 +27,7 @@ import Card from "../../components/Card/Card";
 import Alert from "../../components/Alert/Alert";
 import RootState from "../../reducers/interface";
 import { SavedItems } from "../Interfaces/Interfaces";
+import Socials from "../../components/Socials/Socials";
 const {
   DragDropContext,
   Draggable,
@@ -299,6 +300,11 @@ const Albums = () => {
                 />
               ))}
             </ul>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-12 text-center">
+            <Socials/>
           </div>
         </div>
       </div>

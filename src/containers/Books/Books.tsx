@@ -21,6 +21,7 @@ import Card from "../../components/Card/Card";
 import Alert from "../../components/Alert/Alert";
 import axios from "axios";
 import RootState from "../../reducers/interface";
+import Socials from "../../components/Socials/Socials";
 const {
   DragDropContext,
   Draggable,
@@ -280,6 +281,11 @@ const Books = () => {
                 />
               ))}
             </ul>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-12 text-center">
+            <Socials/>
           </div>
         </div>
       </div>
