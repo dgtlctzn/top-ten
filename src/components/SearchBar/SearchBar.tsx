@@ -43,7 +43,7 @@ const SearchBar = ({
         />
       </div>
 
-      <button type="submit" className="btn btn-primary search-button">
+      <button type="submit" className="btn btn-info search-button">
         {searching ? 
          (
         <div className="spinner-border text-light" role="status">

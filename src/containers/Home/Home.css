@@ -1,7 +1,7 @@
 body {
     /* background-image: url(https://images.pexels.com/photos/1339845/pexels-photo-1339845.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260); */
     /* background-repeat: repeat; */
-    background-image: linear-gradient(to right, rgba(0, 17, 252, 0.849), rgba(201, 24, 255, 0.733));
+    background-image: linear-gradient(to right, rgb(88, 0, 252), rgb(24, 255, 197));
     /* background-size: 10%; */
     font-family: 'Righteous', cursive!important;
     color: white!important;
@@ -22,7 +22,7 @@ h1 {
 }
 
 .link {
-    color:rgba(255, 167, 243, 0.849);
+    color:rgb(0, 255, 157);
 }
 
 .shareable {
